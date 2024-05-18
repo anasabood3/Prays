@@ -18,6 +18,7 @@ export default function SettingsTab() {
 
   return (
     <SafeAreaView style={styles.settingsContainer} >
+      
       <ThemedText type="title" style={styles.titleContainer}>Settings</ThemedText>
       <ThemedView
         style={styles.settingsItem}>
@@ -98,9 +99,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   settingsItem: {
-    padding: 10,
+    padding: 15,
     margin: 4,
-    borderWidth: 1,
     borderRadius:9,
   }
 });

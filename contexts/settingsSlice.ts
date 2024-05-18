@@ -8,7 +8,8 @@ type settingsAction =
     | { type: "updateTimingSystem"; payload: boolean }
     | { type: "updateCalcMethod"; payload: number }
     | { type: "updateAsrCalMehtod"; payload: number }
-    | { type: "updateAngles"; payload: string }
+    | { type: "updateFajrAngle"; payload: number }
+    | { type: "updateIshaaAngle"; payload: number }
     | { type: "updateAutoLocation"; payload: boolean }
     | { type: "updateNotification"; payload: boolean }
     | { type: "updateTheme"; payload: string }
@@ -24,7 +25,8 @@ export interface SettingsState {
     twentyFourSystem: boolean;
     asrCalcMehtod: number;
     clacMethod: number;
-    customAngles: string;
+    fajrAngle: number;
+    ishaaAngle: number;
     autoLocation: boolean;
     
 }
@@ -36,7 +38,8 @@ const initialSettings: SettingsState = {
     twentyFourSystem: true,
     asrCalcMehtod: 1,
     clacMethod: 1,
-    customAngles: "12,12",
+    fajrAngle:12,
+    ishaaAngle:12,
     autoLocation: true,
 }
 
@@ -54,8 +57,11 @@ export const settingsSlice = createSlice({
         updateAsrCalMehtod: (state, action: PayloadAction<number>) => {
             state.asrCalcMehtod = action.payload
         },
-        updateAngles: (state, action: PayloadAction<string>) => {
-            state.customAngles = action.payload
+        updateFajrAngle: (state, action: PayloadAction<number>) => {
+            state.fajrAngle = action.payload
+        },
+        updateIshaaAngle: (state, action: PayloadAction<number>) => {
+            state.ishaaAngle = action.payload
         },
         updateAutoLocation: (state, action: PayloadAction<boolean>) => {
             state.autoLocation = action.payload
@@ -66,7 +72,8 @@ export const settingsSlice = createSlice({
         loadSettings: (state, action: PayloadAction<SettingsState>) => {
             state.asrCalcMehtod = action.payload.asrCalcMehtod;
             state.clacMethod = action.payload.clacMethod;
-            state.customAngles = action.payload.customAngles;
+            state.fajrAngle = action.payload.fajrAngle;
+            state.ishaaAngle = action.payload.ishaaAngle;
             state.autoLocation = action.payload.autoLocation;
             state.twentyFourSystem = action.payload.twentyFourSystem;
         },
@@ -74,7 +81,7 @@ export const settingsSlice = createSlice({
 })
 
 
-export const { updateAngles,updateAsrCalMehtod,updateAutoLocation,updateCalcMethod,updateTimingSystem,updateNotification,loadSettings } = settingsSlice.actions;
+export const { updateFajrAngle,updateIshaaAngle,updateAsrCalMehtod,updateAutoLocation,updateCalcMethod,updateTimingSystem,updateNotification,loadSettings } = settingsSlice.actions;
 
 export default settingsSlice.reducer
 

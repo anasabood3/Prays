@@ -1,30 +1,30 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyleSheet, Platform, Switch, TextInput } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Pressable } from 'react-native';
-// import { initialSettings,SettingsState  } from '@/Contexts/SettingsContext';
-// import React, { useReducer, useState, useContext, useEffect } from 'react';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { RootState } from '@/Contexts/store';
-// import { useSelector, useDispatch } from 'react-redux'
-// import { loadSettings, updateAngles, updateAsrCalMehtod,updateAutoLocation,updateCalcMethod, updateTimingSystem } from '@/Contexts/settingsSlice';
-// import { useThemeColor } from '@/hooks/useThemeColor';
-// import RNPickerSelect from 'react-native-picker-select';
+import React, { useReducer, useState, useContext, useEffect } from 'react';
+
+import { RootState } from '@/contexts/store';
+import { useSelector, useDispatch } from 'react-redux'
+import { loadSettings, updateFajrAngle,updateIshaaAngle, updateAsrCalMehtod,updateAutoLocation,updateCalcMethod, updateTimingSystem } from '@/contexts/settingsSlice';
+import { useThemeColor } from '@/hooks/useThemeColor';
+import { Select } from "native-base";
+import { clacMethods,asrCalcMethod,generateAnglesRange } from '@/constants/CalcMethods';
+import RNPickerSelect from 'react-native-picker-select';
 
 export default function TimingSettings() {
-//   const color = useThemeColor({ light: 'black', dark: 'white' }, 'text');
-//   const cal_method = useSelector((state: RootState) => state.settings.clacMethod);
-//   const timing_system = useSelector((state:RootState)=>state.settings.twentyFourSystem);
-//   const asr_cal_method = useSelector((state:RootState)=>state.settings.asrCalcMehtod);
-//   const custom_angles = useSelector((state:RootState)=>state.settings.customAngles);
-//   // const notifications = useSelector((state:RootState)=>state.settings.notifications);
-//   const auto_location = useSelector((state:RootState)=>state.settings.autoLocation);
-//   const dispatch = useDispatch() 
+  const color = useThemeColor({ light: 'black', dark: 'white' }, 'text');
+  const cal_method = useSelector((state: RootState) => state.settings.clacMethod);
+  const timing_system = useSelector((state:RootState)=>state.settings.twentyFourSystem);
+  const asr_cal_method = useSelector((state:RootState)=>state.settings.asrCalcMehtod);
+  const fajr_angle = useSelector((state:RootState)=>state.settings.fajrAngle);
+  const ishaa_angle = useSelector((state:RootState)=>state.settings.ishaaAngle);
+  // const auto_location = useSelector((state:RootState)=>state.settings.autoLocation);
+  const dispatch = useDispatch() 
 
   return (
-    <ThemedView>
-      {/* <ThemedView style={styles.settingsItem}>
+    <ThemedView >
+
+      <ThemedView style={[styles.settingsItem,styles.flexItem]} lightColor='#EDEDE9' darkColor='#023047'>
         <ThemedText type='defaultSemiBold'>24-Hour Time</ThemedText>
         <Switch
           trackColor={{ false: '#767577', true: '#81b0ff' }}
@@ -34,47 +34,52 @@ export default function TimingSettings() {
           value={timing_system}
         />
       </ThemedView>
-      <ThemedView>
-        <RNPickerSelect
-          value={cal_method.toString()}
-          onValueChange={(e) => { dispatch(updateCalcMethod(e)) }}
-          items={[
-            { label: 'University of Islamic Sciences, Karachi', value: 1 },
-            { label: ' Islamic Society of North America', value: 2 },
-            { label: 'Muslim World League', value: 3 },
-            { label: 'Umm Al-Qura University, Makkah', value: 4 },
-            { label: 'Egyptian General Authority of Survey', value: 5 },
-            { label: ' Institute of Geophysics, University of Tehran', value: 7 },
 
-          ]}
-        />
-      </ThemedView>
+
+      <ThemedView lightColor='#EDEDE9' darkColor='#023047' style={[styles.settingsItem,]}>
+        <ThemedText type='defaultSemiBold'>Calculation Method</ThemedText>
+        <ThemedView
+          style={[styles.settingsItem,]}>
+          <RNPickerSelect
+            value={cal_method.toString()}
+            onValueChange={(e) => { dispatch(updateCalcMethod(e)) }}
+            items={clacMethods} />
+        </ThemedView>
+      </ThemedView>      
 
 
 
-   
-
-      <ThemedView >
+      <ThemedView lightColor='#EDEDE9' darkColor='#023047' style={[styles.settingsItem,]}>
+              <ThemedText type='defaultSemiBold'>Asr Method</ThemedText>
+      <ThemedView style={styles.settingsItem}>
         <RNPickerSelect
           value={asr_cal_method.toString()}
           onValueChange={(e) => { dispatch(updateAsrCalMehtod(e)); }}
-          items={[
-            { label: 'Earlier Asr Time - Schafii, Malki and Nanbali', value: 1 },
-            { label: ' Later Asr Time Hanafi', value: 2 },
-          ]}
-        />
+          items={asrCalcMethod}/>
+      </ThemedView>
       </ThemedView>
 
-      <ThemedView style={[{borderColor:useThemeColor({light:"#1c100b",dark:"#cce7d1"},'icon')},styles.settingsItem]}>
+
+      <ThemedView lightColor='#EDEDE9' darkColor='#023047' style={[styles.settingsItem,]}>
         <ThemedText type='defaultSemiBold'>Custom Angles</ThemedText>
-        <TextInput
-          autoCorrect={false}
-          autoCapitalize='none'
-          style={[{color},styles.input]}
-          onChangeText={(e) => { dispatch(updateAngles(e));}}
-          value={custom_angles} />
+        <ThemedView style={styles.settingsItem}>
+          <ThemedText type='default'>Fajr Angle</ThemedText>
+          <RNPickerSelect
+            value={fajr_angle.toString()}
+            onValueChange={(e) => { dispatch(updateFajrAngle(e)); }}
+            items={generateAnglesRange()} />
+
+          <ThemedText type='default'>Ishaa Angle</ThemedText>
+          <RNPickerSelect
+            value={ishaa_angle.toString()}
+            onValueChange={(e) => { dispatch(updateIshaaAngle(e)); }}
+            items={generateAnglesRange()}
+             />
+        </ThemedView>
       </ThemedView>
 
+
+{/* 
       <ThemedView style={styles.settingsItem}>
         <ThemedText type='defaultSemiBold'>Auto Location</ThemedText>
 
@@ -86,11 +91,6 @@ export default function TimingSettings() {
           value={auto_location}
         />
       </ThemedView> */}
-      <ThemedView>
-
-      </ThemedView>
-
-     
     </ThemedView>
   );
 }
@@ -100,12 +100,8 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
     paddingHorizontal: 6,
     margin: 4,
-    borderWidth: 1,
-    flexDirection: "row",
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    elevation:4,
     borderRadius:6,
+    
   },
   input: {
     height: 40,
@@ -114,24 +110,10 @@ const styles = StyleSheet.create({
     padding: 10,
 
   },
-  inputIOS: {
-    fontSize: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 4,
-    color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
-  inputAndroid: {
-    fontSize: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: 'purple',
-    borderRadius: 8,
-    color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
+  
+  flexItem:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center'
+  }
 })

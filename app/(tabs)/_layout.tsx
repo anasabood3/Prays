@@ -6,7 +6,7 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 import { Provider } from 'react-redux'
-import { store } from '../contexts/store';
+import { store } from '../../contexts/store';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
