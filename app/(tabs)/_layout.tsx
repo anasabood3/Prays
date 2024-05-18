@@ -5,10 +5,14 @@ import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
+import { Provider } from 'react-redux'
+import { store } from '../contexts/store';
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
+    <Provider store={store}>
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
@@ -52,5 +56,6 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
+    </Provider>
   );
 }
