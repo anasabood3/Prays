@@ -1,17 +1,87 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform, SafeAreaView } from 'react-native';
-
+import { StyleSheet, Image, Platform, SafeAreaView, Pressable } from 'react-native';
 import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import React, { useState } from 'react';
+import TimingSettings from '@/components/settings/TimingSettings';
+import SwipeModal from '@/components/SwipeModal';
 
+interface metaModalData {
+  title: string;
+  info: string;
+  content: React.JSX.Element;
+}
 export default function SettingsTab() {
+  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const [modalContent, setModalContent] = useState<metaModalData>();
+
   return (
     <SafeAreaView style={styles.settingsContainer} >
       <ThemedText type="title" style={styles.titleContainer}>Settings</ThemedText>
-    </SafeAreaView>
+      <ThemedView
+        style={styles.settingsItem}>
+        <Pressable
+          onPress={() => { setModalContent({ title: "timings", info: "dsfs", content: <TimingSettings /> }); setIsVisible(true) }}>
+          <ThemedText type='defaultSemiBold'>Prayer Times</ThemedText>
+        </Pressable>
+      </ThemedView>
+
+   
+
+    
+      {/* <ThemedView
+        style={styles.settingsItem}>
+        <Pressable
+          onPress={() => { setModalContent({ title: "notifications", info: "dsfs", content: <Notifications /> }); setIsVisible(true) }}>
+          <ThemedText type='defaultSemiBold'>Notifications</ThemedText>
+        </Pressable>
+      </ThemedView>
+
+      <ThemedView
+        style={styles.settingsItem}>
+        <Pressable
+          onPress={() => { setModalContent({ title: "themes", info: "dsfs", content: <Themes /> }); setIsVisible(true) }}>
+          <ThemedText type='defaultSemiBold'>Themes</ThemedText>
+        </Pressable>
+      </ThemedView>
+
+      <ThemedView
+        style={styles.settingsItem}>
+        <Pressable
+          onPress={() => { setModalContent({ title: "langauges", info: "dsfs", content: <Languages /> }); setIsVisible(true) }}>
+          <ThemedText type='defaultSemiBold'>Languages</ThemedText>
+        </Pressable>
+      </ThemedView>
+  */}
+
+      <ThemedView
+        style={styles.settingsItem}>
+        <Collapsible
+          title='About us'
+        >
+          <ThemedText >this is about us</ThemedText>
+        </Collapsible>
+
+      </ThemedView>
+
+
+
+      <ThemedView
+        style={styles.settingsItem}>
+        <Collapsible
+          title='Privacy Policy'
+        >
+          <ThemedText >this is Privacy Policy</ThemedText>
+        </Collapsible>
+
+      </ThemedView> 
+      <SwipeModal visible={isVisible} setVisible={setIsVisible}>
+        <>{modalContent?.content}</>
+      </SwipeModal>
+      </SafeAreaView>
+
+    
   );
 }
 
@@ -30,6 +100,7 @@ const styles = StyleSheet.create({
   settingsItem: {
     padding: 10,
     margin: 4,
-    borderWidth: 2,
+    borderWidth: 1,
+    borderRadius:9,
   }
 });
