@@ -8,11 +8,11 @@ export const clacMethods = [
     { label: 'Muslim World League', value: 3 },
     { label: 'Umm Al-Qura University, Makkah', value: 4 },
     { label: 'Egyptian General Authority of Survey', value: 5 },
-    { label: ' Institute of Geophysics, University of Tehran', value: 7 },
+    { label: ' Institute of Geophysics, University of Tehran', value: 6 },
 
   ]
 
-export const asrCalcMethod = [
+export const asrCalcMethods = [
 
     { label: 'Earlier Asr Time - Schafii, Malki and Nanbali', value: 1 },
     { label: ' Later Asr Time Hanafi', value: 2 },

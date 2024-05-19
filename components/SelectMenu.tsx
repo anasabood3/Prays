@@ -1,0 +1,82 @@
+import { View, type ViewProps } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
+import { useThemeColor } from '@/hooks/useThemeColor';
+import { StyleSheet } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+
+
+interface SelecData {
+    data: { label: string, value: number }[];
+    placeHolder: string;
+    value: string;
+    updateSelected:(e:any)=>void
+}
+
+export function SelectMenu({ data, placeHolder, value,updateSelected }: SelecData) {
+
+    const color = useThemeColor({ light: 'black', dark: 'white' }, 'text');
+    const backgroundColor = useThemeColor({ light: '#FFE6A7', dark: "#1D3D47" }, 'background');
+    const renderItem = (item: { label: string, value: number }) => {
+        return (
+            <ThemedView lightColor='#FFE6A7' darkColor='#1D3D47' style={styles.selectMenu}>
+                <ThemedText style={styles.selectItem}>{item.label}</ThemedText>
+            </ThemedView>
+        )
+    }
+    return (
+        <Dropdown
+            style={[{ backgroundColor }, styles.settingsItem, styles.dropdown]}
+            placeholderStyle={[styles.placeholderStyle, { color }]}
+            placeholder={placeHolder}
+            selectedTextStyle={{ color }}
+            inputSearchStyle={styles.inputSearchStyle}
+            value={value.toString()}
+            data={data}
+            onChange={updateSelected}
+            labelField="label"
+            valueField="value"
+            renderItem={renderItem}
+            itemContainerStyle={{backgroundColor}}
+            containerStyle={{ borderRadius: 7, borderWidth: 0 }}
+        >
+        </Dropdown>
+    );
+}
+
+const styles = StyleSheet.create({
+    settingsItem: {
+        paddingVertical: 1,
+        paddingHorizontal: 6,
+        margin: 4,
+        borderRadius: 6,
+
+    },
+    dropdown: {
+        height: 40,
+
+    },
+    placeholderStyle: {
+        fontSize: 16,
+    },
+
+    selectedTextStyle: {
+        fontSize: 16,
+
+    },
+
+    inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
+
+    },
+
+    selectMenu: {
+        padding: 6,
+        margin: 3,
+    },
+    selectItem: {
+        padding: 4,
+    }
+
+});
