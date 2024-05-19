@@ -28,3 +28,5 @@ export const generateAnglesRange = ()=>{
     }
     return new_list;
 }
+
+export const hijriMonths = ['Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani', 'Jumada al-Ula', 'Jumada al-Akhirah', 'Rajab', 'Shaban', 'Ramadan', "Shawwal", "Dhu al-Qadah","Dhu al-Hijjah"]
