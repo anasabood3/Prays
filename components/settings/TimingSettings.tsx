@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, Switch, TextInput, ScrollViewBase, ScrollViewComponent } from 'react-native';
+import { StyleSheet, Switch} from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import React, { useReducer, useState, useContext, useEffect } from 'react';
@@ -9,7 +9,8 @@ import { loadSettings, updateFajrAngle, updateIshaaAngle, updateAsrCalMehtod, up
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { clacMethods, asrCalcMethods, generateAnglesRange } from '@/constants/CalcMethods';
 import { SelectMenu } from '../SelectMenu';
-
+import { Colors } from '@/constants/Colors';
+import { View } from 'react-native';
 export default function TimingSettings() {
 
   const cal_method = useSelector((state: RootState) => state.settings.clacMethod);
@@ -21,10 +22,14 @@ export default function TimingSettings() {
   const dispatch = useDispatch();
 
   return (
-    <ThemedView style={{paddingHorizontal:5}}>
-      <ThemedView >
+    <ThemedView
+    lightColor={Colors.light.background}
+    darkColor={Colors.dark.background}
+
+    >
+      <ThemedView style={styles.settingsSectin}>
         <ThemedText type='defaultSemiBold'>Calculation Method</ThemedText>
-        <ThemedView lightColor='#FFE6A7' darkColor='#1D3D47' style={[styles.settingsItem,]}>
+        <ThemedView lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2} style={[styles.settingsItem,]}>
           <SelectMenu
             data={clacMethods}
             value={cal_method.toString()}
@@ -35,14 +40,14 @@ export default function TimingSettings() {
       </ThemedView>
 
 
-      <ThemedView>
+      <ThemedView style={styles.settingsSectin}>
         <ThemedText type='defaultSemiBold'>Asr Method</ThemedText>
-        <ThemedView lightColor='#FFE6A7' darkColor='#1D3D47' style={[styles.settingsItem,]}>
+        <ThemedView lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2} style={[styles.settingsItem,]}>
           <SelectMenu
             data={asrCalcMethods}
             value={asr_cal_method.toString()}
             updateSelected={(e) => { dispatch(updateAsrCalMehtod(e.value)) }}
-            placeHolder={clacMethods[cal_method - 1].label}
+            placeHolder={asrCalcMethods[asr_cal_method - 1].label}
           >
           </SelectMenu>
         </ThemedView>
@@ -50,10 +55,10 @@ export default function TimingSettings() {
 
  
 
-      <ThemedView>
+      <ThemedView style={styles.settingsSectin}>
         <ThemedText type='defaultSemiBold'>Custom Angles</ThemedText>
 
-        <ThemedView lightColor='#FFE6A7' darkColor='#1D3D47' style={[styles.settingsItem,]}>
+        <ThemedView lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2} style={[styles.settingsItem,]}>
           <SelectMenu
             data={generateAnglesRange()}
             value={fajr_angle.toString()}
@@ -62,7 +67,7 @@ export default function TimingSettings() {
           </SelectMenu>
         </ThemedView>
         
-        <ThemedView lightColor='#FFE6A7' darkColor='#1D3D47' style={[styles.settingsItem,]}>
+        <ThemedView lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2} style={[styles.settingsItem,]}>
           <SelectMenu
             data={generateAnglesRange()}
             value={ishaa_angle.toString()}
@@ -72,8 +77,8 @@ export default function TimingSettings() {
         </ThemedView>
       </ThemedView>
 
-      <ThemedView style={[styles.settingsItem, styles.flexItem]} lightColor='#FFE6A7' darkColor='#1D3D47'>
-        <ThemedText type='defaultSemiBold'>24-Hour Time</ThemedText>
+      <ThemedView style={[styles.settingsItem, styles.flexItem]} lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2}>
+        <ThemedText type='default'>24-Hour Time</ThemedText>
         <Switch
           trackColor={{ false: '#767577', true: '#81b0ff' }}
           thumbColor={timing_system ? '#f5dd4b' : '#f4f3f4'}
@@ -101,51 +106,23 @@ export default function TimingSettings() {
 }
 
 const styles = StyleSheet.create({
-  settingsItem: {
-    paddingVertical: 1,
-    paddingHorizontal: 6,
-    margin: 5,
-    borderRadius: 6,
-
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    padding: 10,
-
-  },
 
   flexItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  dropdown: {
-    height: 40,
-
-  },
-  placeholderStyle: {
-    fontSize: 16,
+    alignItems: 'center',
+    paddingHorizontal:9,
+    paddingVertical:1,
   },
 
-  selectedTextStyle: {
-    fontSize: 16,
+  settingsItem: {
+    margin: 5,
+    borderRadius: 6,
 
   },
-
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-
+  settingsSectin:{
+    marginVertical:9,
   },
-
-  selectMenu: {
-    padding: 6,
-    margin: 3,
-  },
-  selectItem: {
-    padding: 4,
-  }
 
 })
 

@@ -5,6 +5,8 @@ import { ThemedView } from '@/components/ThemedView';
 import { Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { Colors } from '@/constants/Colors';
+import { View,TouchableOpacity } from 'react-native';
 
 interface ModalProps {
     visible:boolean;
@@ -17,25 +19,27 @@ export default function SwipeModal(props:ModalProps) {
     return (
         <Modal
             animationType="slide"
-            transparent
             visible={props.visible}
+            transparent
             onRequestClose={() => {
                 props.setVisible(false);}}>
+            <View style={{backgroundColor:"rgba(0, 0, 0, 0.6)"}}>
+            <TouchableOpacity onPress={()=>console.log("hello")} >
             <ThemedView
-                style={[styles.modalContainer,styles.androidShadow]}>
+                style={[styles.modalContainer]}>
                 <ThemedView  style={styles.modalTile}>
                     <ThemedText type='subtitle'>Timing Settings</ThemedText>
                     <Pressable
                     onPress={() => {
                         props.setVisible(false)
                     }}>
-                    <Ionicons size={28}  style={{color}}name='close-outline' />
+                    <Ionicons size={28}  style={{color}} name='close-outline' />
                 </Pressable>
                 </ThemedView>
                 {props.children}
-
- 
             </ThemedView>
+            </TouchableOpacity>
+            </View>
         </Modal>
     );
 }
@@ -47,18 +51,8 @@ const styles = StyleSheet.create({
         paddingBottom:15,
     },
     modalContainer:{
-        height: '80%',
+        height: '70%',
         marginTop: 'auto',
         padding:10,
-        shadowOffset:{
-            width:5,
-            height:5,
-        },
-        shadowOpacity:.6,
-        shadowRadius:4,
-        borderRadius:9,
     },
-    androidShadow:{
-        elevation:5,
-    }
 })

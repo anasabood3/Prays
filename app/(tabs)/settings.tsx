@@ -1,11 +1,13 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform, SafeAreaView, Pressable } from 'react-native';
+import { StyleSheet, Image, Platform, SafeAreaView, Pressable, TouchableOpacity } from 'react-native';
 import { Collapsible } from '@/components/Collapsible';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import React, { useState } from 'react';
 import TimingSettings from '@/components/settings/TimingSettings';
 import SwipeModal from '@/components/SwipeModal';
+import { Colors } from '@/constants/Colors';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 interface metaModalData {
   title: string;
@@ -13,19 +15,21 @@ interface metaModalData {
   content: React.JSX.Element;
 }
 export default function SettingsTab() {
-  const [isVisible, setIsVisible] = useState<boolean>(false)
-  const [modalContent, setModalContent] = useState<metaModalData>();
+  const backgroundColor = useThemeColor({ light: Colors.light.background, dark: Colors.dark.background }, 'background');
 
   return (
-    <SafeAreaView style={styles.settingsContainer} >
+    <SafeAreaView style={[styles.settingsContainer,
+      {backgroundColor}
+    ]}
+    
+    >
       
       <ThemedText type="title" style={styles.titleContainer}>Settings</ThemedText>
       <ThemedView
-        style={styles.settingsItem}>
-        <Pressable
-          onPress={() => { setModalContent({ title: "timings", info: "dsfs", content: <TimingSettings /> }); setIsVisible(true) }}>
-          <ThemedText type='defaultSemiBold'>Prayer Times</ThemedText>
-        </Pressable>
+        style={styles.settingsItem}
+        darkColor={Colors.dark.background}
+        lightColor={Colors.light.background}>
+        <TimingSettings/>
       </ThemedView>
 
    
@@ -56,32 +60,38 @@ export default function SettingsTab() {
       </ThemedView>
   */}
 
+
+
+
+
+<ThemedView
+        style={styles.settingsItem2}
+        darkColor={Colors.dark.colorLevel2}
+        lightColor={Colors.light.colorLevel2}>
+      <Collapsible
+      title='More'
+      >
+        <ThemedView
+        style={styles.moreItem}
+        darkColor={Colors.dark.colorLevel2}
+        lightColor={Colors.light.colorLevel2}>
+        <TouchableOpacity>
+          <ThemedText type='link'>Privacy & Policy</ThemedText>
+        </TouchableOpacity>
+      </ThemedView> 
       <ThemedView
-        style={styles.settingsItem}>
-        <Collapsible
-          title='About us'
-        >
-          <ThemedText >this is about us</ThemedText>
-        </Collapsible>
-
-      </ThemedView>
-
-
-
-      <ThemedView
-        style={styles.settingsItem}>
-        <Collapsible
-          title='Privacy Policy'
-        >
-          <ThemedText >this is Privacy Policy</ThemedText>
-        </Collapsible>
+        style={styles.moreItem}
+        darkColor={Colors.dark.colorLevel2}
+        lightColor={Colors.light.colorLevel2}>
+        <TouchableOpacity>
+          <ThemedText type='link'>About Us</ThemedText>
+        </TouchableOpacity>
 
       </ThemedView> 
-      <SwipeModal visible={isVisible} setVisible={setIsVisible}>
-        <>{modalContent?.content}</>
-      </SwipeModal>
+      </Collapsible>
+      </ThemedView>
+      
       </SafeAreaView>
-
     
   );
 }
@@ -92,15 +102,27 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 20,
     flexDirection: 'row',
+
     gap: 8,
   },
   settingsContainer: {
     paddingTop: Platform.OS == "android" ? 20 : 0,
     padding: 10,
+    flex:1,
   },
   settingsItem: {
-    padding: 15,
     margin: 4,
     borderRadius:9,
+  },
+  settingsItem2: {
+    padding: 15,
+    marginHorizontal:4,
+    margin: 4,
+    borderRadius:9,
+  },
+  moreItem:{
+    padding:9,
+    margin:4,
   }
+
 });

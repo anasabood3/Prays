@@ -15,54 +15,27 @@ import { hijriMonths } from '@/constants/CalcMethods';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { color } from 'native-base/lib/typescript/theme/styled-system';
+import { Colors } from '@/constants/Colors';
+import { prayersNamesList } from '@/constants/CalcMethods';
 
 
-
-type timingNotification = 0 | 1 | 2;
 
 interface PrayerTiming {
   name: string;
   time: string;
-  noitfication: timingNotification;
 }
 
 interface Location {
-  longitude: number;
-  latitude: number;
+  longitude: number|null;
+  latitude: number|null;
 }
 
-const initialTimings: PrayerTiming[] = [
-  {
-    name: "Fajr",
-    time: "00:00",
-    noitfication: 1,
-  },
-  {
-    name: "Sunrise",
-    time: "00:00",
-    noitfication: 1,
-  },
-  {
-    name: "Dhuhr",
-    time: "00:00",
-    noitfication: 1,
-  },
-  {
-    name: "Asr",
-    time: "00:00",
-    noitfication: 1,
-  },
-  {
-    name: "Maghrib",
-    time: "00:00",
-    noitfication: 1,
-  },
-  {
-    name: "Isha",
-    time: "00:00",
-    noitfication: 1,
-  }
-]
+interface NextPrayer{
+  name:string|null;
+  remainingTime:string|null;
+}
+
 
 
 // get String of Date
@@ -76,35 +49,40 @@ const converToHijr = (date: Date) => {
   return `${result.hd}, ${hijriMonths[Number(result.hm)]} ${result.hy}`
 }
 
-// get difference of two times
-const getTimeDiff = (time1: string, time2: string) => {
-  // assume any date for complement and difference
-  let c = "1990-12-12"
-  let t1: Date = new Date(`${c} ${time1}`)
-  let t2: Date = new Date(`${c} ${time2}`)
-  return t1.getTime() - t2.getTime();
+
+const getTimeOfString= (time:string)=>{
+  const now:Date = new Date();
+  const timeString:string=`${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()} ${time}`
+  const newDate:Date= new Date(timeString);
+  return newDate;
+}
+
+
+const getRmainingHM=(ms:number)=>{
+  let minutes = Math.abs(ms / 60000);
+  let hours = Math.trunc(minutes / 60);
+  return (`${hours} hours and ${Math.trunc(minutes % 60)} minutes`)
 }
 
 // get the remaining time for next prayer
 const getRemainingTime = (times: PrayerTiming[]) => {
-  let now: string = new Date().toString().slice(16, 21);
-  let nextPrayer: string = "";
-  let nexPrayerin = 0;
-  for (let i of times) {
+  const nextPray:NextPrayer = {name:null,remainingTime:null};
+  const newDay:number=86400000;
+  let now: Date = new Date();
 
-    let d: number = getTimeDiff(now, i.time);
-    if (d < 0) {
-      nexPrayerin = d;
-      nextPrayer = i.name;
+  for(let t of times){
+    if(now.getTime()<getTimeOfString(t.time).getTime()){
+      nextPray.name=t.name;
+      nextPray.remainingTime=getRmainingHM(now.getTime()-getTimeOfString(t.time).getTime());
       break;
     }
   }
-  let minutes = Math.abs(nexPrayerin / 60000);
-  let hours = Math.trunc(minutes / 60);
-  return (`${nextPrayer} in: ${hours} hours and ${minutes % 60} minutes`)
-
+  if(nextPray.name===null && times.length!=0){
+    nextPray.name=times[0].name;
+    nextPray.remainingTime=getRmainingHM(now.getTime()-(getTimeOfString(times[0].time).getTime()+newDay))
+  }
+  return nextPray;
 }
-
 
 export default function HomeScreen() {
 
@@ -117,22 +95,40 @@ export default function HomeScreen() {
   const cal_method = useSelector((state: RootState) => state.settings.clacMethod)
   const settings = useSelector((state: RootState) => state.settings);
 
-  const [remaining, setRamining] = useState<string>('')
+  const [nextPrayer, setNextPrayer] = useState<NextPrayer>({name:null,remainingTime:null})
   const [times, setTimes] = useState<PrayerTiming[]>([]);
   const [date, setDate] = useState<Date>(new Date());
-  const [location, setLocation] = useState<Location>({ latitude: 34, longitude: -23 });
+  const [error, setError] = useState<string>('');
+  const [location, setLocation] = useState<Location>({ latitude: null, longitude: null });
 
 
   // fetch prayer times of api
   const getPrayerTimes = async () => {
-    const link: string = `http://api.aladhan.com/v1/timings/${formatDate(date)}?latitude=${location?.latitude.toString()}&longitude=${location.longitude.toString()}&method=${cal_method}`
-    const response = await fetch(link);
-    const data = await response.json();
-    for (let x of initialTimings) {
-      x.time = data.data.timings[x.name]
-    }
-    console.log(link)
-    setTimes(initialTimings);
+      setError(`Location not available yet...`)
+      if(location.latitude&&location.longitude){
+        const link: string = `http://api.aladhan.com/v1/timings/${formatDate(date)}?latitude=${location.latitude.toString()}&longitude=${location.longitude.toString()}&method=${cal_method}`
+        fetch(link).then((response)=>{
+          response.json().then((data)=>{
+            const tempList:PrayerTiming[]=[];
+            for (let x of prayersNamesList) {
+              tempList.push({
+                name:x,
+                time:data.data.timings[x],
+              })
+            }
+            setTimes(tempList);
+            setError("");
+          }).catch((error)=>{
+            setError(`Error happened: ${error}`)
+          });
+        }).catch((error)=>{
+          setError(`Error happened: ${error}`)
+        });
+      }
+      else{
+        getLocation();
+      }
+
   }
 
   //generate next days or previous days
@@ -147,7 +143,7 @@ export default function HomeScreen() {
     try {
       await AsyncStorage.setItem('settings', JSON.stringify(settings));
     } catch (e) {
-      console.log("Error hppaned while storing:" + e)
+      setError("Error hppaned while storing:\n"+ e)
     }
   };
 
@@ -163,38 +159,58 @@ export default function HomeScreen() {
         console.log("not found settings")
       }
     } catch (error) {
-      console.log('could not load user prefernces')
+      setError("Error while loaidng:\n"+ error)
     }
   };
 
-  // get Location and update prayer times when settings changes
-  useEffect(() => {
-    // get Location
-    (async () => {
-      let { status } = await CurrLocation.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        // setErrorMsg('Permission to access location was denied');
-        return;
+  const getLocation = async () => {
+    CurrLocation.requestForegroundPermissionsAsync().then((result)=>{
+      let state=result.status;
+      if(state){
+        CurrLocation.getCurrentPositionAsync({}).then((result)=>{
+          console.log(result.coords)
+          setLocation({ latitude: result.coords.latitude, longitude: result.coords.longitude });
+
+        }).catch((error)=>{
+          console.error(error)
+        });
       }
-      let location = await CurrLocation.getCurrentPositionAsync({});
-      setLocation({ latitude: location.coords.latitude, longitude: location.coords.longitude });
-    })();
-    getPrayerTimes();
-  }, [date, cal_method,settings.asrCalcMehtod,settings.fajrAngle,settings.ishaaAngle,settings.twentyFourSystem]);
+      else{
+        setError("Permission to access location was denied")
+      }
+    }).catch((error)=>{
+      setError("Permission to access location was denied:\n"+error);
+    });
+  } 
+
+
+
 
   // on app run load settings
   useEffect(() => {
     fetchSettings();
   }, []);
+
+
+  // get Location and update prayer times when settings changes
+  useEffect(() => {
+    getPrayerTimes();
+    }, [date,location]);
+
+
   // on settings changes save settings and update remaining time
   useEffect(() => {
-    setRamining(getRemainingTime(times));
     saveSettings();
-  }, [settings])
+    getPrayerTimes();
+  }, [settings]);
+
+  useEffect(()=>{
+    setNextPrayer(getRemainingTime(times));
+  },[times]);
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerBackgroundColor={{ light:'', dark:''}}
       headerImage={
         <Image
           source={theme == 'light' ? require('@/assets/images/cover.jpg') : require('@/assets/images/coverDark.jpg')}
@@ -203,7 +219,11 @@ export default function HomeScreen() {
       }>
       <ThemedView >
         <ThemedText type='title'>{converToHijr(date)}</ThemedText>
-        <ThemedText type='subtitle'>{remaining}</ThemedText>
+        {
+          (nextPrayer.name!==null&&nextPrayer.remainingTime!==null) &&
+          <ThemedText type='subtitle'>{nextPrayer.name} in {nextPrayer.remainingTime}</ThemedText>
+        }
+       
       </ThemedView>
 
       <ThemedView style={styles.location}>
@@ -223,7 +243,6 @@ export default function HomeScreen() {
           <Pressable onPress={() => setDate(new Date())} >
             <ThemedText type='defaultSemiBold'>{date.toDateString()}</ThemedText>
           </Pressable>
-
         </ThemedView>
 
         <Pressable onPress={() => { getNewDate(1) }}>
@@ -232,12 +251,20 @@ export default function HomeScreen() {
       </ThemedView>
 
       <ThemedView>
-
-        {times.map((t) => <ThemedView style={styles.praycard} key={t.name} lightColor='#FFE6A7' darkColor='#22333B'>
+        {times.map((t) => <ThemedView style={styles.praycard} key={t.name} lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2}>
           <ThemedText type='subtitle'>{t.name}</ThemedText>
           <ThemedText type='subtitle'>{t.time}</ThemedText>
         </ThemedView>)}
-      </ThemedView>
+
+      </ThemedView >
+
+      {error.length !== 0 &&
+        <ThemedView style={styles.alertBox}>
+          <ThemedText style={styles.alertMessage}>{error}</ThemedText>
+        </ThemedView>
+      }
+
+
     </ParallaxScrollView>
   );
 }
@@ -251,6 +278,15 @@ const styles = StyleSheet.create({
   stepContainer: {
     gap: 8,
     marginBottom: 8,
+  },
+  alertMessage:{
+    color:'red',
+
+  },
+  alertBox:{
+    borderWidth:2,
+    borderColor:'red',
+    padding:5,
   },
   praycard: {
     borderRadius: 5,
@@ -279,5 +315,6 @@ const styles = StyleSheet.create({
   date:
   {
     flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
-  }
+  },
+
 });

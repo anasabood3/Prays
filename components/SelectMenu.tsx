@@ -1,10 +1,10 @@
-import { View, type ViewProps } from 'react-native';
+import { View, useColorScheme, type ViewProps } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-
+import { Colors } from '@/constants/Colors';
 
 interface SelecData {
     data: { label: string, value: number }[];
@@ -15,11 +15,13 @@ interface SelecData {
 
 export function SelectMenu({ data, placeHolder, value,updateSelected }: SelecData) {
 
-    const color = useThemeColor({ light: 'black', dark: 'white' }, 'text');
-    const backgroundColor = useThemeColor({ light: '#FFE6A7', dark: "#1D3D47" }, 'background');
+    const color = useThemeColor({ light: Colors.light.text, dark: Colors.dark.text }, 'text');
+    const backgroundColor = useThemeColor({ light: Colors.light.colorLevel2, dark: Colors.dark.colorLevel2 }, 'background');
+    const theme = useColorScheme();
+    
     const renderItem = (item: { label: string, value: number }) => {
         return (
-            <ThemedView lightColor='#FFE6A7' darkColor='#1D3D47' style={styles.selectMenu}>
+            <ThemedView lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2} style={styles.selectMenu}>
                 <ThemedText style={styles.selectItem}>{item.label}</ThemedText>
             </ThemedView>
         )
