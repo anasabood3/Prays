@@ -6,7 +6,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 type settingsAction =
     | { type: "reset" }
     | { type: "updateTimingSystem"; payload: boolean }
-    | { type: "updateCalcMethod"; payload: number }
+    | { type: "updateCalcMethod"; payload: string }
     | { type: "updateAsrCalMehtod"; payload: number }
     | { type: "updateFajrAngle"; payload: number }
     | { type: "updateIshaaAngle"; payload: number }
@@ -14,6 +14,7 @@ type settingsAction =
     | { type: "updateNotification"; payload: boolean }
     | { type: "updateTheme"; payload: string }
     | { type: "updateLanguage"; payload: string }
+    | { type: "updateAdjustments"; payload: number[]}
     | { type: "loadSettings"; payload: SettingsState }
 
 
@@ -24,11 +25,11 @@ export interface SettingsState {
     language?: string;
     twentyFourSystem: boolean;
     asrCalcMehtod: number;
-    clacMethod: number;
+    clacMethod: string;
     fajrAngle: number;
     ishaaAngle: number;
     autoLocation: boolean;
-    
+    adjustments:number[]; 
 }
 
 const initialSettings: SettingsState = {
@@ -37,10 +38,11 @@ const initialSettings: SettingsState = {
     language: "en",
     twentyFourSystem: true,
     asrCalcMehtod: 1,
-    clacMethod: 1,
+    clacMethod: "MuslimWorldLeague",
     fajrAngle:12,
     ishaaAngle:12,
     autoLocation: true,
+    adjustments:[0,0,0,0,0,0]
 }
 
 
@@ -51,7 +53,7 @@ export const settingsSlice = createSlice({
         updateTimingSystem: (state, action: PayloadAction<boolean>) => {
             state.twentyFourSystem = action.payload
         },
-        updateCalcMethod: (state, action: PayloadAction<number>) => {
+        updateCalcMethod: (state, action: PayloadAction<string>) => {
             state.clacMethod = action.payload
         },
         updateAsrCalMehtod: (state, action: PayloadAction<number>) => {
@@ -69,6 +71,9 @@ export const settingsSlice = createSlice({
         updateNotification: (state, action: PayloadAction<boolean>) => {
             state.notifications = action.payload
         },
+        updateAdjustments: (state, action: PayloadAction<number[]>) => {
+            state.adjustments = action.payload
+        },
         loadSettings: (state, action: PayloadAction<SettingsState>) => {
             state.asrCalcMehtod = action.payload.asrCalcMehtod;
             state.clacMethod = action.payload.clacMethod;
@@ -76,14 +81,15 @@ export const settingsSlice = createSlice({
             state.ishaaAngle = action.payload.ishaaAngle;
             state.autoLocation = action.payload.autoLocation;
             state.twentyFourSystem = action.payload.twentyFourSystem;
+            state.adjustments = [...action.payload.adjustments];
         },
     },
 })
 
 
-export const { updateFajrAngle,updateIshaaAngle,updateAsrCalMehtod,updateAutoLocation,updateCalcMethod,updateTimingSystem,updateNotification,loadSettings } = settingsSlice.actions;
+export const { updateAdjustments,updateFajrAngle,updateIshaaAngle,updateAsrCalMehtod,updateAutoLocation,updateCalcMethod,updateTimingSystem,updateNotification,loadSettings } = settingsSlice.actions;
 
-export default settingsSlice.reducer
+export default settingsSlice.reducer;
 
 
 

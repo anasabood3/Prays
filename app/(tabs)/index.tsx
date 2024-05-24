@@ -1,142 +1,36 @@
-import { Image, StyleSheet, Platform, Pressable } from 'react-native';
-
+import { Image, Pressable, StyleSheet } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-
-import { useContext, useEffect, useReducer, useRef, useState } from 'react';
-import * as CurrLocation from 'expo-location';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { RootState } from '@/contexts/store';
-import { useSelector, useDispatch } from 'react-redux'
-import { toHijri } from "hijri-converter";
+import { Colors } from '@/constants/Colors';
 import { loadSettings } from '@/contexts/settingsSlice';
-import { hijriMonths } from '@/constants/CalcMethods';
-import { Ionicons } from '@expo/vector-icons';
+import { RootState } from '@/contexts/store';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { color } from 'native-base/lib/typescript/theme/styled-system';
-import { Colors } from '@/constants/Colors';
-import { prayersNamesList } from '@/constants/CalcMethods';
+import { converToHijr, formatDate, getTimeOfDate } from '@/scripts/time-functions';
+import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as CurrLocation from 'expo-location';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { NextPrayer, Prayer, Location, getPrayerTimes, getRemainingTime } from '@/scripts/prayers-functions';
 
-
-
-interface PrayerTiming {
-  name: string;
-  time: string;
-}
-
-interface Location {
-  longitude: number|null;
-  latitude: number|null;
-}
-
-interface NextPrayer{
-  name:string|null;
-  remainingTime:string|null;
-}
-
-
-
-// get String of Date
-const formatDate = (date: Date) => {
-  return `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
-}
-
-// convert Christian date into hijri date
-const converToHijr = (date: Date) => {
-  let result = toHijri(date.getFullYear(), date.getMonth(), date.getDay())
-  return `${result.hd}, ${hijriMonths[Number(result.hm)]} ${result.hy}`
-}
-
-
-const getTimeOfString= (time:string)=>{
-  const now:Date = new Date();
-  const timeString:string=`${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()} ${time}`
-  const newDate:Date= new Date(timeString);
-  return newDate;
-}
-
-
-const getRmainingHM=(ms:number)=>{
-  let minutes = Math.abs(ms / 60000);
-  let hours = Math.trunc(minutes / 60);
-  return (`${hours} hours and ${Math.trunc(minutes % 60)} minutes`)
-}
-
-// get the remaining time for next prayer
-const getRemainingTime = (times: PrayerTiming[]) => {
-  const nextPray:NextPrayer = {name:null,remainingTime:null};
-  const newDay:number=86400000;
-  let now: Date = new Date();
-
-  for(let t of times){
-    if(now.getTime()<getTimeOfString(t.time).getTime()){
-      nextPray.name=t.name;
-      nextPray.remainingTime=getRmainingHM(now.getTime()-getTimeOfString(t.time).getTime());
-      break;
-    }
-  }
-  if(nextPray.name===null && times.length!=0){
-    nextPray.name=times[0].name;
-    nextPray.remainingTime=getRmainingHM(now.getTime()-(getTimeOfString(times[0].time).getTime()+newDay))
-  }
-  return nextPray;
-}
 
 export default function HomeScreen() {
-
 
   const dispatch = useDispatch()
   const theme = useColorScheme();
   const color = useThemeColor({ light: 'black', dark: 'white' }, 'text');
 
-
   const cal_method = useSelector((state: RootState) => state.settings.clacMethod)
   const settings = useSelector((state: RootState) => state.settings);
 
   const [nextPrayer, setNextPrayer] = useState<NextPrayer>({name:null,remainingTime:null})
-  const [times, setTimes] = useState<PrayerTiming[]>([]);
+  const [times, setTimes] = useState<Prayer[]>([]);
   const [date, setDate] = useState<Date>(new Date());
   const [error, setError] = useState<string>('');
   const [location, setLocation] = useState<Location>({ latitude: null, longitude: null });
 
-
-  // fetch prayer times of api
-  const getPrayerTimes = async () => {
-      setError(`Location not available yet...`)
-      if(location.latitude&&location.longitude){
-        const link: string = `http://api.aladhan.com/v1/timings/${formatDate(date)}?latitude=${location.latitude.toString()}&longitude=${location.longitude.toString()}&method=${cal_method}`
-        fetch(link).then((response)=>{
-          response.json().then((data)=>{
-            const tempList:PrayerTiming[]=[];
-            for (let x of prayersNamesList) {
-              tempList.push({
-                name:x,
-                time:data.data.timings[x],
-              })
-            }
-            setTimes(tempList);
-            setError("");
-          }).catch((error)=>{
-            setError(`Error happened: ${error}`)
-          });
-        }).catch((error)=>{
-          setError(`Error happened: ${error}`)
-        });
-      }
-      else{
-        getLocation();
-      }
-
-  }
-
-  //generate next days or previous days
-  const getNewDate = (amount: number) => {
-    const newDate: Date = new Date(date);
-    newDate.setDate(date.getDate() + amount);
-    setDate(new Date(newDate));
-  }
 
   // save settings global state into local storage
   const saveSettings = async () => {
@@ -156,10 +50,10 @@ export default function HomeScreen() {
 
       }
       else {
-        console.log("not found settings")
+        console.log("Settings not found")
       }
     } catch (error) {
-      setError("Error while loaidng:\n"+ error)
+      setError("Error while loading sttings\n"+ error)
     }
   };
 
@@ -170,20 +64,35 @@ export default function HomeScreen() {
         CurrLocation.getCurrentPositionAsync({}).then((result)=>{
           console.log(result.coords)
           setLocation({ latitude: result.coords.latitude, longitude: result.coords.longitude });
-
         }).catch((error)=>{
           console.error(error)
         });
       }
-      else{
+      else {
         setError("Permission to access location was denied")
       }
-    }).catch((error)=>{
-      setError("Permission to access location was denied:\n"+error);
+    }).catch((error) => {
+      setError("Error while getting location\n" + error);
     });
-  } 
+  }
 
 
+  //generate next days or previous days
+  const getNewDate = (amount: number) => {
+    const newDate: Date = new Date(date);
+    newDate.setDate(date.getDate() + amount);
+    setDate(new Date(newDate));
+  }
+
+  // get prayers and update location
+  const updateContent = () => {
+    if(location.latitude&&location.longitude){
+      const prayers = getPrayerTimes(location.latitude,location.longitude, cal_method, date,settings.fajrAngle,settings.ishaaAngle,settings.asrCalcMehtod,settings.adjustments);
+      setTimes(prayers);
+    }
+    else
+      getLocation();
+  }
 
 
   // on app run load settings
@@ -194,19 +103,22 @@ export default function HomeScreen() {
 
   // get Location and update prayer times when settings changes
   useEffect(() => {
-    getPrayerTimes();
+    updateContent();
     }, [date,location]);
 
 
   // on settings changes save settings and update remaining time
   useEffect(() => {
     saveSettings();
-    getPrayerTimes();
+    updateContent();
   }, [settings]);
 
-  useEffect(()=>{
+
+  // update Remaining time
+  // !!!!!!! remaing time should not update on day changes !!!!!!!!!!!!11
+  useEffect(() => {
     setNextPrayer(getRemainingTime(times));
-  },[times]);
+  }, [times]);
 
   return (
     <ParallaxScrollView
@@ -233,19 +145,19 @@ export default function HomeScreen() {
 
       <ThemedView style={styles.location}>
 
-        <Pressable onPress={() => { getNewDate(-1) }} >
+        <Pressable onPress={() => {getNewDate(-1)}} >
           <Ionicons size={28} name={'chevron-back-circle-outline'} style={{ color }} />
         </Pressable>
 
 
 
         <ThemedView style={styles.date}>
-          <Pressable onPress={() => setDate(new Date())} >
+          <Pressable onPress={() => {setDate(new Date())}} >
             <ThemedText type='defaultSemiBold'>{date.toDateString()}</ThemedText>
           </Pressable>
         </ThemedView>
 
-        <Pressable onPress={() => { getNewDate(1) }}>
+        <Pressable onPress={() => {getNewDate(1)}}>
           <Ionicons size={28} name='chevron-forward-circle-outline' style={{ color }} />
         </Pressable>
       </ThemedView>
@@ -253,7 +165,7 @@ export default function HomeScreen() {
       <ThemedView>
         {times.map((t) => <ThemedView style={styles.praycard} key={t.name} lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2}>
           <ThemedText type='subtitle'>{t.name}</ThemedText>
-          <ThemedText type='subtitle'>{t.time}</ThemedText>
+          <ThemedText type='subtitle'>{t.time && getTimeOfDate(t.time,settings.twentyFourSystem)}</ThemedText>
         </ThemedView>)}
 
       </ThemedView >
