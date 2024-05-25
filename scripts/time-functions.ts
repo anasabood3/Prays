@@ -36,6 +36,8 @@ export const msToHoursMinutes = (ms: number) => {
     return (`${hours} hours and ${Math.trunc(minutes % 60)} minutes`)
 }
 
+// get Millisceonds of date since the same day
+export const getMilliSeconds=(date:Date)=>(date.getHours()*3600000)+(date.getMinutes()*60000)+(date.getSeconds()*1000);
 
 
 

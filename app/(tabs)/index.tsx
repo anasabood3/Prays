@@ -97,28 +97,27 @@ export default function HomeScreen() {
 
   // on app run load settings
   useEffect(() => {
-    fetchSettings();
+    fetchSettings().catch(()=>updateContent());
   }, []);
 
 
   // get Location and update prayer times when settings changes
   useEffect(() => {
     updateContent();
-    }, [date,location]);
+    }, [date]);
 
 
-  // on settings changes save settings and update remaining time
+  // on settings changes save settings and update prayers page
+  useEffect(() => {
+    updateContent();
+    setNextPrayer(getRemainingTime(times));
+  }, [settings,location]);
+
+
+  // on settings changes save settings
   useEffect(() => {
     saveSettings();
-    updateContent();
   }, [settings]);
-
-
-  // update Remaining time
-  // !!!!!!! remaing time should not update on day changes !!!!!!!!!!!!11
-  useEffect(() => {
-    setNextPrayer(getRemainingTime(times));
-  }, [times]);
 
   return (
     <ParallaxScrollView
@@ -170,11 +169,11 @@ export default function HomeScreen() {
 
       </ThemedView >
 
-      {error.length !== 0 &&
+      {/* {error.length !== 0 &&
         <ThemedView style={styles.alertBox}>
           <ThemedText style={styles.alertMessage}>{error}</ThemedText>
         </ThemedView>
-      }
+      } */}
 
 
     </ParallaxScrollView>
