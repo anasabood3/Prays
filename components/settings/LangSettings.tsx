@@ -1,17 +1,18 @@
 import { StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RootState } from '@/contexts/store';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateTheme } from '@/contexts/settingsSlice';
+import { updateLanguage, updateTheme } from '@/contexts/settingsSlice';
 import { SelectMenu } from './SelectMenu';
 import { Colors } from '@/constants/Colors';
 import { View } from 'react-native';
 import { SettingsItem } from './ThemeItem';
 import { i18n } from '@/scripts/translate';
-export default function ThemeSettings() {
-  const theme = useSelector((state: RootState) => state.settings.theme);
+import { languages } from '@/constants/GeneralConstans';
+export default function LangSettings() {
+  const language = useSelector((state: RootState) => state.settings.language);
   const dispatch = useDispatch();
     return (
       <ThemedView
@@ -19,13 +20,13 @@ export default function ThemeSettings() {
           lightColor={Colors.light.containerBackground}
           style={styles.contianer}>
           <View style={styles.MultipleContainer}>
-          <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("Appearance")}</ThemedText>
+          <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("Language")}</ThemedText>
               <SettingsItem >
                   <SelectMenu
-                      data={[{label:"Light",value:'light'},{label:"Dark",value:'dark'}]}
-                      value={i18n.t(theme)}
-                      updateSelected={(e) => { dispatch(updateTheme(e.value));console.log(theme)}}
-                      placeHolder={theme.charAt(0).toUpperCase()+theme.slice(1)}>
+                      data={languages}
+                      value={language}
+                      updateSelected={(e) => { dispatch(updateLanguage(e.value));}}
+                      placeHolder={''}>
                   </SelectMenu>
               </SettingsItem>
           </View>

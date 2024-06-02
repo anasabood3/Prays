@@ -1,15 +1,18 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
-import { Provider } from 'react-redux'
-import { store } from '../../contexts/store';
+import { Provider, useSelector } from 'react-redux'
+import { RootState, store } from '../../contexts/store';
+import { i18n } from '@/scripts/translate';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const language = useSelector((state: RootState) => state.settings.language);
+  i18n.locale = language;
 
   return (
     <Tabs
@@ -20,7 +23,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: i18n.t('Home'),
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
           ),
@@ -30,7 +33,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="qibla"
         options={{
-          title: 'Qibla',
+          title:  i18n.t('Qibla'),
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'navigate-circle' : 'navigate-circle-outline'} color={color} />
           ),
@@ -39,7 +42,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="calendar"
         options={{
-          title: 'Calendar',
+          title:  i18n.t('Calendar'),
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'calendar' : 'calendar-outline'} color={color} />
           ),
@@ -48,7 +51,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: 'Settings',
+          title:  i18n.t('Settings'),
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'settings' : 'settings-outline'} color={color} />
           ),

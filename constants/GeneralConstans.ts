@@ -16,12 +16,15 @@ export const clacMethods = [
 
 export const asrCalcMethods = [
 
-    { label: 'Earlier Asr Time - Schafii, Malki and Nanbali', value: 1 },
-    { label: ' Later Asr Time Hanafi', value: 2 },
+    { label: 'Shafii', value: 1 },
+    { label: 'Hanafi', value: 2 },
 
 ]
 
-
-export const hijriMonths = ['Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani', 'Jumada al-Ula', 'Jumada al-Akhirah', 'Rajab', 'Shaban', 'Ramadan', "Shawwal", "Dhu al-Qadah","Dhu al-Hijjah"]
+export const languages = [
+  {label:"English",value:"en"},
+  {label:"Arabic",value:"ar"},
+]
+export const hijriMonths = ['Muharram', 'Safar', 'Rabi1', 'Rabi2', 'Jumada1', 'Jumada2', 'Rajab', 'Shaban', 'Ramadan', "Shawwal", "DhulQadah","DhulHijjah"]
 
 export const prayersNamesList:string[]=["Fajr","Sunrise","Dhuhr","Asr","Maghrib","Isha"];

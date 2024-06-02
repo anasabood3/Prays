@@ -15,6 +15,7 @@ import SettingsSwitch from './SettingsSwitch';
 import SettingsSlider from './SettingsSlider';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { SettingsItem } from './ThemeItem';
+import { i18n } from '@/scripts/translate';
 
 export default function TimingSettings() {
 
@@ -37,7 +38,7 @@ export default function TimingSettings() {
       >
       <SettingsItem>
         <SettingsSwitch
-          title={"24-Hour Time"}
+          title={i18n.t("timing_system")}
           value={timing_system}
           behaviour={(e) => dispatch(updateTimingSystem(e))} />
       </SettingsItem>
@@ -46,7 +47,7 @@ export default function TimingSettings() {
 
       <SettingsItem>
         <SettingsSwitch
-          title={"Auto Location"}
+          title={i18n.t("auto_location")}
           value={auto_location}
           behaviour={(e) => dispatch(updateAutoLocation(e))} />
       </SettingsItem>
@@ -54,7 +55,7 @@ export default function TimingSettings() {
 
 
       <View style={styles.MultipleContainer}>
-        <ThemedText type='defaultSemiBold' style={{paddingLeft:12}}>Calculation Method</ThemedText>
+        <ThemedText type='defaultSemiBold' style={{paddingLeft:12}}>{i18n.t("calculation_method")}</ThemedText>
         <SettingsItem >
           <SelectMenu
             data={clacMethods}
@@ -67,7 +68,7 @@ export default function TimingSettings() {
 
 
       <View style={styles.MultipleContainer}>
-        <ThemedText type='defaultSemiBold' style={{paddingLeft:12}}>Asr Method</ThemedText>
+        <ThemedText type='defaultSemiBold' style={{paddingLeft:12}}>{i18n.t("asr_calulation_method")}</ThemedText>
         <SettingsItem>
           <SelectMenu
             data={asrCalcMethods}
@@ -84,44 +85,37 @@ export default function TimingSettings() {
       <View style={styles.MultipleContainer}>
         <SettingsItem>
           <Collapsible
-          title='Custom Angels'>
+          title={i18n.t("custom_angels")}>
           <SettingsSlider
-            label={'Fajr Angel'}
+            label={'Fajr'}
             minimumValue={-19}
             maximumValue={19}
             step={.5}
             value={fajr_angle}
-            behviour={(e) => dispatch(updateFajrAngle(e))}
-          />
+            behviour={(e) => dispatch(updateFajrAngle(e))}/>
+
           <SettingsSlider
-            label={'Ishaa Angel'}
+            label={'Isha'}
             minimumValue={-19}
             maximumValue={19}
             step={.5}
             value={ishaa_angle}
-            behviour={(e) => dispatch(updateIshaaAngle(e))}
-          />
+            behviour={(e) => dispatch(updateIshaaAngle(e))}/>
+          
           </Collapsible>
         </SettingsItem>
-
-
-
-
       </View>
-
-
+      
       <SettingsItem >
-        <Collapsible title='Adjustments'>
+        <Collapsible title={i18n.t("Adjustments")}>
           <Adjustment index={0} label='Fajr' />
           <Adjustment index={1} label='Sunrise' />
           <Adjustment index={2} label='Dhuhr' />
           <Adjustment index={3} label='Asr' />
           <Adjustment index={4} label='Maghrib' />
-          <Adjustment index={5} label='Ishaa' />
-          </Collapsible>
+          <Adjustment index={5} label='Isha' />
+        </Collapsible>
       </SettingsItem>
-
-
       </ThemedView>
 
   );

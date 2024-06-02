@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
 import { updateAdjustments } from '@/contexts/settingsSlice';
 import { View } from 'react-native';
+import { i18n } from '@/scripts/translate';
 
 interface SliderProps {
     label:string;
@@ -23,7 +24,7 @@ export default function SettingsSlider(props:SliderProps) {
     return (
         <View>
             <View style={styles.flexItem}>
-            <ThemedText>{props.label}</ThemedText>
+            <ThemedText>{i18n.t(props.label)}</ThemedText>
             <ThemedText>{props.value}°</ThemedText>
             </View>
             <Slider
@@ -41,7 +42,6 @@ export default function SettingsSlider(props:SliderProps) {
 }
 
 const styles = StyleSheet.create({
-
     flexItem:{
         flexDirection:'row',
         justifyContent:'space-between',

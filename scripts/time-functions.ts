@@ -1,6 +1,6 @@
 import { hijriMonths } from "@/constants/GeneralConstans";
 import { toHijri } from "hijri-converter";
-  
+import { i18n }  from '@/scripts/translate';
 
 
 // get String of Date
@@ -11,7 +11,7 @@ export const formatDate = (date: Date) => {
 // convert Christian date into hijri date
 export const converToHijr = (date: Date) => {
     let result = toHijri(date.getFullYear(), date.getMonth(), date.getDay())
-    return `${result.hd}, ${hijriMonths[Number(result.hm)]} ${result.hy}`
+    return `${result.hd} ${i18n.t(hijriMonths[Number(result.hm)])} ${result.hy}`
 }
 
 // get tiem of full-date supporting 12-hour system
@@ -33,7 +33,17 @@ export const getTimeOfDate = (date: Date, twentyFour: boolean = true) => {
 export const msToHoursMinutes = (ms: number) => {
     let minutes = Math.abs(ms / 60000);
     let hours = Math.trunc(minutes / 60);
-    return (`${hours} hours and ${Math.trunc(minutes % 60)} minutes`)
+    const h:string = `${i18n.t("hour",{count:hours})}`
+    const m:string = `${Math.trunc(minutes%60)} ${i18n.t("minute",{count:minutes})}`
+    if(hours&&minutes)
+        return (`${h}, ${m}`)
+    else if(!hours&&minutes)
+        return (`${m}`)
+    else if(hours&&!minutes)
+        return (`${h}`)
+    else
+        return "Now"
+    
 }
 
 // get Millisceonds of date since the same day

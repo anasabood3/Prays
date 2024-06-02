@@ -1,16 +1,19 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform, SafeAreaView, Pressable, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, Platform, SafeAreaView, Pressable, TouchableOpacity, View } from 'react-native';
 import { Collapsible } from '@/components/Collapsible';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import TimingSettings from '@/components/settings/TimingSettings';
 import SwipeModal from '@/components/SwipeModal';
 import { Colors } from '@/constants/Colors';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { ScrollView } from 'react-native';
 import ThemeSettings from '@/components/settings/ThemeSettings';
-
+import LangSettings from '@/components/settings/LangSettings';
+import { i18n } from '@/scripts/translate';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/contexts/store';
 interface metaModalData {
   title: string;
   info: string;
@@ -18,16 +21,19 @@ interface metaModalData {
 }
 export default function SettingsTab() {
   const backgroundColor = useThemeColor({ light: Colors.light.background, dark: Colors.dark.background }, 'background');
+  const settings = useSelector((state: RootState) => state.settings);
+  useMemo(()=>  {i18n.locale = settings.language},[settings.language]);
+  
 
   return (
-
     <SafeAreaView style={[styles.settingsContainer, { backgroundColor }]}>
       <ScrollView>
-        <ThemedText type="title" style={styles.titleContainer}>Settings</ThemedText>
+        <ThemedText type="title" style={styles.titleContainer}>{i18n.t('Settings')}</ThemedText>
         
      
         <TimingSettings />
-        <ThemeSettings/>
+        {/* <ThemeSettings/> */}
+        <LangSettings/>
 
         
         {/* <ThemedView
@@ -38,31 +44,12 @@ export default function SettingsTab() {
           </Pressable>
         </ThemedView> */}
 
-        <ThemedView
-          style={styles.settingsItem2}
-          darkColor={Colors.dark.colorLevel2}
-          lightColor={Colors.light.colorLevel2}>
-          <Collapsible
-            title='More'
-          >
-            <ThemedView
-              style={styles.moreItem}
-              darkColor={Colors.dark.colorLevel2}
-              lightColor={Colors.light.colorLevel2}>
-              <TouchableOpacity>
-                <ThemedText type='link'>Privacy & Policy</ThemedText>
-              </TouchableOpacity>
-            </ThemedView>
-            <ThemedView
-              style={styles.moreItem}
-              darkColor={Colors.dark.colorLevel2}
-              lightColor={Colors.light.colorLevel2}>
-              <TouchableOpacity>
-                <ThemedText type='link'>About Us</ThemedText>
-              </TouchableOpacity>
-            </ThemedView>
-          </Collapsible>
-        </ThemedView>
+
+        <View style={{flexDirection:'row',justifyContent:"center",marginTop:45}}>
+          <ThemedText type='link'>
+            Prays v1.2
+          </ThemedText>
+        </View>
       </ScrollView>
     </SafeAreaView>
 
@@ -96,6 +83,9 @@ const styles = StyleSheet.create({
   moreItem: {
     padding: 9,
     margin: 4,
-  }
+  }, 
+  MultipleContainer: {
+    marginVertical: 6,
+  },
 
 });

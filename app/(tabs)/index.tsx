@@ -14,7 +14,7 @@ import * as CurrLocation from 'expo-location';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NextPrayer, Prayer, Location, getPrayerTimes, getRemainingTime } from '@/scripts/prayers-functions';
-
+import { i18n } from '../../scripts/translate';
 
 export default function HomeScreen() {
 
@@ -47,7 +47,6 @@ export default function HomeScreen() {
       const value = await AsyncStorage.getItem('settings');
       if (value !== null) {
         dispatch(loadSettings(JSON.parse(value)));
-
       }
       else {
         console.log("Settings not found")
@@ -62,7 +61,6 @@ export default function HomeScreen() {
       let state=result.status;
       if(state){
         CurrLocation.getCurrentPositionAsync({}).then((result)=>{
-          console.log(result.coords)
           setLocation({ latitude: result.coords.latitude, longitude: result.coords.longitude });
         }).catch((error)=>{
           console.error(error)
@@ -119,6 +117,10 @@ export default function HomeScreen() {
     saveSettings();
   }, [settings]);
 
+  // useEffect(()=>{
+  //   i18n.locale=settings.language;
+  // },[settings.language]);
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light:'', dark:''}}
@@ -132,7 +134,7 @@ export default function HomeScreen() {
         <ThemedText type='title'>{converToHijr(date)}</ThemedText>
         {
           (nextPrayer.name!==null&&nextPrayer.remainingTime!==null) &&
-          <ThemedText type='subtitle'>{nextPrayer.name} in {nextPrayer.remainingTime}</ThemedText>
+          <ThemedText type='subtitle'>{i18n.t(nextPrayer.name)} {i18n.t('in')}: {nextPrayer.remainingTime}</ThemedText>
         }
        
       </ThemedView>
@@ -140,7 +142,6 @@ export default function HomeScreen() {
       <ThemedView style={styles.location}>
         <ThemedText type='defaultSemiBold'> </ThemedText>
       </ThemedView>
-
 
       <ThemedView style={styles.location}>
 
@@ -163,7 +164,7 @@ export default function HomeScreen() {
 
       <ThemedView>
         {times.map((t) => <ThemedView style={styles.praycard} key={t.name} lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2}>
-          <ThemedText type='subtitle'>{t.name}</ThemedText>
+          <ThemedText type='subtitle'>{i18n.t(t.name)}</ThemedText>
           <ThemedText type='subtitle'>{t.time && getTimeOfDate(t.time,settings.twentyFourSystem)}</ThemedText>
         </ThemedView>)}
 

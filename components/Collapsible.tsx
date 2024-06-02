@@ -5,17 +5,20 @@ import { StyleSheet, TouchableOpacity, useColorScheme } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/contexts/store';
 
 export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const theme = useColorScheme() ?? 'light';
+  const language = useSelector((state: RootState) => state.settings.language);
 
   return (
     <ThemedView
       darkColor={Colors.dark.colorLevel2}
       lightColor={Colors.light.colorLevel2}>
       <TouchableOpacity
-        style={styles.heading}
+        style={[styles.heading,language=='ar'?{flexDirection:'row-reverse'}:{}]}
         onPress={() => setIsOpen((value) => !value)}
         activeOpacity={0.8}>
         <Ionicons

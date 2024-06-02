@@ -2,6 +2,8 @@ import { Switch } from "react-native";
 import { ThemedText } from "../ThemedText";
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
+import { useSelector } from "react-redux";
+import { RootState } from "@/contexts/store";
 
 interface SwitchProps {
     value: boolean;
@@ -11,9 +13,11 @@ interface SwitchProps {
 }
 
 export default function SettingsSwitch(props: SwitchProps) {
+    const language = useSelector((state: RootState) => state.settings.language);
 
     return (
-        <View style={styles.settingsItem}>
+        <View style={[styles.settingsItem,language=='ar'?{flexDirection:'row-reverse'}:{}]}>
+
             <ThemedText type='default'>{props.title}</ThemedText>
             <Switch
                 trackColor={{ false: '#767577', true: '#81b0ff' }}

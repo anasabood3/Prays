@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
 import { updateAdjustments } from '@/contexts/settingsSlice';
 import { View } from 'react-native';
+import { i18n } from '@/scripts/translate';
 
 interface AdjustProps {
     index:number;
@@ -24,8 +25,8 @@ export default function Adjustment(props:AdjustProps) {
     return (
         <View style={[styles.settingsItem,]}>
             <View style={styles.flexItem}>
-            <ThemedText>{props.label}</ThemedText>
-            <ThemedText>{adjustments[props.index]} minutes</ThemedText>
+            <ThemedText>{i18n.t(props.label)}</ThemedText>
+            <ThemedText>{adjustments[props.index]} {i18n.t('minute',{count:3})}</ThemedText>
             </View>
             <Slider
                 minimumValue={-59}
