@@ -9,6 +9,7 @@ import SwipeModal from '@/components/SwipeModal';
 import { Colors } from '@/constants/Colors';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { ScrollView } from 'react-native';
+import ThemeSettings from '@/components/settings/ThemeSettings';
 
 interface metaModalData {
   title: string;
@@ -23,44 +24,19 @@ export default function SettingsTab() {
     <SafeAreaView style={[styles.settingsContainer, { backgroundColor }]}>
       <ScrollView>
         <ThemedText type="title" style={styles.titleContainer}>Settings</ThemedText>
-        <ThemedView
-          style={styles.settingsItem}
-          darkColor={Colors.dark.background}
-          lightColor={Colors.light.background}>
-          <TimingSettings />
-        </ThemedView>
+        
+     
+        <TimingSettings />
+        <ThemeSettings/>
 
-
-
-
+        
         {/* <ThemedView
-        style={styles.settingsItem}>
-        <Pressable
-          onPress={() => { setModalContent({ title: "notifications", info: "dsfs", content: <Notifications /> }); setIsVisible(true) }}>
-          <ThemedText type='defaultSemiBold'>Notifications</ThemedText>
-        </Pressable>
-      </ThemedView>
-
-      <ThemedView
-        style={styles.settingsItem}>
-        <Pressable
-          onPress={() => { setModalContent({ title: "themes", info: "dsfs", content: <Themes /> }); setIsVisible(true) }}>
-          <ThemedText type='defaultSemiBold'>Themes</ThemedText>
-        </Pressable>
-      </ThemedView>
-
-      <ThemedView
-        style={styles.settingsItem}>
-        <Pressable
-          onPress={() => { setModalContent({ title: "langauges", info: "dsfs", content: <Languages /> }); setIsVisible(true) }}>
-          <ThemedText type='defaultSemiBold'>Languages</ThemedText>
-        </Pressable>
-      </ThemedView>
-  */}
-
-
-
-
+          style={styles.settingsItem}>
+          <Pressable
+            onPress={() => { setModalContent({ title: "themes", info: "dsfs", content: <Themes /> }); setIsVisible(true) }}>
+            <ThemedText type='defaultSemiBold'>Themes</ThemedText>
+          </Pressable>
+        </ThemedView> */}
 
         <ThemedView
           style={styles.settingsItem2}

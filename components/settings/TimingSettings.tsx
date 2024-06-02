@@ -6,7 +6,7 @@ import { RootState } from '@/contexts/store';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateFajrAngle, updateIshaaAngle, updateAsrCalMehtod, updateAutoLocation, updateCalcMethod, updateTimingSystem } from '@/contexts/settingsSlice';
 import { clacMethods, asrCalcMethods } from '@/constants/GeneralConstans';
-import { SelectMenu } from '../SelectMenu';
+import { SelectMenu } from './SelectMenu';
 import { Colors } from '@/constants/Colors';
 import { View } from 'react-native';
 import Adjustment from './Adjustment';
@@ -14,6 +14,7 @@ import { Collapsible } from '../Collapsible';
 import SettingsSwitch from './SettingsSwitch';
 import SettingsSlider from './SettingsSlider';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { SettingsItem } from './ThemeItem';
 
 export default function TimingSettings() {
 
@@ -146,21 +147,8 @@ const styles = StyleSheet.create({
   },
   contianer:{
     borderRadius:5,
-    padding:8
+    padding:8,
+    marginVertical:8
   }
 
 })
-
-interface SettingsItemProps{
-  children:JSX.Element;
-}
-const SettingsItem = (props:SettingsItemProps)=>{
-  return (
-    <ThemedView
-    style={styles.settingsItem}
-    lightColor={Colors.light.colorLevel2}
-    darkColor={Colors.dark.colorLevel2}>
-      {props.children}
-    </ThemedView>
-  );
-}

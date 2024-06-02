@@ -15,13 +15,15 @@ type settingsAction =
     | { type: "updateTheme"; payload: string }
     | { type: "updateLanguage"; payload: string }
     | { type: "updateAdjustments"; payload: number[]}
+    | { type: "updateTheme"; payload: string }
     | { type: "loadSettings"; payload: SettingsState }
+    | { type: "resetSettings"; payload: SettingsState }
 
 
 
 export interface SettingsState {
     notifications?: boolean;
-    theme?: string;
+    theme: string;
     language?: string;
     twentyFourSystem: boolean;
     asrCalcMehtod: number;
@@ -34,7 +36,7 @@ export interface SettingsState {
 
 const initialSettings: SettingsState = {
     notifications: true,
-    theme: "light",
+    theme: "dark",
     language: "en",
     twentyFourSystem: true,
     asrCalcMehtod: 1,
@@ -74,6 +76,9 @@ export const settingsSlice = createSlice({
         updateAdjustments: (state, action: PayloadAction<number[]>) => {
             state.adjustments = action.payload
         },
+        updateTheme:(state,action:PayloadAction<string>)=>{
+            state.theme=action.payload
+        },
         loadSettings: (state, action: PayloadAction<SettingsState>) => {
             state.asrCalcMehtod = action.payload.asrCalcMehtod;
             state.clacMethod = action.payload.clacMethod;
@@ -83,11 +88,12 @@ export const settingsSlice = createSlice({
             state.twentyFourSystem = action.payload.twentyFourSystem;
             state.adjustments = [...action.payload.adjustments];
         },
+
     },
 })
 
 
-export const { updateAdjustments,updateFajrAngle,updateIshaaAngle,updateAsrCalMehtod,updateAutoLocation,updateCalcMethod,updateTimingSystem,updateNotification,loadSettings } = settingsSlice.actions;
+export const { updateAdjustments,updateTheme,updateFajrAngle,updateIshaaAngle,updateAsrCalMehtod,updateAutoLocation,updateCalcMethod,updateTimingSystem,updateNotification,loadSettings } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
 
