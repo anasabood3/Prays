@@ -18,11 +18,10 @@ export function SelectMenu({ data, placeHolder, value, updateSelected }: SelecDa
 
     const color = useThemeColor({ light: Colors.light.text, dark: Colors.dark.text }, 'text');
     const backgroundColor = useThemeColor({ light: Colors.light.colorLevel2, dark: Colors.dark.colorLevel2 }, 'background');
-    const theme = useColorScheme();
 
     const renderItem = (item: { label: string, value: number | string }) => {
         return (
-            <ThemedView lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2} style={styles.selectMenu}>
+            <ThemedView style={[styles.selectMenu,{backgroundColor}]}>
                 <ThemedText style={styles.selectItem}>{i18n.t(item.label)}</ThemedText>
             </ThemedView>
         )

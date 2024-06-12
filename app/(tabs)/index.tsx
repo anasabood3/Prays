@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -11,10 +11,15 @@ import { converToHijr, formatDate, getTimeOfDate } from '@/scripts/time-function
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as CurrLocation from 'expo-location';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NextPrayer, Prayer, Location, getPrayerTimes, getRemainingTime } from '@/scripts/prayers-functions';
+import { NextPrayer, Prayer, getPrayerTimes, getRemainingTime, saveSettings } from '@/scripts/prayers-functions';
 import { i18n } from '../../scripts/translate';
+
+export interface Location {
+  lat: number | null;
+  long: number | null;
+}
 
 export default function HomeScreen() {
 
@@ -22,104 +27,138 @@ export default function HomeScreen() {
   const theme = useColorScheme();
   const color = useThemeColor({ light: 'black', dark: 'white' }, 'text');
 
+
+  const [date, setDate] = useState<Date>(new Date());
+  const [location,setLocation] = useState<Location>({lat:null,long:null})
+
   const cal_method = useSelector((state: RootState) => state.settings.clacMethod)
   const settings = useSelector((state: RootState) => state.settings);
 
-  const [nextPrayer, setNextPrayer] = useState<NextPrayer>({name:null,remainingTime:null})
+  const [nextPrayer, setNextPrayer] = useState<NextPrayer>({ name: null, remainingTime: null })
   const [times, setTimes] = useState<Prayer[]>([]);
-  const [date, setDate] = useState<Date>(new Date());
   const [error, setError] = useState<string>('');
-  const [location, setLocation] = useState<Location>({ latitude: null, longitude: null });
+  const [loaded,setLoaded] = useState<boolean>(false);
 
 
-  // save settings global state into local storage
-  const saveSettings = async () => {
-    try {
-      await AsyncStorage.setItem('settings', JSON.stringify(settings));
-    } catch (e) {
-      setError("Error hppaned while storing:\n"+ e)
-    }
-  };
+  
+
+  const saveLocation = (loc: Location) => {
+    AsyncStorage.setItem('location', JSON.stringify(loc)).catch((error) => {
+      setError("Error hppaned while storing location:\n" + error)
+    });
+  }
 
   // load app settings of local storage
-  const fetchSettings = async () => {
-    try {
-      const value = await AsyncStorage.getItem('settings');
-      if (value !== null) {
-        dispatch(loadSettings(JSON.parse(value)));
+  const loadLocation = () => {
+    AsyncStorage.getItem('location').then((data) => {
+      if (data) {
+        setLocation(JSON.parse(data));
       }
-      else {
-        console.log("Settings not found")
-      }
-    } catch (error) {
-      setError("Error while loading sttings\n"+ error)
+      else
+        getLocation();
+    }).catch((error) => {
+      setError("Error while loading lcation\n" + error)
+    });
+  }
+
+  // load app settings of local storage
+  const fetchSettings = () => {
+   AsyncStorage.getItem('settings').then((data)=>{
+    if(data){
+      const loadedData = JSON.parse(data);
+      dispatch(loadSettings(loadedData));
+      setLoaded(true);
     }
+    else{
+      console.log('no save settings')
+    }
+   })
+   .catch((error)=>console.log(error));
   };
 
-  const getLocation = async () => {
-    CurrLocation.requestForegroundPermissionsAsync().then((result)=>{
-      let state=result.status;
-      if(state){
-        CurrLocation.getCurrentPositionAsync({}).then((result)=>{
-          setLocation({ latitude: result.coords.latitude, longitude: result.coords.longitude });
-        }).catch((error)=>{
+  const getLocation = () => {
+    CurrLocation.requestForegroundPermissionsAsync().then((result) => {
+      let state = result.status;
+      if (state) {
+        CurrLocation.getCurrentPositionAsync({}).then((result) => {
+          setLocation({ lat: result.coords.latitude, long: result.coords.longitude });
+        }).catch((error) => {
           console.error(error)
         });
       }
       else {
-        setError("Permission to access location was denied")
+        console.log("Permission to access location was denied");
       }
     }).catch((error) => {
-      setError("Error while getting location\n" + error);
+      console.log("Error while getting location\n" + error);
     });
   }
 
 
   //generate next days or previous days
   const getNewDate = (amount: number) => {
-    const newDate: Date = new Date(date);
-    newDate.setDate(date.getDate() + amount);
-    setDate(new Date(newDate));
+    const newDay:number=86400000;
+    setDate(new Date(date.getTime()+(amount*newDay)));
   }
 
   // get prayers and update location
   const updateContent = () => {
-    if(location.latitude&&location.longitude){
-      const prayers = getPrayerTimes(location.latitude,location.longitude, cal_method, date,settings.fajrAngle,settings.ishaaAngle,settings.asrCalcMehtod,settings.adjustments);
-      setTimes(prayers);
+    if (settings.autoLocation) {
+      if (location.lat && location.long) {
+
+        const prayers = getPrayerTimes(location.lat, location.long, cal_method, date, settings.fajrAngle, settings.ishaaAngle, settings.asrCalcMehtod, []);
+        setTimes(prayers);
+      }
+      else
+        getLocation();
     }
-    else
-      getLocation();
-  }
+    else {
+      if (location.lat && location.long) {
+        const prayers = getPrayerTimes(location.lat, location.long, cal_method, date, settings.fajrAngle, settings.ishaaAngle, settings.asrCalcMehtod, Object.values(settings.adjustments));
+        setTimes(prayers);
+      }
+      else
+        loadLocation();
+      }
+    }
 
 
   // on app run load settings
   useEffect(() => {
-    fetchSettings().catch(()=>updateContent());
+    fetchSettings();
   }, []);
 
-
   // get Location and update prayer times when settings changes
+  // useEffect(() => {
+  //   if (loaded) {
+  //     updateContent();
+  //   }
+  // }, [date]);
+
   useEffect(() => {
-    updateContent();
-    }, [date]);
+    if (loaded) {
+      updateContent();
+      setNextPrayer(getRemainingTime(times));
+    }
+  }, [loaded]);
 
-
-  // on settings changes save settings and update prayers page
   useEffect(() => {
     updateContent();
     setNextPrayer(getRemainingTime(times));
-  }, [settings,location]);
+    saveLocation(location);
+  }, [location]);
 
 
-  // on settings changes save settings
-  useEffect(() => {
-    saveSettings();
+
+  // on settings changes save settings and update prayers page
+  useEffect(() => {   
+    if(loaded){
+      updateContent(); 
+      setNextPrayer(getRemainingTime(times));
+      saveSettings(settings);
+    }  
   }, [settings]);
 
-  // useEffect(()=>{
-  //   i18n.locale=settings.language;
-  // },[settings.language]);
 
   return (
     <ParallaxScrollView
@@ -130,20 +169,20 @@ export default function HomeScreen() {
           style={styles.reactLogo}
         />
       }>
-      <ThemedView >
-        <ThemedText type='title'>{converToHijr(date)}</ThemedText>
+      <View>
+        <ThemedText style={{paddingVertical:7}} type='title'>{converToHijr(date,settings.language)}</ThemedText>
         {
           (nextPrayer.name!==null&&nextPrayer.remainingTime!==null) &&
           <ThemedText type='subtitle'>{i18n.t(nextPrayer.name)} {i18n.t('in')}: {nextPrayer.remainingTime}</ThemedText>
         }
        
-      </ThemedView>
+      </View>
 
-      <ThemedView style={styles.location}>
+      <View style={styles.location}>
         <ThemedText type='defaultSemiBold'> </ThemedText>
-      </ThemedView>
+      </View>
 
-      <ThemedView style={styles.location}>
+      <View style={styles.location}>
 
         <Pressable onPress={() => {getNewDate(-1)}} >
           <Ionicons size={28} name={'chevron-back-circle-outline'} style={{ color }} />
@@ -151,24 +190,23 @@ export default function HomeScreen() {
 
 
 
-        <ThemedView style={styles.date}>
+        <View style={styles.date}>
           <Pressable onPress={() => {setDate(new Date())}} >
             <ThemedText type='defaultSemiBold'>{date.toDateString()}</ThemedText>
           </Pressable>
-        </ThemedView>
+        </View>
 
         <Pressable onPress={() => {getNewDate(1)}}>
           <Ionicons size={28} name='chevron-forward-circle-outline' style={{ color }} />
         </Pressable>
-      </ThemedView>
+      </View>
 
-      <ThemedView>
+      <View>
         {times.map((t) => <ThemedView style={styles.praycard} key={t.name} lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2}>
           <ThemedText type='subtitle'>{i18n.t(t.name)}</ThemedText>
-          <ThemedText type='subtitle'>{t.time && getTimeOfDate(t.time,settings.twentyFourSystem)}</ThemedText>
+          <ThemedText type='subtitle'>{t.time && getTimeOfDate(t.time, settings.twentyFourSystem)}</ThemedText>
         </ThemedView>)}
-
-      </ThemedView >
+      </View >
 
       {/* {error.length !== 0 &&
         <ThemedView style={styles.alertBox}>

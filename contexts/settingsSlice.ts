@@ -1,25 +1,36 @@
+import { PrayerName } from '@/components/settings/Adjustment';
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import { Appearance } from 'react-native';
 
 
 
-type settingsAction =
-    | { type: "reset" }
-    | { type: "updateTimingSystem"; payload: boolean }
-    | { type: "updateCalcMethod"; payload: string }
-    | { type: "updateAsrCalMehtod"; payload: number }
-    | { type: "updateFajrAngle"; payload: number }
-    | { type: "updateIshaaAngle"; payload: number }
-    | { type: "updateAutoLocation"; payload: boolean }
-    | { type: "updateNotification"; payload: boolean }
-    | { type: "updateTheme"; payload: string }
-    | { type: "updateLanguage"; payload: string }
-    | { type: "updateAdjustments"; payload: number[]}
-    | { type: "updateTheme"; payload: string }
-    | { type: "loadSettings"; payload: SettingsState }
-    | { type: "resetSettings"; payload: SettingsState }
+// type settingsAction =
+//     | { type: "reset" }
+//     | { type: "updateTimingSystem"; payload: boolean }
+//     | { type: "updateCalcMethod"; payload: string }
+//     | { type: "updateAsrCalMehtod"; payload: number }
+//     | { type: "updateFajrAngle"; payload: number }
+//     | { type: "updateIshaaAngle"; payload: number }
+//     | { type: "updateAutoLocation"; payload: boolean }
+//     | { type: "updateNotification"; payload: boolean }
+//     | { type: "updateTheme"; payload: string }
+//     | { type: "updateLanguage"; payload: string }
+//     | { type: "updateAdjustments"; payload: number[]}
+//     | { type: "updateTheme"; payload: string }
+//     | { type: "loadSettings"; payload: SettingsState }
+//     | { type: "resetSettings"; payload: SettingsState }
+//     | { type: "updateLocation"; payload: Location }
 
-
+export interface Adjustments{
+    fajr:number;
+    sunrise:number;
+    dhuhr:number;
+    asr:number;
+    maghrib:number;
+    isha:number;
+    
+}
 
 export interface SettingsState {
     notifications?: boolean;
@@ -31,8 +42,10 @@ export interface SettingsState {
     fajrAngle: number;
     ishaaAngle: number;
     autoLocation: boolean;
-    adjustments:number[]; 
+    adjustments:Adjustments; 
 }
+
+
 
 const initialSettings: SettingsState = {
     notifications: true,
@@ -43,8 +56,8 @@ const initialSettings: SettingsState = {
     clacMethod: "MuslimWorldLeague",
     fajrAngle:12,
     ishaaAngle:12,
-    autoLocation: true,
-    adjustments:[0,0,0,0,0,0]
+    autoLocation: false,
+    adjustments:{fajr:0,sunrise:0,dhuhr:0,asr:0,maghrib:0,isha:0},
 }
 
 
@@ -73,8 +86,8 @@ export const settingsSlice = createSlice({
         updateNotification: (state, action: PayloadAction<boolean>) => {
             state.notifications = action.payload
         },
-        updateAdjustments: (state, action: PayloadAction<number[]>) => {
-            state.adjustments = action.payload
+        updateAdjustments: (state, action: PayloadAction<{label:PrayerName,value:number}>) => {
+            state.adjustments[action.payload.label] = action.payload.value;
         },
         updateTheme:(state,action:PayloadAction<string>)=>{
             state.theme=action.payload
@@ -90,7 +103,8 @@ export const settingsSlice = createSlice({
             state.autoLocation = action.payload.autoLocation;
             state.language = action.payload.language;
             state.twentyFourSystem = action.payload.twentyFourSystem;
-            state.adjustments = [...action.payload.adjustments];
+            state.adjustments = {...action.payload.adjustments};
+            state.theme = action.payload.theme;
         },
 
     },

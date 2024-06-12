@@ -9,9 +9,14 @@ export const formatDate = (date: Date) => {
 }
 
 // convert Christian date into hijri date
-export const converToHijr = (date: Date) => {
-    let result = toHijri(date.getFullYear(), date.getMonth(), date.getDay())
-    return `${result.hd} ${i18n.t(hijriMonths[Number(result.hm)])} ${result.hy}`
+export const converToHijr = (date: Date,lang:string) => {
+    let local = 'en-US';
+    if(lang==='ar')
+        local='ar-TN'
+    else if (lang==='de')
+        local='en-TN'
+    let result = new Intl.DateTimeFormat(`${local}-u-ca-islamic`,{day: 'numeric', month: 'long',weekday: 'long',year : 'numeric'}).format(date)
+    return `${result}`
 }
 
 // get tiem of full-date supporting 12-hour system

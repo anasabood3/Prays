@@ -1,20 +1,14 @@
-import { DarkTheme, DefaultTheme, NavigationContainer, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { Provider, useSelector } from 'react-redux';
-import { RootState, store } from '@/contexts/store';
+import { Provider } from 'react-redux';
+import { store } from '@/contexts/store';
 import MainLayout from './mainLayout';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
@@ -30,7 +24,7 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-    <MainLayout/>
+      <MainLayout />
     </Provider>
   );
 }

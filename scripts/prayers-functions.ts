@@ -1,6 +1,8 @@
 import { CalculationMethod, Coordinates, PrayerTimes,CalculationParameters } from "adhan";
 import { msToHoursMinutes } from "./time-functions";
 import { prayersNamesList } from "@/constants/GeneralConstans";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SettingsState } from "@/contexts/settingsSlice";
 
 export interface Prayer {
     name: string,
@@ -32,35 +34,36 @@ export interface Location {
  * @returns list of prayers {name,time,notificationsType}
  */
 export const getPrayerTimes = (lat:number,long:number,cal_method:string,date:Date,fajrAngle:number,ishaAngle:number,madhab:number,adjstments:number[]):Prayer[]=>{
-    const initialTimings: Prayer[] = [
+  const tempDate = new Date();  
+  const initialTimings: Prayer[] = [
       {
         name: "Fajr",
-        time: new Date,
+        time: tempDate,
         notifcationType: 1,
       },
       {
         name: "Sunrise",
-        time: new Date,
+        time: tempDate,
         notifcationType: 1,
       },
       {
         name: "Dhuhr",
-        time: new Date,
+        time: tempDate,
         notifcationType: 1,
       },
       {
         name: "Asr",
-        time: new Date,
+        time: tempDate,
         notifcationType: 1,
       },
       {
         name: "Maghrib",
-        time: new Date,
+        time: tempDate,
         notifcationType: 1,
       },
       {
         name: "Isha",
-        time: new Date,
+        time: tempDate,
         notifcationType: 1,
       }
     ]
@@ -164,3 +167,7 @@ export const getRemainingTime = (times:Prayer[]) => {
   }
   
 
+// save settings global state into local storage
+export const saveSettings = (settings:SettingsState) => {
+  AsyncStorage.setItem('settings', JSON.stringify(settings));
+};

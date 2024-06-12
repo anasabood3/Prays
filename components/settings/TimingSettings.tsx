@@ -4,7 +4,7 @@ import { ThemedView } from '@/components/ThemedView';
 import React, { useState } from 'react';
 import { RootState } from '@/contexts/store';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateFajrAngle, updateIshaaAngle, updateAsrCalMehtod, updateAutoLocation, updateCalcMethod, updateTimingSystem } from '@/contexts/settingsSlice';
+import { updateFajrAngle, updateIshaaAngle, updateAsrCalMehtod, updateAutoLocation, updateCalcMethod, updateTimingSystem, updateAdjustments } from '@/contexts/settingsSlice';
 import { clacMethods, asrCalcMethods } from '@/constants/GeneralConstans';
 import { SelectMenu } from './SelectMenu';
 import { Colors } from '@/constants/Colors';
@@ -13,14 +13,12 @@ import Adjustment from './Adjustment';
 import { Collapsible } from '../Collapsible';
 import SettingsSwitch from './SettingsSwitch';
 import SettingsSlider from './SettingsSlider';
-import { useThemeColor } from '@/hooks/useThemeColor';
 import { SettingsItem } from './ThemeItem';
 import { i18n } from '@/scripts/translate';
+import { useTheme } from '@react-navigation/native';
 
 export default function TimingSettings() {
 
-
-  const color = useThemeColor({ light: "black", dark: "white" }, 'text');
   const cal_method = useSelector((state: RootState) => state.settings.clacMethod);
   const timing_system = useSelector((state: RootState) => state.settings.twentyFourSystem);
   const asr_cal_method = useSelector((state: RootState) => state.settings.asrCalcMehtod);
@@ -28,7 +26,7 @@ export default function TimingSettings() {
   const ishaa_angle = useSelector((state: RootState) => state.settings.ishaaAngle);
   const auto_location = useSelector((state: RootState) => state.settings.autoLocation);
   const dispatch = useDispatch();
-
+  const colors = useTheme();
   return (
 
       <ThemedView
@@ -100,20 +98,19 @@ export default function TimingSettings() {
             maximumValue={19}
             step={.5}
             value={ishaa_angle}
-            behviour={(e) => dispatch(updateIshaaAngle(e))}/>
-          
+            behviour={(e) => dispatch(updateIshaaAngle(e))}/> 
           </Collapsible>
         </SettingsItem>
       </View>
       
       <SettingsItem >
         <Collapsible title={i18n.t("Adjustments")}>
-          <Adjustment index={0} label='Fajr' />
-          <Adjustment index={1} label='Sunrise' />
-          <Adjustment index={2} label='Dhuhr' />
-          <Adjustment index={3} label='Asr' />
-          <Adjustment index={4} label='Maghrib' />
-          <Adjustment index={5} label='Isha' />
+          <Adjustment label='fajr' action={(e)=>{dispatch(updateAdjustments({label:"fajr",value:e}));}}/>
+          <Adjustment label='sunrise' action={(e)=>dispatch(updateAdjustments({label:"sunrise",value:e}))}/>
+          <Adjustment label='dhuhr' action={(e)=>dispatch(updateAdjustments({label:"dhuhr",value:e}))}/>
+          <Adjustment label='asr' action={(e)=>dispatch(updateAdjustments({label:"asr",value:e}))}/>
+          <Adjustment label='maghrib' action={(e)=>dispatch(updateAdjustments({label:"maghrib",value:e}))}/>
+          <Adjustment label='isha' action={(e)=>dispatch(updateAdjustments({label:"isha",value:e}))}/>
         </Collapsible>
       </SettingsItem>
       </ThemedView>

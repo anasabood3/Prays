@@ -14,25 +14,25 @@ import LangSettings from '@/components/settings/LangSettings';
 import { i18n } from '@/scripts/translate';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
+import { useTheme } from '@react-navigation/native';
 interface metaModalData {
   title: string;
   info: string;
   content: React.JSX.Element;
 }
 export default function SettingsTab() {
-  const backgroundColor = useThemeColor({ light: Colors.light.background, dark: Colors.dark.background }, 'background');
   const settings = useSelector((state: RootState) => state.settings);
   useMemo(()=>  {i18n.locale = settings.language},[settings.language]);
   
 
   return (
-    <SafeAreaView style={[styles.settingsContainer, { backgroundColor }]}>
-      <ScrollView>
+    <SafeAreaView >
+      <ScrollView >
         <ThemedText type="title" style={styles.titleContainer}>{i18n.t('Settings')}</ThemedText>
         
      
         <TimingSettings />
-        {/* <ThemeSettings/> */}
+        <ThemeSettings/>
         <LangSettings/>
 
         

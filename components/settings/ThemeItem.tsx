@@ -16,12 +16,10 @@ interface SettingsItemProps{
   }
   
 const styles = StyleSheet.create({
-
     settingsItem: {
       margin: 5,
       borderRadius: 6,
       padding:5,
-  
     },
   })
   

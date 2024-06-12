@@ -1,32 +1,25 @@
 import { StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import Slider from '@react-native-community/slider';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
-import { updateAdjustments } from '@/contexts/settingsSlice';
 import { View } from 'react-native';
 import { i18n } from '@/scripts/translate';
 
+export type PrayerName= "fajr"|"sunrise"|"dhuhr"|"asr"|"maghrib"|"isha";
+
 interface AdjustProps {
-    index:number;
-    label:string;
+    label:PrayerName;
+    action:(e:number)=>void;
 }
 
 export default function Adjustment(props:AdjustProps) {
-    const dispatch = useDispatch();
-
     const adjustments = useSelector((state: RootState) => state.settings.adjustments);
-    const adjustTime= (value:number)=>{
-        const temp = [...adjustments];
-        temp[props.index]=value;
-        dispatch(updateAdjustments([...temp]))
-    }
-
     return (
         <View style={[styles.settingsItem,]}>
             <View style={styles.flexItem}>
-            <ThemedText>{i18n.t(props.label)}</ThemedText>
-            <ThemedText>{adjustments[props.index]} {i18n.t('minute',{count:3})}</ThemedText>
+            <ThemedText>{i18n.t(props.label.slice(0,1).toUpperCase()+props.label.slice(1))}</ThemedText>
+            <ThemedText>{adjustments[props.label]} {i18n.t('minute',{count:3})}</ThemedText>
             </View>
             <Slider
                 minimumValue={-59}
@@ -34,8 +27,8 @@ export default function Adjustment(props:AdjustProps) {
                 step={1}
                 minimumTrackTintColor="#FFFFFF"
                 maximumTrackTintColor="#000000"
-                value={adjustments[props.index]}
-                onValueChange={(e)=>{adjustTime(e)}}
+                value={adjustments[props.label]}
+                onValueChange={(e)=>{props.action(e);console.log(adjustments)}}
             />
         </View>
     );

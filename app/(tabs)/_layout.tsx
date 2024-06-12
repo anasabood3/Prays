@@ -1,12 +1,10 @@
 import { Tabs } from 'expo-router';
-import React, { useEffect } from 'react';
-
+import React from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-
-import { Provider, useSelector } from 'react-redux'
-import { RootState, store } from '../../contexts/store';
+import { useSelector } from 'react-redux'
+import { RootState } from '../../contexts/store';
 import { i18n } from '@/scripts/translate';
 
 export default function TabLayout() {
@@ -33,7 +31,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="qibla"
         options={{
-          title:  i18n.t('Qibla'),
+          title: i18n.t('Qibla'),
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'navigate-circle' : 'navigate-circle-outline'} color={color} />
           ),
@@ -42,7 +40,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="calendar"
         options={{
-          title:  i18n.t('Calendar'),
+          title: i18n.t('Calendar'),
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'calendar' : 'calendar-outline'} color={color} />
           ),
@@ -51,7 +49,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title:  i18n.t('Settings'),
+          title: i18n.t('Settings'),
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'settings' : 'settings-outline'} color={color} />
           ),
