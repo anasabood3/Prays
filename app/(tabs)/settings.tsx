@@ -15,11 +15,9 @@ import { i18n } from '@/scripts/translate';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
 import { useTheme } from '@react-navigation/native';
-interface metaModalData {
-  title: string;
-  info: string;
-  content: React.JSX.Element;
-}
+
+
+
 export default function SettingsTab() {
   const settings = useSelector((state: RootState) => state.settings);
   useMemo(()=>  {i18n.locale = settings.language},[settings.language]);

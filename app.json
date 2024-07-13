@@ -7,7 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
-    
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -15,8 +14,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "userInterfaceStyle": "automatic"
-
+      "userInterfaceStyle": "automatic",
+      "bundleIdentifier": "com.anas1024.Prays"
     },
     "android": {
       "adaptiveIcon": {
@@ -33,7 +32,16 @@
     },
     "plugins": [
       "expo-router",
-      "expo-localization"
+      "expo-localization",
+      [
+        "expo-notifications",
+        {
+          "icon": "./local/path/to/myNotificationIcon.png",
+          "color": "#ffffff",
+          "sounds": ["./local/path/to/mySound.wav", "./local/path/to/myOtherSound.wav"],
+          "mode": "production"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

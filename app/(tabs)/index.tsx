@@ -15,6 +15,7 @@ import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NextPrayer, Prayer, getPrayerTimes, getRemainingTime, saveSettings } from '@/scripts/prayers-functions';
 import { i18n } from '../../scripts/translate';
+import Notify from '@/components/Notify';
 
 export interface Location {
   lat: number | null;
@@ -175,7 +176,7 @@ export default function HomeScreen() {
           (nextPrayer.name!==null&&nextPrayer.remainingTime!==null) &&
           <ThemedText type='subtitle'>{i18n.t(nextPrayer.name)} {i18n.t('in')}: {nextPrayer.remainingTime}</ThemedText>
         }
-       
+       {/* <Notify/> */}
       </View>
 
       <View style={styles.location}>
