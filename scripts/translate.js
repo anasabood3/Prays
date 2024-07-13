@@ -73,7 +73,7 @@ const ar = {
   Maghrib: "المغرب",
   Isha: "العشاء",
 
-  Home: "هوم",
+  Home: "مواقيت الصلاة",
   Qibla: "القبلة",
   Settings: "الإعدادت",
   Calendar: "التقويم",

@@ -1,5 +1,4 @@
-import { hijriMonths } from "@/constants/GeneralConstans";
-import { toHijri } from "hijri-converter";
+
 import { i18n }  from '@/scripts/translate';
 
 
