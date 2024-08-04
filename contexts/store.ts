@@ -1,5 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
+// adding created settings reducer
 import  settingsReducer  from './settingsSlice'
+
 export const store = configureStore({
   reducer: {
     settings:settingsReducer,

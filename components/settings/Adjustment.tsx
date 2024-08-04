@@ -13,13 +13,13 @@ interface AdjustProps {
     action:(e:number)=>void;
 }
 
-export default function Adjustment(props:AdjustProps) {
+export default function Adjustment(props: AdjustProps) {
     const adjustments = useSelector((state: RootState) => state.settings.adjustments);
     return (
         <View style={[styles.settingsItem,]}>
             <View style={styles.flexItem}>
-            <ThemedText>{i18n.t(props.label.slice(0,1).toUpperCase()+props.label.slice(1))}</ThemedText>
-            <ThemedText>{adjustments[props.label]} {i18n.t('minute',{count:3})}</ThemedText>
+                <ThemedText>{i18n.t(props.label.slice(0, 1).toUpperCase() + props.label.slice(1))}</ThemedText>
+                <ThemedText>{adjustments[props.label]} {i18n.t('minute', { count: 3 })}</ThemedText>
             </View>
             <Slider
                 minimumValue={-59}
@@ -28,7 +28,7 @@ export default function Adjustment(props:AdjustProps) {
                 minimumTrackTintColor="#FFFFFF"
                 maximumTrackTintColor="#000000"
                 value={adjustments[props.label]}
-                onValueChange={(e)=>{props.action(e);console.log(adjustments)}}
+                onValueChange={(e) => { props.action(e); console.log(adjustments) }}
             />
         </View>
     );
@@ -37,12 +37,11 @@ export default function Adjustment(props:AdjustProps) {
 const styles = StyleSheet.create({
     settingsItem: {
         borderRadius: 6,
-    
-      },
-    flexItem:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
-        marginHorizontal:4,
+    },
+    flexItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginHorizontal: 4,
     }
 })

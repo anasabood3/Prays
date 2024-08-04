@@ -45,10 +45,10 @@ const styles = StyleSheet.create({
   MultipleContainer: {
     marginVertical: 6,
   },
-  contianer:{
-    borderRadius:5,
-    padding:8,
-    marginBottom:6,
+  contianer: {
+    borderRadius: 5,
+    padding: 8,
+    marginBottom: 6,
   }
 
 })

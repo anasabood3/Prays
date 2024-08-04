@@ -25,6 +25,6 @@ export const languages = [
   {label:"English",value:"en"},
   {label:"Arabic",value:"ar"},
 ]
-export const hijriMonths = ['Muharram', 'Safar', 'Rabi1', 'Rabi2', 'Jumada1', 'Jumada2', 'Rajab', 'Shaban', 'Ramadan', "Shawwal", "DhulQadah","DhulHijjah"]
+
 
 export const prayersNamesList:string[]=["Fajr","Sunrise","Dhuhr","Asr","Maghrib","Isha"];

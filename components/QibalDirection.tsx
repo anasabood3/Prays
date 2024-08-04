@@ -138,7 +138,7 @@ const QiblaDirection = forwardRef(
                     </ThemedText>
                 </View> */}
                 <View>
-                    <ThemedText>
+                    <ThemedText type='defaultSemiBold'>
                         {Math.abs(qiblad - compassDegree) < 5 ? 'your facing Qibla' : ''}
                         {qiblad - compassDegree > 5 ? 'Turn Device Right' : ''}
                         {qiblad - compassDegree < 0 ? 'Turn Device Left' : ''}

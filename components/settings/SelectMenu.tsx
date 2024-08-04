@@ -1,4 +1,3 @@
-import { View, useColorScheme, type ViewProps } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { StyleSheet } from 'react-native';
@@ -21,7 +20,7 @@ export function SelectMenu({ data, placeHolder, value, updateSelected }: SelecDa
 
     const renderItem = (item: { label: string, value: number | string }) => {
         return (
-            <ThemedView style={[styles.selectMenu,{backgroundColor}]}>
+            <ThemedView style={[styles.selectMenu, { backgroundColor }]}>
                 <ThemedText style={styles.selectItem}>{i18n.t(item.label)}</ThemedText>
             </ThemedView>
         )
@@ -47,10 +46,10 @@ export function SelectMenu({ data, placeHolder, value, updateSelected }: SelecDa
 
 const styles = StyleSheet.create({
     settingsItem: {
-    paddingVertical: 1,
-    paddingHorizontal: 6,
-    margin: 4,
-    borderRadius: 6,
+        paddingVertical: 1,
+        paddingHorizontal: 6,
+        margin: 4,
+        borderRadius: 6,
     },
     dropdown: {
         height: 40,

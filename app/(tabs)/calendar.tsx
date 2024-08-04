@@ -13,10 +13,13 @@ export default function CalendarTab() {
       headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Hijri Calender</ThemedText>
-        
+
       </ThemedView>
+      <ThemedView>
+
+      </ThemedView>
+ 
       <ThemedView style={styles.titleContainer}>
-      <ThemedText >Here, Will add islamic hijri calender</ThemedText>
         
       </ThemedView>
 

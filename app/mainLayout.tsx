@@ -15,17 +15,17 @@ export default function MainLayout() {
     useEffect(() => {
         i18n.locale = language;
     }, [language]);
-    useEffect(()=>{
-        theme=='dark'?Appearance.setColorScheme('dark'):Appearance.setColorScheme('light')
-    })
     
-    return (
-                <NavigationContainer independent theme={theme==='dark'?DarkTheme:DefaultTheme}>
-                <Stack>
-                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                    <Stack.Screen name="+not-found" />
-                </Stack>
-                </NavigationContainer>
+    useEffect(() => {
+        theme == 'dark' ? Appearance.setColorScheme('dark') : Appearance.setColorScheme('light')
+    })
 
+    return (
+        <NavigationContainer independent theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
+            <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="+not-found" />
+            </Stack>
+        </NavigationContainer>
     );
 }

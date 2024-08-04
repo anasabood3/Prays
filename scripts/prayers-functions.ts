@@ -1,20 +1,18 @@
 import { CalculationMethod, Coordinates, PrayerTimes,CalculationParameters } from "adhan";
 import { msToHoursMinutes } from "./time-functions";
-import { prayersNamesList } from "@/constants/GeneralConstans";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SettingsState } from "@/contexts/settingsSlice";
 
 export interface Prayer {
     name: string,
     time: Date,
-    notifcationType: number
+    notifcationType: number   // change into special type <notType>
 }
 
 export interface NextPrayer {
     name: string | null;
-    remainingTime: string | null;
+    remainingTime: string | null; // change into number represnts milliseconds
 }
-
 
 export interface Location {
     longitude: number | null;
@@ -29,10 +27,11 @@ export interface Location {
  * @param date 
  * @param fajrAngle 
  * @param ishaAngle 
- * @param madhab 
- * @param adjstments 
+ * @param madhab  asr time madhab shafii or hanafi (late aser time)
+ * @param adjstments add or substarct mintues from generated times
  * @returns list of prayers {name,time,notificationsType}
  */
+
 export const getPrayerTimes = (lat:number,long:number,cal_method:string,date:Date,fajrAngle:number,ishaAngle:number,madhab:number,adjstments:number[]):Prayer[]=>{
   const tempDate = new Date();  
   const initialTimings: Prayer[] = [
@@ -116,8 +115,10 @@ export const getPrayerTimes = (lat:number,long:number,cal_method:string,date:Dat
         default:
           params = CalculationMethod.MuslimWorldLeague();
       }
+
       params.fajrAngle = fajrAngle;
       params.ishaAngle = ishaAngle;
+
       madhab==1?params.madhab="shafi":params.madhab="hanafi";
       // to be refactored
       // add adjustments into params
@@ -145,7 +146,7 @@ export const getPrayerTimes = (lat:number,long:number,cal_method:string,date:Dat
 // get the remaining time for next prayer
 export const getRemainingTime = (times:Prayer[]) => {
     const nextPray:NextPrayer = {name:null,remainingTime:null};
-    //whole Day in millseconds
+    // whole Day in millseconds
     const newDay:number=86400000;
     let now: Date = new Date();
   
@@ -157,7 +158,7 @@ export const getRemainingTime = (times:Prayer[]) => {
       }
     }
     // this case happen after passing all prayers meaning after ishaa before 00:00 O'clock
-    //you leave for loope with no prayers.
+    // you leave for loope with no prayers.
     // 86400000 add whole day to the fajr to make fajr of the next day (ignoring 2-3 minutes difference in remaining time)
     if(nextPray.name===null && times.length!=0){
       nextPray.name=times[0].name;

@@ -26,14 +26,14 @@ export default function TimingSettings() {
   const ishaa_angle = useSelector((state: RootState) => state.settings.ishaaAngle);
   const auto_location = useSelector((state: RootState) => state.settings.autoLocation);
   const dispatch = useDispatch();
-  const colors = useTheme();
+
   return (
 
-      <ThemedView
+    <ThemedView
       darkColor={Colors.dark.containerBackground}
       lightColor={Colors.light.containerBackground}
       style={styles.contianer}
-      >
+    >
       <SettingsItem>
         <SettingsSwitch
           title={i18n.t("timing_system")}
@@ -53,7 +53,7 @@ export default function TimingSettings() {
 
 
       <View style={styles.MultipleContainer}>
-        <ThemedText type='defaultSemiBold' style={{paddingLeft:12}}>{i18n.t("calculation_method")}</ThemedText>
+        <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("calculation_method")}</ThemedText>
         <SettingsItem >
           <SelectMenu
             data={clacMethods}
@@ -66,7 +66,7 @@ export default function TimingSettings() {
 
 
       <View style={styles.MultipleContainer}>
-        <ThemedText type='defaultSemiBold' style={{paddingLeft:12}}>{i18n.t("asr_calulation_method")}</ThemedText>
+        <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("asr_calulation_method")}</ThemedText>
         <SettingsItem>
           <SelectMenu
             data={asrCalcMethods}
@@ -83,37 +83,37 @@ export default function TimingSettings() {
       <View style={styles.MultipleContainer}>
         <SettingsItem>
           <Collapsible
-          title={i18n.t("custom_angels")}>
-          <SettingsSlider
-            label={'Fajr'}
-            minimumValue={-19}
-            maximumValue={19}
-            step={.5}
-            value={fajr_angle}
-            behviour={(e) => dispatch(updateFajrAngle(e))}/>
+            title={i18n.t("custom_angels")}>
+            <SettingsSlider
+              label={'Fajr'}
+              minimumValue={-19}
+              maximumValue={19}
+              step={.5}
+              value={fajr_angle}
+              behviour={(e) => dispatch(updateFajrAngle(e))} />
 
-          <SettingsSlider
-            label={'Isha'}
-            minimumValue={-19}
-            maximumValue={19}
-            step={.5}
-            value={ishaa_angle}
-            behviour={(e) => dispatch(updateIshaaAngle(e))}/> 
+            <SettingsSlider
+              label={'Isha'}
+              minimumValue={-19}
+              maximumValue={19}
+              step={.5}
+              value={ishaa_angle}
+              behviour={(e) => dispatch(updateIshaaAngle(e))} />
           </Collapsible>
         </SettingsItem>
       </View>
-      
+
       <SettingsItem >
         <Collapsible title={i18n.t("Adjustments")}>
-          <Adjustment label='fajr' action={(e)=>{dispatch(updateAdjustments({label:"fajr",value:e}));}}/>
-          <Adjustment label='sunrise' action={(e)=>dispatch(updateAdjustments({label:"sunrise",value:e}))}/>
-          <Adjustment label='dhuhr' action={(e)=>dispatch(updateAdjustments({label:"dhuhr",value:e}))}/>
-          <Adjustment label='asr' action={(e)=>dispatch(updateAdjustments({label:"asr",value:e}))}/>
-          <Adjustment label='maghrib' action={(e)=>dispatch(updateAdjustments({label:"maghrib",value:e}))}/>
-          <Adjustment label='isha' action={(e)=>dispatch(updateAdjustments({label:"isha",value:e}))}/>
+          <Adjustment label='fajr' action={(e) => { dispatch(updateAdjustments({ label: "fajr", value: e })); }} />
+          <Adjustment label='sunrise' action={(e) => dispatch(updateAdjustments({ label: "sunrise", value: e }))} />
+          <Adjustment label='dhuhr' action={(e) => dispatch(updateAdjustments({ label: "dhuhr", value: e }))} />
+          <Adjustment label='asr' action={(e) => dispatch(updateAdjustments({ label: "asr", value: e }))} />
+          <Adjustment label='maghrib' action={(e) => dispatch(updateAdjustments({ label: "maghrib", value: e }))} />
+          <Adjustment label='isha' action={(e) => dispatch(updateAdjustments({ label: "isha", value: e }))} />
         </Collapsible>
       </SettingsItem>
-      </ThemedView>
+    </ThemedView>
 
   );
 }
@@ -130,16 +130,16 @@ const styles = StyleSheet.create({
   settingsItem: {
     margin: 5,
     borderRadius: 6,
-    padding:5,
+    padding: 5,
 
   },
   MultipleContainer: {
     marginVertical: 6,
   },
-  contianer:{
-    borderRadius:5,
-    padding:8,
-    marginVertical:8
+  contianer: {
+    borderRadius: 5,
+    padding: 8,
+    marginVertical: 8
   }
 
 })

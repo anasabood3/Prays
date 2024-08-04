@@ -1,4 +1,3 @@
-
 import { i18n }  from '@/scripts/translate';
 
 
@@ -18,7 +17,7 @@ export const converToHijr = (date: Date,lang:string) => {
     return `${result}`
 }
 
-// get tiem of full-date supporting 12-hour system
+// get time of full-date supporting 12-hour system
 export const getTimeOfDate = (date: Date, twentyFour: boolean = true) => {
     const dateString = date.toTimeString();
     let hours = Number(dateString.slice(0, 2));
@@ -47,7 +46,6 @@ export const msToHoursMinutes = (ms: number) => {
         return (`${h}`)
     else
         return "Now"
-    
 }
 
 // get Millisceonds of date since the same day

@@ -1,20 +1,13 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform, SafeAreaView, Pressable, TouchableOpacity, View } from 'react-native';
-import { Collapsible } from '@/components/Collapsible';
+import { StyleSheet, Platform, SafeAreaView, View } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import TimingSettings from '@/components/settings/TimingSettings';
-import SwipeModal from '@/components/SwipeModal';
-import { Colors } from '@/constants/Colors';
-import { useThemeColor } from '@/hooks/useThemeColor';
 import { ScrollView } from 'react-native';
 import ThemeSettings from '@/components/settings/ThemeSettings';
 import LangSettings from '@/components/settings/LangSettings';
 import { i18n } from '@/scripts/translate';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
-import { useTheme } from '@react-navigation/native';
 
 
 

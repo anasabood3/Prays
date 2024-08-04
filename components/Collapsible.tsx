@@ -18,7 +18,7 @@ export function Collapsible({ children, title }: PropsWithChildren & { title: st
       darkColor={Colors.dark.colorLevel2}
       lightColor={Colors.light.colorLevel2}>
       <TouchableOpacity
-        style={[styles.heading,language=='ar'?{flexDirection:'row-reverse'}:{}]}
+        style={[styles.heading, language == 'ar' ? { flexDirection: 'row-reverse' } : {}]}
         onPress={() => setIsOpen((value) => !value)}
         activeOpacity={0.8}>
         <Ionicons
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    padding:12
+    padding: 12
   },
   content: {
     marginTop: 6,

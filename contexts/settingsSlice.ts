@@ -1,7 +1,6 @@
 import { PrayerName } from '@/components/settings/Adjustment';
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { Appearance } from 'react-native';
 
 
 
@@ -33,7 +32,7 @@ export interface Adjustments{
 }
 
 export interface SettingsState {
-    notifications?: boolean;
+    notifications?: boolean; /// !!!refix!!!!
     theme: string;
     language: string;
     twentyFourSystem: boolean;

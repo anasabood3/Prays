@@ -1,16 +1,18 @@
 import { StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { RootState } from '@/contexts/store';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateLanguage, updateTheme } from '@/contexts/settingsSlice';
+import { updateLanguage } from '@/contexts/settingsSlice';
 import { SelectMenu } from './SelectMenu';
 import { Colors } from '@/constants/Colors';
 import { View } from 'react-native';
 import { SettingsItem } from './ThemeItem';
 import { i18n } from '@/scripts/translate';
 import { languages } from '@/constants/GeneralConstans';
+
+
 export default function LangSettings() {
   const language = useSelector((state: RootState) => state.settings.language);
   const dispatch = useDispatch();
@@ -36,15 +38,13 @@ export default function LangSettings() {
 }
 
 const styles = StyleSheet.create({
-
   MultipleContainer: {
     marginVertical: 6,
   },
-  contianer:{
-    borderRadius:5,
-    padding:8
+  contianer: {
+    borderRadius: 5,
+    padding: 8
   }
-
 })
 
 

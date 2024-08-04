@@ -13,21 +13,12 @@
 
 import * as Location from 'expo-location';
 import { Magnetometer } from 'expo-sensors';
-
-import PropTypes from 'prop-types';
-
-import React, {
+import {
     useState,
     useEffect,
     useCallback,
-    forwardRef,
-    useImperativeHandle,
 } from 'react';
 
-import { Image, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
-
-import { moderateScale } from 'react-native-size-matters';
-import { ThemedText } from '@/components/ThemedText';
 export const useQiblaCompass = () => {
     const [subscription, setSubscription] = useState(null);
     const [magnetometer, setMagnetometer] = useState(0);

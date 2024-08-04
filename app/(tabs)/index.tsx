@@ -7,15 +7,15 @@ import { loadSettings } from '@/contexts/settingsSlice';
 import { RootState } from '@/contexts/store';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { converToHijr, formatDate, getTimeOfDate } from '@/scripts/time-functions';
+import { converToHijr, getTimeOfDate } from '@/scripts/time-functions';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as CurrLocation from 'expo-location';
-import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NextPrayer, Prayer, getPrayerTimes, getRemainingTime, saveSettings } from '@/scripts/prayers-functions';
 import { i18n } from '../../scripts/translate';
-import Notify from '@/components/Notify';
+
 
 export interface Location {
   lat: number | null;
@@ -30,7 +30,7 @@ export default function HomeScreen() {
 
 
   const [date, setDate] = useState<Date>(new Date());
-  const [location,setLocation] = useState<Location>({lat:null,long:null})
+  const [location, setLocation] = useState<Location>({ lat: null, long: null })
 
   const cal_method = useSelector((state: RootState) => state.settings.clacMethod)
   const settings = useSelector((state: RootState) => state.settings);
@@ -38,10 +38,8 @@ export default function HomeScreen() {
   const [nextPrayer, setNextPrayer] = useState<NextPrayer>({ name: null, remainingTime: null })
   const [times, setTimes] = useState<Prayer[]>([]);
   const [error, setError] = useState<string>('');
-  const [loaded,setLoaded] = useState<boolean>(false);
+  const [loaded, setLoaded] = useState<boolean>(false);
 
-
-  
 
   const saveLocation = (loc: Location) => {
     AsyncStorage.setItem('location', JSON.stringify(loc)).catch((error) => {
@@ -64,17 +62,18 @@ export default function HomeScreen() {
 
   // load app settings of local storage
   const fetchSettings = () => {
-   AsyncStorage.getItem('settings').then((data)=>{
-    if(data){
-      const loadedData = JSON.parse(data);
-      dispatch(loadSettings(loadedData));
-      setLoaded(true);
-    }
-    else{
-      console.log('no save settings')
-    }
-   })
-   .catch((error)=>console.log(error));
+    AsyncStorage.getItem('settings').then((data) => {
+      if (data) {
+        const loadedData = JSON.parse(data);
+        dispatch(loadSettings(loadedData));
+        setLoaded(true);
+      }
+      else {
+        console.log('no save settings');
+        setLoaded(true);
+      }
+    })
+      .catch((error) => console.log(error));
   };
 
   const getLocation = () => {
@@ -98,8 +97,8 @@ export default function HomeScreen() {
 
   //generate next days or previous days
   const getNewDate = (amount: number) => {
-    const newDay:number=86400000;
-    setDate(new Date(date.getTime()+(amount*newDay)));
+    const newDay: number = 86400000;
+    setDate(new Date(date.getTime() + (amount * newDay)));
   }
 
   // get prayers and update location
@@ -120,9 +119,8 @@ export default function HomeScreen() {
       }
       else
         loadLocation();
-      }
     }
-
+  }
 
   // on app run load settings
   useEffect(() => {
@@ -130,11 +128,11 @@ export default function HomeScreen() {
   }, []);
 
   // get Location and update prayer times when settings changes
-  // useEffect(() => {
-  //   if (loaded) {
-  //     updateContent();
-  //   }
-  // }, [date]);
+  useEffect(() => {
+    if (loaded) {
+      updateContent();
+    }
+  }, [date]);
 
   useEffect(() => {
     if (loaded) {
@@ -152,18 +150,21 @@ export default function HomeScreen() {
 
 
   // on settings changes save settings and update prayers page
-  useEffect(() => {   
-    if(loaded){
-      updateContent(); 
+  useEffect(() => {
+    if (loaded) {
+      updateContent();
       setNextPrayer(getRemainingTime(times));
       saveSettings(settings);
-    }  
+    }
   }, [settings]);
 
+  useEffect(()=>{
+    updateContent();
+  },[date])
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light:'', dark:''}}
+      headerBackgroundColor={{ light: '', dark: '' }}
       headerImage={
         <Image
           source={theme == 'light' ? require('@/assets/images/cover.jpg') : require('@/assets/images/coverDark.jpg')}
@@ -171,12 +172,12 @@ export default function HomeScreen() {
         />
       }>
       <View>
-        <ThemedText style={{paddingVertical:7}} type='title'>{converToHijr(date,settings.language)}</ThemedText>
+        <ThemedText style={{ paddingVertical: 7 }} type='title'>{converToHijr(date, settings.language)}</ThemedText>
         {
-          (nextPrayer.name!==null&&nextPrayer.remainingTime!==null) &&
+          (nextPrayer.name !== null && nextPrayer.remainingTime !== null) &&
           <ThemedText type='subtitle'>{i18n.t(nextPrayer.name)} {i18n.t('in')}: {nextPrayer.remainingTime}</ThemedText>
         }
-       {/* <Notify/> */}
+        {/* <Notify/> */}
       </View>
 
       <View style={styles.location}>
@@ -185,19 +186,19 @@ export default function HomeScreen() {
 
       <View style={styles.location}>
 
-        <Pressable onPress={() => {getNewDate(-1)}} >
+        <Pressable onPress={() => { getNewDate(-1) }} >
           <Ionicons size={28} name={'chevron-back-circle-outline'} style={{ color }} />
         </Pressable>
 
 
 
         <View style={styles.date}>
-          <Pressable onPress={() => {setDate(new Date())}} >
+          <Pressable onPress={() => { setDate(new Date()) }} >
             <ThemedText type='defaultSemiBold'>{date.toDateString()}</ThemedText>
           </Pressable>
         </View>
 
-        <Pressable onPress={() => {getNewDate(1)}}>
+        <Pressable onPress={() => { getNewDate(1) }}>
           <Ionicons size={28} name='chevron-forward-circle-outline' style={{ color }} />
         </Pressable>
       </View>
@@ -214,8 +215,6 @@ export default function HomeScreen() {
           <ThemedText style={styles.alertMessage}>{error}</ThemedText>
         </ThemedView>
       } */}
-
-
     </ParallaxScrollView>
   );
 }
@@ -230,14 +229,13 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
-  alertMessage:{
-    color:'red',
-
+  alertMessage: {
+    color: 'red',
   },
-  alertBox:{
-    borderWidth:2,
-    borderColor:'red',
-    padding:5,
+  alertBox: {
+    borderWidth: 2,
+    borderColor: 'red',
+    padding: 5,
   },
   praycard: {
     borderRadius: 5,
@@ -267,5 +265,4 @@ const styles = StyleSheet.create({
   {
     flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
   },
-
 });

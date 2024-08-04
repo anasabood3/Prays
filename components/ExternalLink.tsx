@@ -1,3 +1,9 @@
+
+
+
+/////////// for using later with privacy and policy or contact us ////////
+
+
 // import { Link } from 'expo-router';
 // import { openBrowserAsync } from 'expo-web-browser';
 // import { type ComponentProps } from 'react';
