@@ -17,7 +17,8 @@ const en = {
   Light: "Light",
   Hour: "Hour",
   hour: { zero: "", one: "One hour", other: "%{count} hours" },
-  minute: { zero: "", one: "minute", other: "minutes" },
+  minute: { zero: "", one: "one minute", other: "%{count} minutes" },
+  second: { zero: "", one: "one second", other: "%{count} seconds" },
   Time: "Time",
   Language: "Language",
   Qibla: "Qibla",
@@ -62,6 +63,8 @@ const en = {
   English: "English",
   German: "German",
   Turkish: "Turkish",
+  few_moments:"few moments"
+
 
 }
 
@@ -107,7 +110,8 @@ const ar = {
 
   Hour: "ساعة",
   hour: { zero: "", one: "ساعة واحدة", other: " %{count} ساعات" },
-  minute: { zero: "", other: "دقيقة" },
+  second: { zero: "",one: "ثانية واحدة", other: "%{count} ثانية" },
+  minute: { zero: "",one: "دقيقة واحدة", other: "%{count} دقيقة" },
 
   Time: "توقيت",
   Language: "اللغات",
@@ -129,6 +133,7 @@ const ar = {
   calculation_method: ["طريقة ", "الحساب"],
   auto_location: ["موقع ", "تلقائي"],
   timing_system: [" نظام", " توقيت", " 24"],
+  few_moments:['لحظات','قليلة']
 }
 const de = { welcome: 'Hallo' }
 

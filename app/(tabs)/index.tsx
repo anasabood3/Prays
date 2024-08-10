@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NextPrayer, Prayer, getPrayerTimes, getRemainingTime, saveSettings } from '@/scripts/prayers-functions';
 import { i18n } from '../../scripts/translate';
-
+import CountDown from '@/components/CountDown';
 
 export interface Location {
   lat: number | null;
@@ -35,7 +35,7 @@ export default function HomeScreen() {
   const cal_method = useSelector((state: RootState) => state.settings.clacMethod)
   const settings = useSelector((state: RootState) => state.settings);
 
-  const [nextPrayer, setNextPrayer] = useState<NextPrayer>({ name: null, remainingTime: null })
+  const [nextPrayer, setNextPrayer] = useState<NextPrayer>({ name: null, nextPrayerTime: null })
   const [times, setTimes] = useState<Prayer[]>([]);
   const [error, setError] = useState<string>('');
   const [loaded, setLoaded] = useState<boolean>(false);
@@ -83,11 +83,14 @@ export default function HomeScreen() {
         CurrLocation.getCurrentPositionAsync({}).then((result) => {
           setLocation({ lat: result.coords.latitude, long: result.coords.longitude });
         }).catch((error) => {
-          console.error(error)
+          console.error(error);
+          
         });
       }
       else {
         console.log("Permission to access location was denied");
+        setError("Geo Location Access Denied\nApp cannot work properly without location !")
+
       }
     }).catch((error) => {
       console.log("Error while getting location\n" + error);
@@ -147,6 +150,10 @@ export default function HomeScreen() {
     saveLocation(location);
   }, [location]);
 
+  useEffect(()=>{
+    setDate(new Date());
+  },[settings])
+
 
 
   // on settings changes save settings and update prayers page
@@ -158,10 +165,6 @@ export default function HomeScreen() {
     }
   }, [settings]);
 
-  useEffect(()=>{
-    updateContent();
-  },[date])
-
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '', dark: '' }}
@@ -172,17 +175,19 @@ export default function HomeScreen() {
         />
       }>
       <View>
-        <ThemedText style={{ paddingVertical: 7 }} type='title'>{converToHijr(date, settings.language)}</ThemedText>
-        {
-          (nextPrayer.name !== null && nextPrayer.remainingTime !== null) &&
-          <ThemedText type='subtitle'>{i18n.t(nextPrayer.name)} {i18n.t('in')}: {nextPrayer.remainingTime}</ThemedText>
-        }
-        {/* <Notify/> */}
+        <ThemedText style={{ paddingVertical: 7,fontSize:28 }} type='title'>{converToHijr(date, settings.language)}</ThemedText>
+
+      </View>
+      <View style={settings.language=="ar"?{flexDirection:'row-reverse'}:{flexDirection:"row"}}>
+        <ThemedText type='subtitle'>{(nextPrayer.name)&&`${i18n.t(nextPrayer.name)} ${i18n.t("in")}: `}</ThemedText>
+        <CountDown nextPrayerTime={nextPrayer.nextPrayerTime} />
       </View>
 
       <View style={styles.location}>
         <ThemedText type='defaultSemiBold'> </ThemedText>
       </View>
+
+
 
       <View style={styles.location}>
 
@@ -193,7 +198,7 @@ export default function HomeScreen() {
 
 
         <View style={styles.date}>
-          <Pressable onPress={() => { setDate(new Date()) }} >
+          <Pressable onPress={() => { setDate(new Date()); }} >
             <ThemedText type='defaultSemiBold'>{date.toDateString()}</ThemedText>
           </Pressable>
         </View>

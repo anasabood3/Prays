@@ -11,7 +11,7 @@ export interface Prayer {
 
 export interface NextPrayer {
     name: string | null;
-    remainingTime: string | null; // change into number represnts milliseconds
+    nextPrayerTime: number | null; // change into number represnts milliseconds
 }
 
 export interface Location {
@@ -145,7 +145,7 @@ export const getPrayerTimes = (lat:number,long:number,cal_method:string,date:Dat
 
 // get the remaining time for next prayer
 export const getRemainingTime = (times:Prayer[]) => {
-    const nextPray:NextPrayer = {name:null,remainingTime:null};
+    const nextPray:NextPrayer = {name:null,nextPrayerTime:null};
     // whole Day in millseconds
     const newDay:number=86400000;
     let now: Date = new Date();
@@ -153,7 +153,7 @@ export const getRemainingTime = (times:Prayer[]) => {
     for(let t of times){
       if(now.getTime()<t.time?.getTime()){
         nextPray.name=t.name;
-        nextPray.remainingTime=msToHoursMinutes(now.getTime()-t.time.getTime());
+        nextPray.nextPrayerTime=t.time.getTime();
         break;
       }
     }
@@ -162,7 +162,7 @@ export const getRemainingTime = (times:Prayer[]) => {
     // 86400000 add whole day to the fajr to make fajr of the next day (ignoring 2-3 minutes difference in remaining time)
     if(nextPray.name===null && times.length!=0){
       nextPray.name=times[0].name;
-      nextPray.remainingTime=msToHoursMinutes(now.getTime()-(times[0].time.getTime()+newDay))
+      nextPray.nextPrayerTime=(times[0].time.getTime()+newDay);
     }
     return nextPray;
   }
