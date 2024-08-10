@@ -33,12 +33,12 @@ export const useQiblaCompass = () => {
             setIsLoading(false);
             return;
         }
-        const { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            setError('Location permission not granted');
-            setIsLoading(false);
-            return;
-        }
+        // const { status } = await Location.requestForegroundPermissionsAsync();
+        // if (status !== 'granted') {
+        //     setError('Location permission not granted');
+        //     setIsLoading(false);
+        //     return;
+        // }
 
         try {
             const location = await Location.getCurrentPositionAsync({});
@@ -52,7 +52,6 @@ export const useQiblaCompass = () => {
 
     useEffect(() => {
         initCompass();
-
         return () => {
             unsubscribe();
         };

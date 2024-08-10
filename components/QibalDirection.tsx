@@ -6,6 +6,8 @@ import { Image, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import { ThemedText } from '@/components/ThemedText';
 import { useQiblaCompass } from '@/scripts/Qibla';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/contexts/store';
 
 
 interface QilaDirectionAttributes {
@@ -30,6 +32,7 @@ const QiblaDirection = forwardRef(
             isLoading,
             reinitCompass,
         } = useQiblaCompass();
+        const theme = useSelector((state: RootState) => state.settings.theme);
 
         useImperativeHandle(
             ref,
@@ -74,7 +77,7 @@ const QiblaDirection = forwardRef(
                     }}
                 >
                     <Image
-                        source={compassImage || require('../assets/images/compassDark.png')}
+                        source={theme=='dark'?require('../assets/images/compassDark.png'):require('../assets/images/compass.png')}
                         style={[
                             styles.image,
                             {
@@ -105,7 +108,7 @@ const QiblaDirection = forwardRef(
                         }}
                     >
                         <Image
-                            source={kaabaImage || require('../assets/images/kaaba.png')}
+                            source={theme=='dark'?require('../assets/images/kaabaDark.png'):require('../assets/images/kaaba.png')}
                             style={{
                                 resizeMode: 'center',
                                 height: 100,
