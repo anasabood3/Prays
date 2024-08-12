@@ -1,4 +1,4 @@
-import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
@@ -20,12 +20,17 @@ export default function MainLayout() {
         theme == 'dark' ? Appearance.setColorScheme('dark') : Appearance.setColorScheme('light')
     })
 
+    // if (isFirstTime) {
+    //     return <Redirect href="/onboarding" />;
+    // }
+
     return (
-        <NavigationContainer independent theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
+        <ThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="+not-found" />
+                <Stack.Screen name='onboarding' options={{ headerShown: false }}/>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             </Stack>
-        </NavigationContainer>
+        </ThemeProvider>
     );
 }

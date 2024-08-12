@@ -118,7 +118,7 @@ const QiblaDirection = forwardRef(
                         />
                     </View>
                 </View>
-{/* 
+                {/* 
                 <View>
                     <View style={styles.flexContrainer}>
                         <ThemedText style={styles.tableItem}>Qibla Dirction</ThemedText>

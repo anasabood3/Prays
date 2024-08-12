@@ -55,7 +55,7 @@ const initialSettings: SettingsState = {
     clacMethod: "MuslimWorldLeague",
     fajrAngle:12,
     ishaaAngle:12,
-    autoLocation: false,
+    autoLocation: true,
     adjustments:{fajr:0,sunrise:0,dhuhr:0,asr:0,maghrib:0,isha:0},
 }
 

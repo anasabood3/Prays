@@ -1,4 +1,4 @@
-import { Tabs } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 import React from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
@@ -6,12 +6,16 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { useSelector } from 'react-redux'
 import { RootState } from '../../contexts/store';
 import { i18n } from '@/scripts/translate';
+// import { useIsFirstTime } from '@/hooks/use-is-first-time';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const language = useSelector((state: RootState) => state.settings.language);
+  // const [isFirstTime] = useIsFirstTime();
   i18n.locale = language;
-
+  // if (isFirstTime) {
+  //   return <Redirect href="/onboarding" />;
+  // }
   return (
     <Tabs
       screenOptions={{
@@ -37,7 +41,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="calendar"
         options={{
           title: i18n.t('Calendar'),
@@ -45,7 +49,7 @@ export default function TabLayout() {
             <TabBarIcon name={focused ? 'calendar' : 'calendar-outline'} color={color} />
           ),
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="settings"
         options={{

@@ -38,7 +38,7 @@ export default function SettingsTab() {
 
         <View style={{flexDirection:'row',justifyContent:"center",marginTop:45}}>
           <ThemedText type='link'>
-            Prays v1.2
+            Prays v1.0.0
           </ThemedText>
         </View>
       </ScrollView>
