@@ -20,11 +20,12 @@ export const converToHijr = (date: Date,lang:string) => {
 // get time of full-date supporting 12-hour system
 export const getTimeOfDate = (date: Date, twentyFour: boolean = true) => {
     const dateString = date.toTimeString();
-    let hours = Number(dateString.slice(0, 2));
+    let hours = dateString.slice(0, 2);
+    let hoursNumber = Number(hours);
     let minutes = dateString.slice(3, 5);
     if (!twentyFour)
-        if (hours > 12)
-            return `${hours - 12}:${minutes}  PM`;
+        if (hoursNumber > 12)
+            return `${hoursNumber - 12}:${minutes}  PM`;
         else
             return `${hours}:${minutes}  AM`;
     else
@@ -46,6 +47,14 @@ export const msToHoursMinutes = (ms: number) => {
         return (`${h}`)
     else
         return "Now"
+}
+
+export const FormatTime = function (time: number, date: Date): Date {
+    var h = Math.trunc(time);
+    var m = Math.trunc(((time - h) * 60.0)).toFixed(2);
+    const d = new Date(date)
+    d.setHours(h, parseInt(m),0);
+    return d;
 }
 
 // get Millisceonds of date since the same day

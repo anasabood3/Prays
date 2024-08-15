@@ -42,6 +42,7 @@ export interface SettingsState {
     ishaaAngle: number;
     autoLocation: boolean;
     adjustments:Adjustments; 
+    autoSettings:boolean;
 }
 
 
@@ -57,6 +58,7 @@ const initialSettings: SettingsState = {
     ishaaAngle:12,
     autoLocation: true,
     adjustments:{fajr:0,sunrise:0,dhuhr:0,asr:0,maghrib:0,isha:0},
+    autoSettings:false,
 }
 
 
@@ -94,6 +96,9 @@ export const settingsSlice = createSlice({
         updateLanguage:(state,action:PayloadAction<string>)=>{
             state.language=action.payload
         },
+        updateAutoSettings:(state,action:PayloadAction<boolean>)=>{
+            state.autoSettings=action.payload
+        },
         loadSettings: (state, action: PayloadAction<SettingsState>) => {
             state.asrCalcMehtod = action.payload.asrCalcMehtod;
             state.clacMethod = action.payload.clacMethod;
@@ -104,13 +109,14 @@ export const settingsSlice = createSlice({
             state.twentyFourSystem = action.payload.twentyFourSystem;
             state.adjustments = {...action.payload.adjustments};
             state.theme = action.payload.theme;
+            state.autoSettings = action.payload.autoSettings;
         },
 
     },
 })
 
 
-export const { updateLanguage,updateAdjustments,updateTheme,updateFajrAngle,updateIshaaAngle,updateAsrCalMehtod,updateAutoLocation,updateCalcMethod,updateTimingSystem,updateNotification,loadSettings } = settingsSlice.actions;
+export const { updateLanguage,updateAdjustments,updateTheme,updateFajrAngle,updateIshaaAngle,updateAsrCalMehtod,updateAutoLocation,updateCalcMethod,updateTimingSystem,updateNotification,loadSettings,updateAutoSettings } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
 

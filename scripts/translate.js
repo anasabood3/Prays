@@ -63,7 +63,14 @@ const en = {
   English: "English",
   German: "German",
   Turkish: "Turkish",
-  few_moments:"few moments"
+  few_moments: "few moments",
+  location_settings: "Location Settings",
+  auto_settings: "Auto Settings",
+  qibla: "Qibla",
+  facing_qibla: "You're facing Qibla",
+  turn_left: "Turn device to the left",
+  turn_right: "turn device to the right",
+
 
 
 }
@@ -110,8 +117,8 @@ const ar = {
 
   Hour: "ساعة",
   hour: { zero: "", one: "ساعة واحدة", other: " %{count} ساعات" },
-  second: { zero: "",one: "ثانية واحدة", other: "%{count} ثانية" },
-  minute: { zero: "",one: "دقيقة واحدة", other: "%{count} دقيقة" },
+  second: { zero: "", one: "ثانية واحدة", other: "%{count} ثانية" },
+  minute: { zero: "", one: "دقيقة واحدة", other: "%{count} دقيقة" },
 
   Time: "توقيت",
   Language: "اللغات",
@@ -133,10 +140,16 @@ const ar = {
   calculation_method: ["طريقة ", "الحساب"],
   auto_location: ["موقع ", "تلقائي"],
   timing_system: [" نظام", " توقيت", " 24"],
-  few_moments:['لحظات','قليلة']
+  few_moments: ['لحظات', 'قليلة'],
+  location_settings: ['خيارات', ' الموقع'],
+  auto_settings: ['ضبط', ' تلقائي'],
+  qibla: "القبلة",
+  facing_qibla: ['أنت', ' تواجه ', ' القبلة'],
+  turn_left: ['إلى', ' اليسار'],
+  turn_right: ['إلى', ' اليمين '],
 }
 const de = { welcome: 'Hallo' }
 
 export const i18n = new I18n({
-  en,ar,de
+  en, ar, de
 });

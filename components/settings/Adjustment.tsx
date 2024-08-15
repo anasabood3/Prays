@@ -19,7 +19,7 @@ export default function Adjustment(props: AdjustProps) {
         <View style={[styles.settingsItem,]}>
             <View style={styles.flexItem}>
                 <ThemedText>{i18n.t(props.label.slice(0, 1).toUpperCase() + props.label.slice(1))}</ThemedText>
-                <ThemedText>{adjustments[props.label]} {i18n.t('minute', { count: 3 })}</ThemedText>
+                <ThemedText>{adjustments[props.label]} {i18n.t('minute', { count: adjustments[props.label] })}</ThemedText>
             </View>
             <Slider
                 minimumValue={-59}
@@ -28,7 +28,7 @@ export default function Adjustment(props: AdjustProps) {
                 minimumTrackTintColor="#FFFFFF"
                 maximumTrackTintColor="#000000"
                 value={adjustments[props.label]}
-                onValueChange={(e) => { props.action(e); console.log(adjustments) }}
+                onValueChange={(e) => { props.action(e)}}
             />
         </View>
     );

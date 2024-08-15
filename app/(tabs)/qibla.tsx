@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
 import { Image } from 'react-native';
 import QiblaDirection from '@/components/QibalDirection';
+import { i18n } from '@/scripts/translate';
 export default function QiblaTab() {
 
   const theme = useSelector((state: RootState) => state.settings.theme);
@@ -22,7 +23,7 @@ export default function QiblaTab() {
       />
     }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Qibla</ThemedText>
+        <ThemedText type="title" style={{padding:3}}>{i18n.t("qibla")}</ThemedText>
       </ThemedView>
       <QiblaDirection/>
       <ThemedView style={styles.titleContainer}>

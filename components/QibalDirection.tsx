@@ -8,6 +8,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { useQiblaCompass } from '@/scripts/Qibla';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
+import { i18n } from '@/scripts/translate';
 
 
 interface QilaDirectionAttributes {
@@ -142,9 +143,9 @@ const QiblaDirection = forwardRef(
                 </View> */}
                 <View>
                     <ThemedText type='defaultSemiBold'>
-                        {Math.abs(qiblad - compassDegree) < 5 ? 'your facing Qibla' : ''}
-                        {qiblad - compassDegree > 5 ? 'Turn Device Right' : ''}
-                        {qiblad - compassDegree < 0 ? 'Turn Device Left' : ''}
+                        {Math.abs(qiblad - compassDegree) <= 5 ? i18n.t('facing_qibla') : ''}
+                        {qiblad - compassDegree > 5 ? i18n.t('turn_right') : ''}
+                        {qiblad - compassDegree < -5 ? i18n.t('turn_left') : ''}
                     </ThemedText>
                 </View>
             </View>

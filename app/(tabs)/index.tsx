@@ -69,7 +69,6 @@ export default function HomeScreen() {
         setLoaded(true);
       }
       else {
-        console.log('no save settings');
         setLoaded(true);
       }
     })
@@ -109,7 +108,7 @@ export default function HomeScreen() {
     if (settings.autoLocation) {
       if (location.lat && location.long) {
 
-        const prayers = getPrayerTimes(location.lat, location.long, cal_method, date, settings.fajrAngle, settings.ishaaAngle, settings.asrCalcMehtod, []);
+        const prayers = getPrayerTimes(location.lat, location.long, cal_method, date, settings.fajrAngle, settings.ishaaAngle, settings.asrCalcMehtod, [],settings.autoSettings);
         setTimes(prayers);
       }
       else
@@ -117,12 +116,13 @@ export default function HomeScreen() {
     }
     else {
       if (location.lat && location.long) {
-        const prayers = getPrayerTimes(location.lat, location.long, cal_method, date, settings.fajrAngle, settings.ishaaAngle, settings.asrCalcMehtod, Object.values(settings.adjustments));
+        const prayers = getPrayerTimes(location.lat, location.long, cal_method, date, settings.fajrAngle, settings.ishaaAngle, settings.asrCalcMehtod, Object.values(settings.adjustments),settings.autoSettings);
         setTimes(prayers);
       }
       else
         loadLocation();
     }
+    
   }
 
   // on app run load settings
@@ -255,6 +255,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: 'absolute',
+    opacity:12,
   },
   timing: {
     flexDirection: "row",

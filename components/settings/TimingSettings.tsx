@@ -4,7 +4,7 @@ import { ThemedView } from '@/components/ThemedView';
 import React, { useState } from 'react';
 import { RootState } from '@/contexts/store';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateFajrAngle, updateIshaaAngle, updateAsrCalMehtod, updateAutoLocation, updateCalcMethod, updateTimingSystem, updateAdjustments } from '@/contexts/settingsSlice';
+import { updateFajrAngle, updateIshaaAngle, updateAsrCalMehtod, updateAutoLocation, updateCalcMethod, updateTimingSystem, updateAdjustments, updateAutoSettings } from '@/contexts/settingsSlice';
 import { clacMethods, asrCalcMethods } from '@/constants/GeneralConstans';
 import { SelectMenu } from './SelectMenu';
 import { Colors } from '@/constants/Colors';
@@ -25,6 +25,7 @@ export default function TimingSettings() {
   const fajr_angle = useSelector((state: RootState) => state.settings.fajrAngle);
   const ishaa_angle = useSelector((state: RootState) => state.settings.ishaaAngle);
   const auto_location = useSelector((state: RootState) => state.settings.autoLocation);
+  const auto_settings = useSelector((state: RootState) => state.settings.autoSettings);
   const dispatch = useDispatch();
 
   return (
@@ -34,6 +35,14 @@ export default function TimingSettings() {
       lightColor={Colors.light.containerBackground}
       style={styles.contianer}
     >
+
+
+      <SettingsItem>
+        <SettingsSwitch
+          title={i18n.t("auto_settings")}
+          value={auto_settings}
+          behaviour={(e) => { dispatch(updateAutoSettings(e)); }} />
+      </SettingsItem>
       <SettingsItem>
         <SettingsSwitch
           title={i18n.t("timing_system")}
@@ -41,43 +50,58 @@ export default function TimingSettings() {
           behaviour={(e) => dispatch(updateTimingSystem(e))} />
       </SettingsItem>
 
-
-
-      <SettingsItem>
-        <SettingsSwitch
-          title={i18n.t("auto_location")}
-          value={auto_location}
-          behaviour={(e) => dispatch(updateAutoLocation(e))} />
-      </SettingsItem>
-
-
-
       <View style={styles.MultipleContainer}>
-        <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("calculation_method")}</ThemedText>
-        <SettingsItem >
-          <SelectMenu
-            data={clacMethods}
-            value={cal_method.toString()}
-            updateSelected={(e) => { dispatch(updateCalcMethod(e.label)) }}
-            placeHolder={cal_method}>
-          </SelectMenu>
-        </SettingsItem>
-      </View>
-
-
-      <View style={styles.MultipleContainer}>
-        <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("asr_calulation_method")}</ThemedText>
+        <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("location_settings")}</ThemedText>
         <SettingsItem>
-          <SelectMenu
-            data={asrCalcMethods}
-            value={asr_cal_method.toString()}
-            updateSelected={(e) => { dispatch(updateAsrCalMehtod(e.value)) }}
-            placeHolder={asrCalcMethods[asr_cal_method - 1].label}
-          >
-          </SelectMenu>
+          <SettingsSwitch
+            title={i18n.t("auto_location")}
+            value={auto_location}
+            behaviour={(e) => dispatch(updateAutoLocation(e))} />
         </SettingsItem>
       </View>
 
+
+      {
+        auto_settings == false &&
+        <>
+          <View style={styles.MultipleContainer}>
+            <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("calculation_method")}</ThemedText>
+            <SettingsItem >
+              <SelectMenu
+                data={clacMethods}
+                value={cal_method.toString()}
+                updateSelected={(e) => { dispatch(updateCalcMethod(e.label)) }}
+                placeHolder={cal_method}>
+              </SelectMenu>
+            </SettingsItem>
+          </View>
+
+
+          <View style={styles.MultipleContainer}>
+            <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("asr_calulation_method")}</ThemedText>
+            <SettingsItem>
+              <SelectMenu
+                data={asrCalcMethods}
+                value={asr_cal_method.toString()}
+                updateSelected={(e) => { dispatch(updateAsrCalMehtod(e.value)) }}
+                placeHolder={asrCalcMethods[asr_cal_method - 1].label}
+              >
+              </SelectMenu>
+            </SettingsItem>
+          </View>
+
+          <SettingsItem >
+            <Collapsible title={i18n.t("Adjustments")}>
+              <Adjustment label='fajr' action={(e) => { dispatch(updateAdjustments({ label: "fajr", value: e })); }} />
+              <Adjustment label='sunrise' action={(e) => dispatch(updateAdjustments({ label: "sunrise", value: e }))} />
+              <Adjustment label='dhuhr' action={(e) => dispatch(updateAdjustments({ label: "dhuhr", value: e }))} />
+              <Adjustment label='asr' action={(e) => dispatch(updateAdjustments({ label: "asr", value: e }))} />
+              <Adjustment label='maghrib' action={(e) => dispatch(updateAdjustments({ label: "maghrib", value: e }))} />
+              <Adjustment label='isha' action={(e) => dispatch(updateAdjustments({ label: "isha", value: e }))} />
+            </Collapsible>
+          </SettingsItem>
+        </>
+      }
 
 
       <View style={styles.MultipleContainer}>
@@ -103,16 +127,6 @@ export default function TimingSettings() {
         </SettingsItem>
       </View>
 
-      <SettingsItem >
-        <Collapsible title={i18n.t("Adjustments")}>
-          <Adjustment label='fajr' action={(e) => { dispatch(updateAdjustments({ label: "fajr", value: e })); }} />
-          <Adjustment label='sunrise' action={(e) => dispatch(updateAdjustments({ label: "sunrise", value: e }))} />
-          <Adjustment label='dhuhr' action={(e) => dispatch(updateAdjustments({ label: "dhuhr", value: e }))} />
-          <Adjustment label='asr' action={(e) => dispatch(updateAdjustments({ label: "asr", value: e }))} />
-          <Adjustment label='maghrib' action={(e) => dispatch(updateAdjustments({ label: "maghrib", value: e }))} />
-          <Adjustment label='isha' action={(e) => dispatch(updateAdjustments({ label: "isha", value: e }))} />
-        </Collapsible>
-      </SettingsItem>
     </ThemedView>
 
   );
