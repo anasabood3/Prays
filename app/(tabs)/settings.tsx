@@ -8,6 +8,8 @@ import LangSettings from '@/components/settings/LangSettings';
 import { i18n } from '@/scripts/translate';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
+import { ThemedView } from '@/components/ThemedView';
+import { Colors } from '../theming';
 
 
 
@@ -18,9 +20,13 @@ export default function SettingsTab() {
 
   return (
     <SafeAreaView >
-      <ScrollView >
-        <ThemedText type="title" style={styles.titleContainer}>{i18n.t('Settings')}</ThemedText>
-        
+      
+      <ScrollView
+      stickyHeaderIndices={[0]} >
+      <ThemedView>
+      <ThemedText type="title" style={styles.titleContainer}>{i18n.t('Settings')}</ThemedText>
+      </ThemedView>
+      
      
         <TimingSettings />
         <ThemeSettings/>
@@ -51,10 +57,8 @@ const styles = StyleSheet.create({
 
   titleContainer: {
     marginTop: 40,
-    marginBottom: 20,
-    flexDirection: 'row',
+    padding:12,
 
-    gap: 8,
   },
   settingsContainer: {
     paddingTop: Platform.OS == "android" ? 20 : 0,

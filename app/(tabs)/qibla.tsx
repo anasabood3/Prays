@@ -12,6 +12,7 @@ import { i18n } from '@/scripts/translate';
 export default function QiblaTab() {
 
   const theme = useSelector((state: RootState) => state.settings.theme);
+  const lang = useSelector((state: RootState) => state.settings.language);
 
   return (
     <ParallaxScrollView
@@ -22,7 +23,7 @@ export default function QiblaTab() {
         style={styles.reactLogo}
       />
     }>
-      <ThemedView style={styles.titleContainer}>
+      <ThemedView style={[styles.titleContainer,{justifyContent:lang=='ar'?'flex-end':'flex-start'}]}>
         <ThemedText type="title" style={{padding:3}}>{i18n.t("qibla")}</ThemedText>
       </ThemedView>
       <QiblaDirection/>

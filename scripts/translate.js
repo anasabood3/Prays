@@ -70,6 +70,9 @@ const en = {
   facing_qibla: "You're facing Qibla",
   turn_left: "Turn device to the left",
   turn_right: "turn device to the right",
+  next:'Next',
+  previous:'Previous',
+  today:'Today',
 
 
 
@@ -147,6 +150,12 @@ const ar = {
   facing_qibla: ['أنت', ' تواجه ', ' القبلة'],
   turn_left: ['إلى', ' اليسار'],
   turn_right: ['إلى', ' اليمين '],
+
+  next:'التالي',
+  previous:'السابق',
+  today:'اليوم',
+
+
 }
 const de = { welcome: 'Hallo' }
 

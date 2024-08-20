@@ -41,7 +41,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      {/* <Tabs.Screen
+      <Tabs.Screen
         name="calendar"
         options={{
           title: i18n.t('Calendar'),
@@ -49,7 +49,7 @@ export default function TabLayout() {
             <TabBarIcon name={focused ? 'calendar' : 'calendar-outline'} color={color} />
           ),
         }}
-      /> */}
+      />
       <Tabs.Screen
         name="settings"
         options={{
