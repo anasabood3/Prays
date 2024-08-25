@@ -5,11 +5,11 @@ import React from 'react';
 import { RootState } from '@/contexts/store';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateLanguage } from '@/contexts/settingsSlice';
-import { SelectMenu } from './SelectMenu';
+import { SelectMenu } from '../SelectMenu';
 import { Colors } from '@/constants/Colors';
 import { View } from 'react-native';
 import { SettingsItem } from './ThemeItem';
-import { i18n } from '@/scripts/translate';
+import { i18n } from '@/core/translate';
 import { languages } from '@/constants/GeneralConstans';
 
 

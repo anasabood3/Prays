@@ -1,0 +1,95 @@
+{
+    "Fajr": "Fajr",
+    "Dhuhr": "Dhuhr",
+    "Sunrise": "Sunrise",
+    "Asr": "Asr",
+    "Maghrib": "Maghrib",
+    "Isha": "Isha",
+    "Home": "Home",
+    "Privacy": "Privacy",
+    "Settings": "Settings",
+    "Dark": "Dark",
+    "Light": "Light",
+    "Hour": "Hour",
+    "hour": {
+      "zero": "",
+      "one": "One hour",
+      "other": "%{count} hours"
+    },
+    "minute": {
+      "zero": "",
+      "one": "one minute",
+      "other": "%{count} minutes"
+    },
+    "second": {
+      "zero": "",
+      "one": "one second",
+      "other": "%{count} seconds"
+    },
+    "Time": "Time",
+    "Language": "Language",
+    "Qibla": "Qibla",
+    "Calendar": "Calendar",
+    "in": "in",
+    "Auto": "Auto",
+    "Location": "Locatoin",
+    "auto_location": [
+      "Auto ",
+      "Location"
+    ],
+    "calculation_method": [
+      "Calculation ",
+      "Method"
+    ],
+    "Method": "Method",
+    "Custom": "Custom",
+    "Angels": "Angels",
+    "Adjustments": "Adjustments",
+    "Appearance": "Appearance",
+    "More": "More",
+    "Policy": "Policy",
+    "about_us": "About Us",
+    "custom_angels": [
+      "Custom Angles"
+    ],
+    "asr_calulation_method": [
+      "Asr ",
+      "Calculation ",
+      "Method"
+    ],
+    "timing_system": [
+      "24",
+      "-hour ",
+      "Timing ",
+      "System"
+    ],
+    "Shafii": "Shafii",
+    "Hanafi": "Hanafi",
+    "Dubai": "Dubai",
+    "Egyptian": "Egyptian",
+    "Kuwait": "Kuwait",
+    "Karachi": "Karachi",
+    "MoonsightingCommittee": "Moon sighting Committee",
+    "MuslimWorldLeague": "Muslim World League",
+    "Tehran": "Tehran",
+    "NorthAmerica": "North America",
+    "Qatar": "Qatar",
+    "Singapore": "Singapore",
+    "Turkey": "Turkey",
+    "UmmAlQura": "Umm AlQura",
+    "Other": "Other",
+    "Arabic": "Arabic",
+    "English": "English",
+    "German": "German",
+    "Turkish": "Turkish",
+    "few_moments": "few moments",
+    "location_settings": "Location Settings",
+    "auto_settings": "Auto Settings",
+    "qibla": "Qibla",
+    "facing_qibla": "You're facing Qibla",
+    "turn_left": "Turn device to the left",
+    "turn_right": "turn device to the right",
+    "next": "Next",
+    "previous": "Previous",
+    "today": "Today"
+  }

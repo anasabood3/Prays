@@ -1,0 +1,114 @@
+{
+    "Fajr": "الفجر",
+    "Dhuhr": "الظهر",
+    "Sunrise": "شروق",
+    "Asr": "العصر",
+    "Maghrib": "المغرب",
+    "Isha": "العشاء",
+    "Home": "مواقيت الصلاة",
+    "Qibla": "القبلة",
+    "Settings": "الإعدادت",
+    "Calendar": "التقويم",
+    "Dark": "مظلم",
+    "Light": "فاتح",
+    "Dubai": "دبي",
+    "Egyptian": "مصر",
+    "Kuwait": "الكويت",
+    "Karachi": "كراتشي - باكستان",
+    "MoonsightingCommittee": "لجنة رؤية القمر",
+    "MuslimWorldLeague": "رابطة العالم الإسلامي",
+    "Tehran": "طهران",
+    "NorthAmerica": "أمريكا الشمالية",
+    "Qatar": "قطر",
+    "Singapore": "سنغافورة",
+    "Turkey": "تركيا",
+    "UmmAlQura": "أم القرى",
+    "Other": "أخرى",
+    "Arabic": "عربي",
+    "English": "إنكليزي",
+    "German": "ألماني",
+    "Turkish": "تركي",
+    "Shafii": "شافعي",
+    "Hanafi": "حنفي",
+    "Hour": "ساعة",
+    "hour": {
+        "zero": "",
+        "one": "ساعة واحدة",
+        "other": " %{count} ساعات"
+    },
+    "second": {
+        "zero": "",
+        "one": "ثانية واحدة",
+        "other": "%{count} ثانية"
+    },
+    "minute": {
+        "zero": "",
+        "one": "دقيقة واحدة",
+        "other": "%{count} دقيقة"
+    },
+    "Time": "توقيت",
+    "Language": "اللغات",
+    "in": "خلال",
+    "Auto": "تلقائي",
+    "Location": "الموقع",
+    "Calculation": "الحساب",
+    "Method": "طريقة",
+    "Custom": "مخصص",
+    "Angels": "درجات",
+    "Adjustments": "الضبط اليدوي",
+    "Appearance": "المظهر",
+    "More": "المزيد",
+    "Privacy": "الخصوصية",
+    "Policy": "السياسة",
+    "about_us": "من نحن؟",
+    "custom_angels": [
+        "درجات مخصصة"
+    ],
+    "asr_calulation_method": [
+        " طريقة",
+        " حساب",
+        " العصر"
+    ],
+    "calculation_method": [
+        "طريقة ",
+        "الحساب"
+    ],
+    "auto_location": [
+        "موقع ",
+        "تلقائي"
+    ],
+    "timing_system": [
+        " نظام",
+        " توقيت",
+        " 24"
+    ],
+    "few_moments": [
+        "لحظات",
+        "قليلة"
+    ],
+    "location_settings": [
+        "خيارات",
+        " الموقع"
+    ],
+    "auto_settings": [
+        "ضبط",
+        " تلقائي"
+    ],
+    "qibla": "القبلة",
+    "facing_qibla": [
+        "أنت",
+        " تواجه ",
+        " القبلة"
+    ],
+    "turn_left": [
+        "إلى",
+        " اليسار"
+    ],
+    "turn_right": [
+        "إلى",
+        " اليمين "
+    ],
+    "next": "التالي",
+    "previous": "السابق",
+    "today": "اليوم"
+}

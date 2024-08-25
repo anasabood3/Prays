@@ -5,10 +5,10 @@ import { Image, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 
 import { moderateScale } from 'react-native-size-matters';
 import { ThemedText } from '@/components/ThemedText';
-import { useQiblaCompass } from '@/scripts/Qibla';
+import { useQiblaCompass } from '@/core/Qibla';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
-import { i18n } from '@/scripts/translate';
+import { i18n } from '@/core/translate';
 
 
 interface QilaDirectionAttributes {
@@ -47,14 +47,14 @@ const QiblaDirection = forwardRef(
 
         if (isLoading) {
             return (
-                <View style={[styles.container, { backgroundColor }]}>
+                <View style={styles.container}>
                     <ActivityIndicator size={50} color={color} />
                 </View>
             );
         }
 
         return (
-            <View style={[styles.container, { backgroundColor }]}>
+            <View style={styles.container}>
                 {error && (
                     <Text
                         style={{
@@ -78,7 +78,7 @@ const QiblaDirection = forwardRef(
                     }}
                 >
                     <Image
-                        source={theme=='dark'?require('../assets/images/compassDark.png'):require('../assets/images/compass.png')}
+                        source={theme=='dark'?require('../../assets/images/compassDark.png'):require('../../assets/images/compass.png')}
                         style={[
                             styles.image,
                             {
@@ -109,7 +109,7 @@ const QiblaDirection = forwardRef(
                         }}
                     >
                         <Image
-                            source={theme=='dark'?require('../assets/images/kaabaDark.png'):require('../assets/images/kaaba.png')}
+                            source={theme=='dark'?require('../../assets/images/kaabaDark.png'):require('../../assets/images/kaaba.png')}
                             style={{
                                 resizeMode: 'center',
                                 height: 100,
@@ -164,10 +164,10 @@ const styles = StyleSheet.create({
         height: moderateScale(300, 0.25),
     },
     container: {
-        backgroundColor: '#f00',
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
+        
     },
     direction: {
         textAlign: 'center',

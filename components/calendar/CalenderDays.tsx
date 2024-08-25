@@ -1,6 +1,6 @@
 import { Colors } from "@/constants/Colors";
-import { ThemedText } from "./ThemedText";
-import { ThemedView } from "./ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 import { Pressable, StyleSheet, TouchableOpacity, } from 'react-native';
 import { View } from "react-native";
 import { current } from "@reduxjs/toolkit";
@@ -64,12 +64,11 @@ function CalendarDays(props: CalendarDaysInterface) {
   return (
     <View id="table-content" style={styles.calenderTable}>
       {
-        currentDays.map((day) => {
+        currentDays.map((day,index) => {
           return (
-            <TouchableOpacity onPress={() => { props.changeCurrentDay(day) }} style={[styles.calendarDay, day.selected ? styles.selected : {}, day.today ? { backgroundColor: 'green' } : {}]}>
-              <ThemedText key={day.date.getMilliseconds()} type="defaultSemiBold" style={{ fontSize: 20, color: day.currentMonth ? color : 'grey' }}>
+            <TouchableOpacity key={index} onPress={() => { props.changeCurrentDay(day) }} style={[styles.calendarDay, day.selected ? styles.selected : {}, day.today ? { backgroundColor: 'green' } : {}]}>
+              <ThemedText type="defaultSemiBold" style={{ fontSize: 20, color: day.currentMonth ? color : 'grey' }}>
                 {day.number}</ThemedText>
-                
             </TouchableOpacity>
           )
         })

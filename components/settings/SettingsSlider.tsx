@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import Slider from '@react-native-community/slider';
 import { View } from 'react-native';
-import { i18n } from '@/scripts/translate';
+import { i18n } from '@/core/translate';
 
 interface SliderProps {
     label: string;

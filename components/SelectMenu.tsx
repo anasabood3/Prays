@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
-import { i18n } from '@/scripts/translate';
+import { i18n } from '@/core/translate';
 
 interface SelecData {
     data: { label: string, value: number | string }[];

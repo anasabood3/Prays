@@ -1,5 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, } from 'react-native';
+import { StyleSheet, View, } from 'react-native';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -7,8 +7,8 @@ import { ThemedView } from '@/components/ThemedView';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
 import { Image } from 'react-native';
-import QiblaDirection from '@/components/QibalDirection';
-import { i18n } from '@/scripts/translate';
+import QiblaDirection from '@/components/Qibla/QibalDirection';
+import { i18n } from '@/core/translate';
 export default function QiblaTab() {
 
   const theme = useSelector((state: RootState) => state.settings.theme);
@@ -23,12 +23,14 @@ export default function QiblaTab() {
         style={styles.reactLogo}
       />
     }>
-      <ThemedView style={[styles.titleContainer,{justifyContent:lang=='ar'?'flex-end':'flex-start'}]}>
+     
+      <View style={[styles.titleContainer,{justifyContent:lang=='ar'?'flex-end':'flex-start'}]}>
         <ThemedText type="title" style={{padding:3}}>{i18n.t("qibla")}</ThemedText>
-      </ThemedView>
+      </View>
       <QiblaDirection/>
-      <ThemedView style={styles.titleContainer}>
-      </ThemedView>
+   
+
+
     </ParallaxScrollView>
   );
 }

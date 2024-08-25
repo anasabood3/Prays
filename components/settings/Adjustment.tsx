@@ -4,7 +4,7 @@ import Slider from '@react-native-community/slider';
 import {  useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
 import { View } from 'react-native';
-import { i18n } from '@/scripts/translate';
+import { i18n } from '@/core/translate';
 
 export type PrayerName= "fajr"|"sunrise"|"dhuhr"|"asr"|"maghrib"|"isha";
 
@@ -19,7 +19,7 @@ export default function Adjustment(props: AdjustProps) {
         <View style={[styles.settingsItem,]}>
             <View style={styles.flexItem}>
                 <ThemedText>{i18n.t(props.label.slice(0, 1).toUpperCase() + props.label.slice(1))}</ThemedText>
-                <ThemedText>{adjustments[props.label]} {i18n.t('minute', { count: adjustments[props.label] })}</ThemedText>
+                <ThemedText>{i18n.t('minute', { count: adjustments[props.label] })}</ThemedText>
             </View>
             <Slider
                 minimumValue={-59}

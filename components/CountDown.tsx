@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { ThemedText } from "./ThemedText";
-import { i18n } from "@/scripts/translate";
+import { i18n } from '@/core/translate';
 
 export default function CountDown({nextPrayerTime=0}:{nextPrayerTime:number|null}){
     const [hours,setHours]=useState(0);

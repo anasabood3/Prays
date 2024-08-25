@@ -5,7 +5,7 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useSelector } from 'react-redux'
 import { RootState } from '../../contexts/store';
-import { i18n } from '@/scripts/translate';
+import { i18n } from '@/core/translate';
 // import { useIsFirstTime } from '@/hooks/use-is-first-time';
 
 export default function TabLayout() {

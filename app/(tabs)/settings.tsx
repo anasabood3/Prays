@@ -5,7 +5,7 @@ import TimingSettings from '@/components/settings/TimingSettings';
 import { ScrollView } from 'react-native';
 import ThemeSettings from '@/components/settings/ThemeSettings';
 import LangSettings from '@/components/settings/LangSettings';
-import { i18n } from '@/scripts/translate';
+import { i18n } from '@/core/translate';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
 import { ThemedView } from '@/components/ThemedView';
@@ -26,7 +26,7 @@ export default function SettingsTab() {
       <ThemedView>
       <ThemedText type="title" style={styles.titleContainer}>{i18n.t('Settings')}</ThemedText>
       </ThemedView>
-      
+      <ThemedView>
      
         <TimingSettings />
         <ThemeSettings/>
@@ -47,6 +47,7 @@ export default function SettingsTab() {
             Prays v1.0.0
           </ThemedText>
         </View>
+        </ThemedView>
       </ScrollView>
     </SafeAreaView>
 

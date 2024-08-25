@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
-import { i18n } from '@/scripts/translate';
+import { i18n } from '@/core/translate';
 import { Appearance } from 'react-native';
 
 

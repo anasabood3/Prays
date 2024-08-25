@@ -7,14 +7,14 @@ import { loadSettings } from '@/contexts/settingsSlice';
 import { RootState } from '@/contexts/store';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { converToHijr, getTimeOfDate } from '@/scripts/time-functions';
+import { converToHijr, getTimeOfDate } from '@/core/time-functions';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as CurrLocation from 'expo-location';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NextPrayer, Prayer, getPrayerTimes, getRemainingTime, saveSettings } from '@/scripts/prayers-functions';
-import { i18n } from '../../scripts/translate';
+import { NextPrayer, Prayer, getPrayerTimes, getRemainingTime, saveSettings } from '@/core/prayers-functions';
+import { i18n } from '@/core/translate';
 import CountDown from '@/components/CountDown';
 
 export interface Location {
@@ -214,6 +214,7 @@ export default function HomeScreen() {
           <ThemedText type='subtitle'>{t.time && getTimeOfDate(t.time, settings.twentyFourSystem)}</ThemedText>
         </ThemedView>)}
       </View >
+
 
       {/* {error.length !== 0 &&
         <ThemedView style={styles.alertBox}>

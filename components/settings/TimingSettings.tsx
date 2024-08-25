@@ -6,7 +6,7 @@ import { RootState } from '@/contexts/store';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateFajrAngle, updateIshaaAngle, updateAsrCalMehtod, updateAutoLocation, updateCalcMethod, updateTimingSystem, updateAdjustments, updateAutoSettings } from '@/contexts/settingsSlice';
 import { clacMethods, asrCalcMethods } from '@/constants/GeneralConstans';
-import { SelectMenu } from './SelectMenu';
+import { SelectMenu } from '../SelectMenu';
 import { Colors } from '@/constants/Colors';
 import { View } from 'react-native';
 import Adjustment from './Adjustment';
@@ -14,7 +14,7 @@ import { Collapsible } from '../Collapsible';
 import SettingsSwitch from './SettingsSwitch';
 import SettingsSlider from './SettingsSlider';
 import { SettingsItem } from './ThemeItem';
-import { i18n } from '@/scripts/translate';
+import { i18n } from '@/core/translate';
 import { useTheme } from '@react-navigation/native';
 
 export default function TimingSettings() {

@@ -1,4 +1,4 @@
-import { i18n }  from '@/scripts/translate';
+import { i18n }  from '@/core/translate';
 
 
 // get String of Date
