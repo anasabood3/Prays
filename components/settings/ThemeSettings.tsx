@@ -11,6 +11,7 @@ import { View } from 'react-native';
 import { SettingsItem } from './ThemeItem';
 import { i18n } from '@/core/translate';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { SectionContainer } from '../Containers';
 
 
 
@@ -22,20 +23,21 @@ export default function ThemeSettings() {
   const dispatch = useDispatch();
 
     return (
-      <ThemedView
-          style={[styles.contianer,{backgroundColor}]}>
-          <View style={styles.MultipleContainer}>
+      <SectionContainer
+        darkColor={Colors.dark.containerBackground}
+        lightColor={Colors.light.containerBackground}>
+        <View style={styles.MultipleContainer}>
           <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("Appearance")}</ThemedText>
-              <SettingsItem >
-                  <SelectMenu
-                      data={[{label:"Light",value:'light'},{label:"Dark",value:'dark'}]}
-                      value={theme}
-                      updateSelected={(e) => { dispatch(updateTheme(e.value));Appearance.setColorScheme(e.value);}}
-                      placeHolder={''}>
-                  </SelectMenu>
-              </SettingsItem>
-          </View>
-      </ThemedView>
+          <SettingsItem >
+            <SelectMenu
+              data={[{ label: "Light", value: 'light' }, { label: "Dark", value: 'dark' }]}
+              value={theme}
+              updateSelected={(e) => { dispatch(updateTheme(e.value)); Appearance.setColorScheme(e.value); }}
+              placeHolder={''}>
+            </SelectMenu>
+          </SettingsItem>
+        </View>
+      </SectionContainer>
 
   );
 }

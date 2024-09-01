@@ -11,16 +11,16 @@ import { View } from 'react-native';
 import { SettingsItem } from './ThemeItem';
 import { i18n } from '@/core/translate';
 import { languages } from '@/constants/GeneralConstans';
+import { SectionContainer } from '../Containers';
 
 
 export default function LangSettings() {
   const language = useSelector((state: RootState) => state.settings.language);
   const dispatch = useDispatch();
     return (
-      <ThemedView
+      <SectionContainer
           darkColor={Colors.dark.containerBackground}
-          lightColor={Colors.light.containerBackground}
-          style={styles.contianer}>
+          lightColor={Colors.light.containerBackground}>
           <View style={styles.MultipleContainer}>
           <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("Language")}</ThemedText>
               <SettingsItem >
@@ -32,7 +32,7 @@ export default function LangSettings() {
                   </SelectMenu>
               </SettingsItem>
           </View>
-      </ThemedView>
+      </SectionContainer>
 
   );
 }

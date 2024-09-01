@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import Slider from '@react-native-community/slider';
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
 import { View } from 'react-native';
 import { i18n } from '@/core/translate';
 
-export type PrayerName= "fajr"|"sunrise"|"dhuhr"|"asr"|"maghrib"|"isha";
+export type PrayerName = "fajr" | "sunrise" | "dhuhr" | "asr" | "maghrib" | "isha";
 
 interface AdjustProps {
     label:PrayerName;

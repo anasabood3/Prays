@@ -37,10 +37,13 @@ export default function CalendarTab() {
   const previousMonth = () => setCurrentDay(new Date(currentDay.getFullYear(), currentDay.getMonth() - 1, currentDay.getDate()));
   const changeCurrentDay = (date: CalendarItem) => setCurrentDay(new Date(date.year, date.month, date.number));
   let times:Prayer[] = [];
+  console.log(location)
   if (location.lat && location.long) {
+
+
     times = getPrayerTimes(location.lat, location.long, settings.clacMethod, currentDay, settings.fajrAngle, settings.ishaaAngle, settings.asrCalcMehtod, Object.values(settings.adjustments), settings.autoSettings);
   }
-
+  
   
   return (
     <ParallaxScrollView headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}>

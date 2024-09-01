@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NextPrayer, Prayer, getPrayerTimes, getRemainingTime, saveSettings } from '@/core/prayers-functions';
 import { i18n } from '@/core/translate';
 import CountDown from '@/components/CountDown';
+import { updateLocation } from '@/contexts/dataSlice';
+import { useSettingsFetch } from '@/hooks/fetchSettings';
 
 export interface Location {
   lat: number | null;
@@ -30,11 +32,10 @@ export default function HomeScreen() {
 
 
   const [date, setDate] = useState<Date>(new Date());
-  const [location, setLocation] = useState<Location>({ lat: null, long: null })
-
+  const location = useSelector((state:RootState)=>state.data.location);
   const cal_method = useSelector((state: RootState) => state.settings.clacMethod)
   const settings = useSelector((state: RootState) => state.settings);
-
+  const result = useSettingsFetch();
   const [nextPrayer, setNextPrayer] = useState<NextPrayer>({ name: null, nextPrayerTime: null })
   const [times, setTimes] = useState<Prayer[]>([]);
   const [error, setError] = useState<string>('');
@@ -51,7 +52,7 @@ export default function HomeScreen() {
   const loadLocation = () => {
     AsyncStorage.getItem('location').then((data) => {
       if (data) {
-        setLocation(JSON.parse(data));
+        dispatch(updateLocation(JSON.parse(data)));
       }
       else
         getLocation();
@@ -80,7 +81,7 @@ export default function HomeScreen() {
       let state = result.status;
       if (state) {
         CurrLocation.getCurrentPositionAsync({}).then((result) => {
-          setLocation({ lat: result.coords.latitude, long: result.coords.longitude });
+          dispatch(updateLocation(({ lat: result.coords.latitude, long: result.coords.longitude })));
         }).catch((error) => {
           console.error(error);
           
@@ -107,7 +108,6 @@ export default function HomeScreen() {
   const updateContent = () => {
     if (settings.autoLocation) {
       if (location.lat && location.long) {
-
         const prayers = getPrayerTimes(location.lat, location.long, cal_method, date, settings.fajrAngle, settings.ishaaAngle, settings.asrCalcMehtod, [],settings.autoSettings);
         setTimes(prayers);
       }
@@ -126,9 +126,9 @@ export default function HomeScreen() {
   }
 
   // on app run load settings
-  useEffect(() => {
-    fetchSettings();
-  }, []);
+  // useEffect(() => {
+  //   fetchSettings();
+  // }, []);
 
   // get Location and update prayer times when settings changes
   useEffect(() => {
@@ -152,9 +152,7 @@ export default function HomeScreen() {
 
   useEffect(()=>{
     setDate(new Date());
-  },[settings])
-
-
+  },[settings]);
 
   // on settings changes save settings and update prayers page
   useEffect(() => {

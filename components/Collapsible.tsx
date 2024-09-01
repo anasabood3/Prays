@@ -8,7 +8,7 @@ import { Colors } from '@/constants/Colors';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
 
-export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
+export function Collapsible({ children, title,isBold=false }: PropsWithChildren & { title: string,isBold?:boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const theme = useColorScheme() ?? 'light';
   const language = useSelector((state: RootState) => state.settings.language);
@@ -26,7 +26,7 @@ export function Collapsible({ children, title }: PropsWithChildren & { title: st
           size={18}
           color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
         />
-        <ThemedText type="defaultSemiBold">{title}</ThemedText>
+        <ThemedText type={isBold?'defaultSemiBold':'default'}>{title}</ThemedText>
       </TouchableOpacity>
       {isOpen && <ThemedView style={styles.content} darkColor={Colors.dark.colorLevel2}
         lightColor={Colors.light.colorLevel2}>{children}</ThemedView>}
