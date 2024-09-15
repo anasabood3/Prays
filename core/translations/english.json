@@ -6,7 +6,7 @@
     "Maghrib": "Maghrib",
     "Isha": "Isha",
     "Home": "Home",
-    "Privacy": "Privacy",
+    "privacy_policy": "Privacy & Policy",
     "Settings": "Settings",
     "Dark": "Dark",
     "Light": "Light",
@@ -91,5 +91,6 @@
     "turn_right": "turn device to the right",
     "next": "Next",
     "previous": "Previous",
-    "today": "Today"
+    "today": "Today",
+    "now":"Now"
   }

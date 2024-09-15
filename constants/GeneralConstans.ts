@@ -28,3 +28,4 @@ export const languages = [
 
 
 export const prayersNamesList:string[]=["Fajr","Sunrise","Dhuhr","Asr","Maghrib","Isha"];
+export type PrayerName = "fajr" | "sunrise" | "dhuhr" | "asr" | "maghrib" | "isha";

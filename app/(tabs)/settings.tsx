@@ -40,13 +40,13 @@ export default function SettingsTab() {
             <>
               <SettingsItem>
                 <Collapsible
-                  title='Our Mission'>
+                  title={i18n.t('about_us')}>
                   <ThemedText> {data.ourMission[settings.language]}</ThemedText>
                 </Collapsible>
               </SettingsItem>
               <SettingsItem>
                 <Collapsible
-                  title='Privacy&Policy'>
+                  title={i18n.t('privacy_policy')}>
                   <ThemedText>{data.privacy[settings.language]}</ThemedText>
                 </Collapsible>
               </SettingsItem>

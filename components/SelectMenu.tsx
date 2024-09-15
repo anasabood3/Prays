@@ -8,7 +8,7 @@ import { i18n } from '@/core/translate';
 
 interface SelecData {
     data: { label: string, value: number | string }[];
-    placeHolder: string;
+    placeHolder?: string;
     value: string;
     updateSelected: (e: any) => void
 }
@@ -29,7 +29,7 @@ export function SelectMenu({ data, placeHolder, value, updateSelected }: SelecDa
         <Dropdown
             style={[{ backgroundColor }, styles.settingsItem, styles.dropdown]}
             placeholderStyle={[styles.placeholderStyle, { color }]}
-            placeholder={i18n.t(placeHolder)}
+            placeholder={placeHolder?i18n.t(placeHolder):""}
             selectedTextStyle={{ color }}
             inputSearchStyle={styles.inputSearchStyle}
             value={value.toString()}

@@ -27,8 +27,7 @@ export default function LangSettings() {
                   <SelectMenu
                       data={languages}
                       value={language}
-                      updateSelected={(e) => { dispatch(updateLanguage(e.value));}}
-                      placeHolder={''}>
+                      updateSelected={(e) => { dispatch(updateLanguage(e.value));}}>
                   </SelectMenu>
               </SettingsItem>
           </View>

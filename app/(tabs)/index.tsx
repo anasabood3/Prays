@@ -17,7 +17,6 @@ import { NextPrayer, Prayer, getPrayerTimes, getRemainingTime, saveSettings } fr
 import { i18n } from '@/core/translate';
 import CountDown from '@/components/CountDown';
 import { updateLocation } from '@/contexts/dataSlice';
-import { useSettingsFetch } from '@/hooks/fetchSettings';
 
 export interface Location {
   lat: number | null;
@@ -35,7 +34,6 @@ export default function HomeScreen() {
   const location = useSelector((state:RootState)=>state.data.location);
   const cal_method = useSelector((state: RootState) => state.settings.clacMethod)
   const settings = useSelector((state: RootState) => state.settings);
-  const result = useSettingsFetch();
   const [nextPrayer, setNextPrayer] = useState<NextPrayer>({ name: null, nextPrayerTime: null })
   const [times, setTimes] = useState<Prayer[]>([]);
   const [error, setError] = useState<string>('');
@@ -126,9 +124,9 @@ export default function HomeScreen() {
   }
 
   // on app run load settings
-  // useEffect(() => {
-  //   fetchSettings();
-  // }, []);
+  useEffect(() => {
+    fetchSettings();
+  }, []);
 
   // get Location and update prayer times when settings changes
   useEffect(() => {

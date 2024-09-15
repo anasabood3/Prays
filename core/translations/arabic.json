@@ -58,9 +58,13 @@
     "Adjustments": "الضبط اليدوي",
     "Appearance": "المظهر",
     "More": "المزيد",
-    "Privacy": "الخصوصية",
+    "privacy_policy": [
+        "السياسة",
+        " والخصوصية"
+    ],
     "Policy": "السياسة",
     "about_us": "من نحن؟",
+    "now":"الآن",
     "custom_angels": [
         "درجات مخصصة"
     ],

@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import React, { useState } from 'react';
 import { RootState } from '@/contexts/store';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateFajrAngle, updateIshaaAngle, updateAsrCalMehtod, updateAutoLocation, updateCalcMethod, updateTimingSystem, updateAdjustments, updateAutoSettings } from '@/contexts/settingsSlice';
+import { updateFajrAngle, updateIshaaAngle, updateAsrCalMehtod, updateAutoLocation, updateCalcMethod, updateTimingSystem, updateAdjustments, updateAutoSettings, resetAdjustments } from '@/contexts/settingsSlice';
 import { clacMethods, asrCalcMethods } from '@/constants/GeneralConstans';
 import { SelectMenu } from '../SelectMenu';
 import { Colors } from '@/constants/Colors';
@@ -97,6 +97,9 @@ export default function TimingSettings() {
                 <Adjustment label='asr' action={(e) => dispatch(updateAdjustments({ label: "asr", value: e }))} />
                 <Adjustment label='maghrib' action={(e) => dispatch(updateAdjustments({ label: "maghrib", value: e }))} />
                 <Adjustment label='isha' action={(e) => dispatch(updateAdjustments({ label: "isha", value: e }))} />
+                <TouchableOpacity style={{ flexGrow: 1, alignItems: 'center',padding:5,backgroundColor:'grey',margin:12, }} onPress={()=>dispatch(resetAdjustments(0))}  >
+                  <ThemedText >Reset</ThemedText>
+                </TouchableOpacity>
               </Collapsible>
             </SettingsItem>
           </>
@@ -123,6 +126,9 @@ export default function TimingSettings() {
                 step={.5}
                 value={ishaa_angle}
                 behviour={(e) => dispatch(updateIshaaAngle(e))} />
+              <TouchableOpacity style={{ flexGrow: 1, alignItems: 'center', padding: 5, backgroundColor: 'grey', margin: 12, }} onPress={()=>{dispatch(updateIshaaAngle(12));dispatch(updateFajrAngle(12))}} >
+                <ThemedText >Reset</ThemedText>
+              </TouchableOpacity>
             </Collapsible>
           </SettingsItem>
         </View>

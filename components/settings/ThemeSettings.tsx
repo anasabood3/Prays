@@ -32,8 +32,7 @@ export default function ThemeSettings() {
             <SelectMenu
               data={[{ label: "Light", value: 'light' }, { label: "Dark", value: 'dark' }]}
               value={theme}
-              updateSelected={(e) => { dispatch(updateTheme(e.value)); Appearance.setColorScheme(e.value); }}
-              placeHolder={''}>
+              updateSelected={(e) => { dispatch(updateTheme(e.value)); Appearance.setColorScheme(e.value); }}>
             </SelectMenu>
           </SettingsItem>
         </View>

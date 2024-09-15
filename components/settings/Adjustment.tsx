@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
 import { View } from 'react-native';
 import { i18n } from '@/core/translate';
+import { PrayerName } from '@/constants/GeneralConstans';
 
-export type PrayerName = "fajr" | "sunrise" | "dhuhr" | "asr" | "maghrib" | "isha";
 
 interface AdjustProps {
     label:PrayerName;

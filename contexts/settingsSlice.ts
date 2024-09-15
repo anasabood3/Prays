@@ -90,6 +90,14 @@ export const settingsSlice = createSlice({
         updateAdjustments: (state, action: PayloadAction<{label:PrayerName,value:number}>) => {
             state.adjustments[action.payload.label] = action.payload.value;
         },
+        resetAdjustments: (state, action: PayloadAction<number>) => {
+            state.adjustments.fajr = action.payload;
+            state.adjustments.sunrise = action.payload;
+            state.adjustments.dhuhr = action.payload;
+            state.adjustments.asr = action.payload;
+            state.adjustments.maghrib = action.payload;
+            state.adjustments.isha = action.payload;
+        },
         updateTheme:(state,action:PayloadAction<string>)=>{
             state.theme=action.payload
         },
@@ -116,7 +124,7 @@ export const settingsSlice = createSlice({
 })
 
 
-export const { updateLanguage,updateAdjustments,updateTheme,updateFajrAngle,updateIshaaAngle,updateAsrCalMehtod,updateAutoLocation,updateCalcMethod,updateTimingSystem,updateNotification,loadSettings,updateAutoSettings } = settingsSlice.actions;
+export const { updateLanguage,resetAdjustments,updateAdjustments,updateTheme,updateFajrAngle,updateIshaaAngle,updateAsrCalMehtod,updateAutoLocation,updateCalcMethod,updateTimingSystem,updateNotification,loadSettings,updateAutoSettings } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
 
