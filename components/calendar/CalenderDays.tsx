@@ -12,6 +12,8 @@ interface CalendarDaysInterface {
   changeCurrentDay: (date: CalendarItem) => void;
 }
 
+
+
 const areSameDay = (d1:Date, d2:Date):boolean=> {
   return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
 }
@@ -57,6 +59,7 @@ function CalendarDays(props: CalendarDaysInterface) {
         year: firstDayOfMonth.getFullYear()
       }
       currentDays.push(calendarDay);
+
     }
   }
   renderDays();
@@ -66,36 +69,41 @@ function CalendarDays(props: CalendarDaysInterface) {
       {
         currentDays.map((day,index) => {
           return (
-            <TouchableOpacity key={index} onPress={() => { props.changeCurrentDay(day) }} style={[styles.calendarDay, day.selected ? styles.selected : {}, day.today ? { backgroundColor: 'green' } : {}]}>
+            <View key={index} style={{width:'14.20%'}}>
+            <TouchableOpacity  onPress={() => { props.changeCurrentDay(day) }} style={[styles.calendarDay, day.selected ? styles.selected : {}, day.today ? { backgroundColor: 'green' } : {}]}>
               <ThemedText type="defaultSemiBold" style={{ fontSize: 20, color: day.currentMonth ? color : 'grey' }}>
                 {day.number}</ThemedText>
             </TouchableOpacity>
+            </View>
           )
         })
       }
     </View>
   )
 }
+
+
 const styles = StyleSheet.create({
 
     calenderTable:{
-
         display:'flex',
         justifyContent:'center',
         flexWrap:"wrap",
-        flexDirection:'row'
+        flexDirection:'row',
+        width:'100%',
     },
+
+
     calendarDay:{
         padding:8,
         margin:6,
-        flexBasis: '11%',
-        justifyContent:'center',
         alignItems:'center',
         borderRadius:100,
     },
+
+    
     selected:{
-        borderWidth:1,
-        borderColor:'green'
+       backgroundColor:'grey'
     }
 
   });

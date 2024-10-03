@@ -1,4 +1,4 @@
-import { PrayerName } from '@/components/settings/Adjustment';
+import { PrayerName } from '@/constants/GeneralConstans';
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 

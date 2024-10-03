@@ -37,10 +37,7 @@ export default function CalendarTab() {
   const previousMonth = () => setCurrentDay(new Date(currentDay.getFullYear(), currentDay.getMonth() - 1, currentDay.getDate()));
   const changeCurrentDay = (date: CalendarItem) => setCurrentDay(new Date(date.year, date.month, date.number));
   let times:Prayer[] = [];
-  console.log(location)
   if (location.lat && location.long) {
-
-
     times = getPrayerTimes(location.lat, location.long, settings.clacMethod, currentDay, settings.fajrAngle, settings.ishaaAngle, settings.asrCalcMehtod, Object.values(settings.adjustments), settings.autoSettings);
   }
   
@@ -84,9 +81,10 @@ export default function CalendarTab() {
             </Pressable>
 
           </View>
+
           <View style={styles.weekDaysHeader}>
             {
-              weekDays.map((day) => <ThemedText type='defaultSemiBold' key={day} style={{ fontSize: 18, alignItems: 'center' }}>{day}</ThemedText>)
+              weekDays.map((day) =><View key={day} style={{width:'14.20%', alignItems:'center',}}><ThemedText type='defaultSemiBold'  style={{ fontSize: 18, alignItems: 'center' }}>{day}</ThemedText></View>)
             }
           </View>
 
@@ -122,6 +120,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     padding: 6,
     marginTop:22,
+    
   },
   calenderHeader: {
     flexDirection: 'row',
@@ -138,7 +137,8 @@ const styles = StyleSheet.create({
   },
   weekDaysHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent:'center',
+    width:'100%',
     padding: 6,
   },
   prayersCard: {
