@@ -40,7 +40,8 @@ export interface SettingsState {
     clacMethod: string;
     fajrAngle: number;
     ishaaAngle: number;
-    autoLocation: boolean;
+    cityLocation: string;
+    autoLocation:boolean;
     adjustments:Adjustments; 
     autoSettings:boolean;
 }
@@ -56,9 +57,10 @@ const initialSettings: SettingsState = {
     clacMethod: "MuslimWorldLeague",
     fajrAngle:12,
     ishaaAngle:12,
-    autoLocation: true,
+    cityLocation: '',
     adjustments:{fajr:0,sunrise:0,dhuhr:0,asr:0,maghrib:0,isha:0},
     autoSettings:false,
+    autoLocation:true,
 }
 
 
@@ -80,6 +82,9 @@ export const settingsSlice = createSlice({
         },
         updateIshaaAngle: (state, action: PayloadAction<number>) => {
             state.ishaaAngle = action.payload
+        },
+        updateCityLocation: (state, action: PayloadAction<string>) => {
+            state.cityLocation = action.payload
         },
         updateAutoLocation: (state, action: PayloadAction<boolean>) => {
             state.autoLocation = action.payload
@@ -112,6 +117,7 @@ export const settingsSlice = createSlice({
             state.clacMethod = action.payload.clacMethod;
             state.fajrAngle = action.payload.fajrAngle;
             state.ishaaAngle = action.payload.ishaaAngle;
+            state.cityLocation = action.payload.cityLocation;
             state.autoLocation = action.payload.autoLocation;
             state.language = action.payload.language;
             state.twentyFourSystem = action.payload.twentyFourSystem;
@@ -124,7 +130,7 @@ export const settingsSlice = createSlice({
 })
 
 
-export const { updateLanguage,resetAdjustments,updateAdjustments,updateTheme,updateFajrAngle,updateIshaaAngle,updateAsrCalMehtod,updateAutoLocation,updateCalcMethod,updateTimingSystem,updateNotification,loadSettings,updateAutoSettings } = settingsSlice.actions;
+export const { updateLanguage,resetAdjustments,updateAdjustments,updateAutoLocation,updateTheme,updateFajrAngle,updateIshaaAngle,updateAsrCalMehtod,updateCityLocation,updateCalcMethod,updateTimingSystem,updateNotification,loadSettings,updateAutoSettings } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
 

@@ -26,6 +26,15 @@ export const languages = [
   {label:"Arabic",value:"ar"},
 ]
 
+export const cities = [
+  {label:"Regensburg",value:"Regensburg"},
+  {label:"Amberg",value:"Amberg"},
+  {label:"Regenstauf",value:"Regenstauf"},
+  {label:"Kelheim",value:"Kelheim"},
+  {label:"Muenchen",value:"Muenchen"},
+  
+]
+
 
 export const prayersNamesList:string[]=["Fajr","Sunrise","Dhuhr","Asr","Maghrib","Isha"];
 export type PrayerName = "fajr" | "sunrise" | "dhuhr" | "asr" | "maghrib" | "isha";

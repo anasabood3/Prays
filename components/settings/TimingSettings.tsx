@@ -4,8 +4,8 @@ import { ThemedView } from '@/components/ThemedView';
 import React, { useState } from 'react';
 import { RootState } from '@/contexts/store';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateFajrAngle, updateIshaaAngle, updateAsrCalMehtod, updateAutoLocation, updateCalcMethod, updateTimingSystem, updateAdjustments, updateAutoSettings, resetAdjustments } from '@/contexts/settingsSlice';
-import { clacMethods, asrCalcMethods } from '@/constants/GeneralConstans';
+import { updateFajrAngle, updateIshaaAngle, updateAsrCalMehtod, updateCityLocation, updateCalcMethod, updateTimingSystem, updateAdjustments, updateAutoSettings, resetAdjustments, updateAutoLocation } from '@/contexts/settingsSlice';
+import { clacMethods, asrCalcMethods, cities } from '@/constants/GeneralConstans';
 import { SelectMenu } from '../SelectMenu';
 import { Colors } from '@/constants/Colors';
 import { View } from 'react-native';
@@ -17,6 +17,9 @@ import { SettingsItem } from './ThemeItem';
 import { i18n } from '@/core/translate';
 import { useTheme } from '@react-navigation/native';
 import { SectionContainer } from '../Containers';
+import { fetchLocation, geocode, reverseGeocode } from '@/core/location';
+import { updateCity, updateLocation } from '@/contexts/dataSlice';
+import { saveItem } from '@/core/storage';
 
 export default function TimingSettings() {
 
@@ -25,12 +28,36 @@ export default function TimingSettings() {
   const asr_cal_method = useSelector((state: RootState) => state.settings.asrCalcMehtod);
   const fajr_angle = useSelector((state: RootState) => state.settings.fajrAngle);
   const ishaa_angle = useSelector((state: RootState) => state.settings.ishaaAngle);
+  const city_location = useSelector((state: RootState) => state.settings.cityLocation);
   const auto_location = useSelector((state: RootState) => state.settings.autoLocation);
   const auto_settings = useSelector((state: RootState) => state.settings.autoSettings);
   const dispatch = useDispatch();
 
-  return (
+  const updateSelectedCity = async (city:string)=>{
+    dispatch(updateCityLocation(city));
+    dispatch(updateCity(city))
+    const cityCode = await geocode(city);
+    dispatch(updateLocation(cityCode));
+    saveItem({location:cityCode,city:city},'appData');
+  }
 
+  const switchLocation = async (e:boolean) => {
+    if (e) {
+      const loc = await fetchLocation();
+      if (loc.lat && loc.long) {
+        dispatch(updateLocation(loc))
+        const city = await reverseGeocode(loc.lat, loc.long)
+        if (city)
+          dispatch(updateCity(city))
+      }
+
+    }
+    else {
+      updateSelectedCity(city_location)
+    }
+  }
+
+  return (
     <SectionContainer
       darkColor={Colors.dark.containerBackground}
       lightColor={Colors.light.containerBackground}>
@@ -55,8 +82,20 @@ export default function TimingSettings() {
             <SettingsSwitch
               title={i18n.t("auto_location")}
               value={auto_location}
-              behaviour={(e) => dispatch(updateAutoLocation(e))} />
+              behaviour={(e) => {dispatch(updateAutoLocation(e));switchLocation(e);}} />
           </SettingsItem>
+          {!auto_location&& <>
+            <SettingsItem>
+              <SelectMenu
+                data={cities}
+                value={city_location}
+                updateSelected={(e) => { updateSelectedCity(e.value) }}
+                placeHolder='select city...'
+              />
+
+
+            </SettingsItem>
+          </>}
         </View>
 
 

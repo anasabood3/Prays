@@ -16,10 +16,7 @@ export interface NextPrayer {
   nextPrayerTime: number | null; // change into number represnts milliseconds
 }
 
-export interface Location {
-  longitude: number | null;
-  latitude: number | null;
-}
+
 
 /**
  * 
