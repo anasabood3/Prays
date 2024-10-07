@@ -33,9 +33,6 @@ export default function HomeScreen() {
   const [error, setError] = useState<string>('');
   const [isFirstTime,setIsFirstTime] = useState<boolean|null>(null);
 
-
-
-
   // load app settings of local storage
   const loadAppData = async () => {
     const data = await loadItem('appData');
@@ -66,7 +63,7 @@ export default function HomeScreen() {
       const city = await reverseGeocode(loc.lat, loc.long)
       if (city)
         dispatch(updateCity(city));
-      dispatch(updateAutoLocation(false));
+      dispatch(updateAutoLocation(true));
       saveItem(appData, 'appData');
     }
     if(!isFirstTime){
@@ -80,12 +77,12 @@ export default function HomeScreen() {
     fetchSettings();
     loadAppData();
 
-    async ()=>{
+   ( async ()=>{
       const x  = await loadItem('isFirstTime');
       if(x) {
         setIsFirstTime(JSON.parse(x))
       }
-    }
+    })();
   }, []);
 
   useEffect(() => {

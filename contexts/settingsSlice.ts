@@ -3,24 +3,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 
-
-// type settingsAction =
-//     | { type: "reset" }
-//     | { type: "updateTimingSystem"; payload: boolean }
-//     | { type: "updateCalcMethod"; payload: string }
-//     | { type: "updateAsrCalMehtod"; payload: number }
-//     | { type: "updateFajrAngle"; payload: number }
-//     | { type: "updateIshaaAngle"; payload: number }
-//     | { type: "updateAutoLocation"; payload: boolean }
-//     | { type: "updateNotification"; payload: boolean }
-//     | { type: "updateTheme"; payload: string }
-//     | { type: "updateLanguage"; payload: string }
-//     | { type: "updateAdjustments"; payload: number[]}
-//     | { type: "updateTheme"; payload: string }
-//     | { type: "loadSettings"; payload: SettingsState }
-//     | { type: "resetSettings"; payload: SettingsState }
-//     | { type: "updateLocation"; payload: Location }
-
 export interface Adjustments{
     fajr:number;
     sunrise:number;
@@ -57,12 +39,11 @@ const initialSettings: SettingsState = {
     clacMethod: "MuslimWorldLeague",
     fajrAngle:12,
     ishaaAngle:12,
-    cityLocation: '',
+    cityLocation: 'Regensburg',
     adjustments:{fajr:0,sunrise:0,dhuhr:0,asr:0,maghrib:0,isha:0},
     autoSettings:false,
     autoLocation:true,
 }
-
 
 export const settingsSlice = createSlice({
     name: 'settings',
