@@ -1,8 +1,9 @@
 import React, { ReactNode } from 'react'
 import { ThemedView } from './ThemedView';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { ThemedText } from './ThemedText';
 import { i18n } from '@/core/translate';
+import tw from 'twrnc'
 interface SectionContainerProps {
     darkColor:string;
     lightColor:string;
@@ -16,7 +17,7 @@ function SectionContainer(props: SectionContainerProps) {
         <ThemedView
         darkColor={darkColor}
         lightColor={lightColor}
-        style={styles.contianer}
+        style={tw`rounded-sm p-2 m-2`}
         >
             {children}
         </ThemedView>
@@ -33,7 +34,7 @@ function HeaderSection(props: HeaderSectionProps) {
     
     return (
         <View
-        style={styles.MultipleContainer}>
+        style={tw`mx-[6]`}>
         <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t(title)}</ThemedText>
 
             {children}
@@ -45,16 +46,7 @@ function HeaderSection(props: HeaderSectionProps) {
 
 
 
-const styles = StyleSheet.create({
-    MultipleContainer: {
-        marginVertical: 6,
-    },
-    contianer: {
-        borderRadius: 5,
-        padding: 8,
-        margin:7,
-    }
-})
+
 
   
 

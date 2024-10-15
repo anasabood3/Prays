@@ -27,6 +27,7 @@ export default function CountDown({nextPrayerTime=0}:{nextPrayerTime:number|null
         }
     }
     useEffect(() => {
+        setPassed(0);
         countDown();
         const interval = setInterval(countDown, 1000);
         return () => clearInterval(interval);

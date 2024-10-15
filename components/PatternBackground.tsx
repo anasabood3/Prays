@@ -3,8 +3,7 @@ import React from 'react'
 import { ImageBackground } from 'react-native'
 import { useSelector } from 'react-redux';
 import { PropsWithChildren } from 'react';
-import { StyleSheet, } from 'react-native';
-   
+import tw from 'twrnc';
 
 
 function PatternBackground({ children }: PropsWithChildren) {
@@ -14,18 +13,12 @@ function PatternBackground({ children }: PropsWithChildren) {
 
     return (
         <ImageBackground imageStyle={{ opacity: .03 }}
-         style={styles.image}
+         style={tw`flex-1`}
          source={theme=='dark'?darkPattern:pattern}
          resizeMode='cover' >
-            {children}
+        {children}
         </ImageBackground>
-
-
     )
 }
-const styles = StyleSheet.create({
-image:{
-    flex:1,
-}
-})
+
 export default PatternBackground

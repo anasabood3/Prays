@@ -1,9 +1,8 @@
-import { StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import Slider from '@react-native-community/slider';
 import { View } from 'react-native';
 import { i18n } from '@/core/translate';
-
+import tw from 'twrnc'
 interface SliderProps {
     label: string;
     value: number;
@@ -17,12 +16,11 @@ export default function SettingsSlider(props: SliderProps) {
 
     return (
         <View>
-            <View style={styles.flexItem}>
+            <View style={tw`flex-row content-between items-center my-[12]`}>
                 <ThemedText>{i18n.t(props.label)}</ThemedText>
                 <ThemedText>{props.value}°</ThemedText>
             </View>
             <Slider
-                style={styles.slider}
                 minimumValue={props.minimumValue}
                 maximumValue={props.maximumValue}
                 step={props.step}
@@ -34,14 +32,3 @@ export default function SettingsSlider(props: SliderProps) {
         </View>
     );
 }
-const styles = StyleSheet.create({
-    flexItem: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginHorizontal: 12,
-    },
-    slider: {
-
-    }
-})

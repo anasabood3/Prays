@@ -10,12 +10,12 @@ export const DarkTheme_ = {
     ...DarkTheme,
     dark: true,
     colors: {
-        primary: '#22333B',
+        primary: '#003',
         text: '#ECEDEE',
         background: '#1C1C1f',
         border: 'rgb(39, 39, 41)',
         notification: 'rgb(255, 69, 58)',
-        card: '#22333B'
+        card: '#000'
     }
 };
 
@@ -23,13 +23,13 @@ export const DefaultTheme_ = {
     ...DefaultTheme,
     dark:false,
     colors:{
-        primary: '#FFE6A7',
+        primary: '#003',
         text: '#11181C',
-        background: tintColorDark,
+        background: '#32d',
         border: 'rgb(39, 39, 41)',
         notification: 'rgb(255, 69, 58)',
-        card: '#FFE6A7',
-        colorLevel2:"#343223",
+        card: '#fff',
+        
     }
   };
 

@@ -12,7 +12,7 @@ import { SettingsItem } from './ThemeItem';
 import { i18n } from '@/core/translate';
 import { languages } from '@/constants/GeneralConstans';
 import { SectionContainer } from '../Containers';
-
+import tw from 'twrnc'
 
 export default function LangSettings() {
   const language = useSelector((state: RootState) => state.settings.language);
@@ -21,7 +21,7 @@ export default function LangSettings() {
       <SectionContainer
           darkColor={Colors.dark.containerBackground}
           lightColor={Colors.light.containerBackground}>
-          <View style={styles.MultipleContainer}>
+          <View style={tw`my-[6]`}>
           <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("Language")}</ThemedText>
               <SettingsItem >
                   <SelectMenu
@@ -36,14 +36,5 @@ export default function LangSettings() {
   );
 }
 
-const styles = StyleSheet.create({
-  MultipleContainer: {
-    marginVertical: 6,
-  },
-  contianer: {
-    borderRadius: 5,
-    padding: 8
-  }
-})
 
 

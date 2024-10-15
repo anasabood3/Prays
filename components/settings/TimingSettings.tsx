@@ -15,11 +15,12 @@ import SettingsSwitch from './SettingsSwitch';
 import SettingsSlider from './SettingsSlider';
 import { SettingsItem } from './ThemeItem';
 import { i18n } from '@/core/translate';
-import { useTheme } from '@react-navigation/native';
 import { SectionContainer } from '../Containers';
 import { fetchLocation, geocode, reverseGeocode } from '@/core/location';
 import { updateCity, updateLocation } from '@/contexts/dataSlice';
 import { saveItem } from '@/core/storage';
+import tw from 'twrnc'
+
 
 export default function TimingSettings() {
 
@@ -76,7 +77,7 @@ export default function TimingSettings() {
             behaviour={(e) => dispatch(updateTimingSystem(e))} />
         </SettingsItem>
 
-        <View style={styles.MultipleContainer}>
+        <View style={tw`my-[6]`}>
           <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("location_settings")}</ThemedText>
           <SettingsItem>
             <SettingsSwitch
@@ -102,7 +103,7 @@ export default function TimingSettings() {
         {
           auto_settings == false &&
           <>
-            <View style={styles.MultipleContainer}>
+            <View style={tw`my-[6]`}>
               <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("calculation_method")}</ThemedText>
               <SettingsItem >
                 <SelectMenu
@@ -115,7 +116,7 @@ export default function TimingSettings() {
             </View>
 
 
-            <View style={styles.MultipleContainer}>
+            <View style={tw`my-[6]`}>
               <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("asr_calulation_method")}</ThemedText>
               <SettingsItem>
                 <SelectMenu
@@ -145,7 +146,7 @@ export default function TimingSettings() {
         }
 
 
-        <View style={styles.MultipleContainer}>
+        <View style={tw`my-[6]`}>
           <SettingsItem>
             <Collapsible
               title={i18n.t("custom_angels")}
@@ -177,28 +178,3 @@ export default function TimingSettings() {
   );
 }
 
-const styles = StyleSheet.create({
-  flexItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 9,
-    paddingVertical: 1,
-  },
-
-  settingsItem: {
-    margin: 5,
-    borderRadius: 6,
-    padding: 5,
-
-  },
-  MultipleContainer: {
-    marginVertical: 6,
-  },
-  contianer: {
-    borderRadius: 5,
-    padding: 8,
-    marginVertical: 8
-  }
-
-})

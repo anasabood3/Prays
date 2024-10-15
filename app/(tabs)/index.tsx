@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -17,7 +17,7 @@ import { SectionContainer } from '@/components/Containers';
 import useSkipFirstRender from '@/hooks/useSkipFirstRender';
 import { fetchLocation, reverseGeocode } from '@/core/location';
 import { loadItem, saveItem } from '@/core/storage';
-
+import tw  from '@/tw'
 export default function HomeScreen() {
 
   const dispatch = useDispatch()
@@ -100,7 +100,7 @@ export default function HomeScreen() {
       headerImage={
         <Image
           source={theme == 'light' ? require('@/assets/images/cover.jpg') : require('@/assets/images/coverDark.jpg')}
-          style={styles.reactLogo}
+          style={tw`bg-black`}
         />
       }>
       <View>
@@ -112,17 +112,17 @@ export default function HomeScreen() {
         <CountDown nextPrayerTime={nextPrayer.nextPrayerTime} />
       </View>
 
-      <View style={styles.location}>
-        <Pressable onPress={() => { getLocation() }}>
+      <View style={tw`flex justify-center items-center`}>
+        <Pressable onPress={() => { getLocation() }} style={tw`btn`}>
           <ThemedText>{appData.city}</ThemedText>
         </Pressable>
-        {!isFirstTime && <ThemedText>click to reload Action</ThemedText>}
+        {!isFirstTime && <ThemedText style={tw`flex-row align:center`}>click to reload Location</ThemedText>}
       </View>
 
       <SectionContainer darkColor={Colors.dark.containerBackground} lightColor={Colors.light.containerBackground}>
         <>
-          {times.map((t) => <ThemedView style={styles.praycard} key={t.name} lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2}>
-            <ThemedText type='subtitle'>{i18n.t(t.name)}</ThemedText>
+          {times.map((t) => <ThemedView style={tw`rounded-2 p-3 flex-row justify-between m-1.5`} key={t.name} lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2}>
+            <ThemedText type='subtitle' >{i18n.t(t.name)}</ThemedText>
             <ThemedText type='subtitle'>{t.time && getTimeOfDate(t.time, settings.twentyFourSystem)}</ThemedText>
           </ThemedView>)}
         </>
@@ -132,50 +132,4 @@ export default function HomeScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  alertMessage: {
-    color: 'red',
-  },
-  alertBox: {
-    borderWidth: 2,
-    borderColor: 'red',
-    padding: 5,
-  },
-  praycard: {
-    borderRadius: 5,
-    padding: 12,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    margin: 6,
-  },
-  reactLogo: {
-    height: "100%",
-    width: "100%",
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-    opacity: 12,
-  },
-  timing: {
-    flexDirection: "row",
-    gap: 20,
-  },
-  location: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
 
-  },
-  date:
-  {
-    flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
-  },
-});

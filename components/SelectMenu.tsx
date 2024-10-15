@@ -1,10 +1,9 @@
 import { Dropdown } from 'react-native-element-dropdown';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { StyleSheet } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { i18n } from '@/core/translate';
+import tw from 'twrnc';
+import { Text, View } from 'react-native';
 
 interface SelecData {
     data: { label: string, value: number | string }[];
@@ -15,23 +14,22 @@ interface SelecData {
 
 export function SelectMenu({ data, placeHolder, value, updateSelected }: SelecData) {
 
-    const color = useThemeColor({ light: Colors.light.text, dark: Colors.dark.text }, 'text');
     const backgroundColor = useThemeColor({ light: Colors.light.colorLevel2, dark: Colors.dark.colorLevel2 }, 'background');
 
     const renderItem = (item: { label: string, value: number | string }) => {
         return (
-            <ThemedView style={[styles.selectMenu, { backgroundColor }]}>
-                <ThemedText style={styles.selectItem}>{i18n.t(item.label)}</ThemedText>
-            </ThemedView>
+            <View style={[tw`p-1.5 m-1`, { backgroundColor }]}>
+                <Text style={tw`p-1.5 text-base dark:text-white`}>{i18n.t(item.label)}</Text>
+            </View>
         )
     }
     return (
         <Dropdown
-            style={[{ backgroundColor }, styles.settingsItem, styles.dropdown]}
-            placeholderStyle={[styles.placeholderStyle, { color }]}
+            style={[{ backgroundColor }, tw`px-1 m-1 rounded-md h-10`]}
+            placeholderStyle={tw`text-base dark:text-white`}
             placeholder={placeHolder?i18n.t(placeHolder):""}
-            selectedTextStyle={{ color }}
-            inputSearchStyle={styles.inputSearchStyle}
+            selectedTextStyle={tw`dark:text-white`}
+            inputSearchStyle={tw`h-10 text-base`}
             value={value.toString()}
             data={data}
             onChange={updateSelected}
@@ -44,33 +42,3 @@ export function SelectMenu({ data, placeHolder, value, updateSelected }: SelecDa
     );
 }
 
-const styles = StyleSheet.create({
-    settingsItem: {
-        paddingVertical: 1,
-        paddingHorizontal: 6,
-        margin: 4,
-        borderRadius: 6,
-    },
-    dropdown: {
-        height: 40,
-    },
-    placeholderStyle: {
-        fontSize: 16,
-    },
-    selectedTextStyle: {
-        fontSize: 16,
-    },
-    inputSearchStyle: {
-        height: 40,
-        fontSize: 16,
-    },
-
-    selectMenu: {
-        padding: 6,
-        margin: 3,
-    },
-    selectItem: {
-        padding: 4,
-    }
-
-});

@@ -1,5 +1,5 @@
 import type { PropsWithChildren, ReactElement } from 'react';
-import { StyleSheet, useColorScheme, View } from 'react-native';
+import { useColorScheme, View } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedRef,
@@ -9,6 +9,8 @@ import Animated, {
 
 import { ThemedView } from '@/components/ThemedView';
 import PatternBackground from './PatternBackground';
+import tw from 'twrnc';
+
 
 const HEADER_HEIGHT = 250;
 
@@ -44,14 +46,14 @@ export default function ParallaxScrollView({
   });
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={tw`flex-1`}>
       <PatternBackground>
       <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
         {
           headerImage &&
           <Animated.View
             style={[
-              styles.header,
+              tw`h-62 overflow-hidden`,
               { backgroundColor: headerBackgroundColor[colorScheme] },
               headerAnimatedStyle,
             ]}>
@@ -59,25 +61,10 @@ export default function ParallaxScrollView({
           </Animated.View>
         }
 
-        <View style={styles.content}>{children}</View>
+        <View style={tw`flex-1 p-3 gap-3 overflow-hidden`}>{children}</View>
       </Animated.ScrollView>
       </PatternBackground>
     </ThemedView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    height: 250,
-    overflow: 'hidden',
-  },
-  content: {
-    flex: 1,
-    padding: 12,
-    gap: 16,
-    overflow: 'hidden',
-  },
-});

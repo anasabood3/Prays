@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { PropsWithChildren, useState } from 'react';
-import { StyleSheet, TouchableOpacity, useColorScheme } from 'react-native';
-
+import {  TouchableOpacity, useColorScheme } from 'react-native';
+import tw from 'twrnc'
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
@@ -18,7 +18,7 @@ export function Collapsible({ children, title,isBold=false }: PropsWithChildren 
       darkColor={Colors.dark.colorLevel2}
       lightColor={Colors.light.colorLevel2}>
       <TouchableOpacity
-        style={[styles.heading, language == 'ar' ? { flexDirection: 'row-reverse' } : {}]}
+        style={[tw`flex-row items-center gap-[2] p-[12] `, language == 'ar' ? { flexDirection: 'row-reverse' } : {}]}
         onPress={() => setIsOpen((value) => !value)}
         activeOpacity={0.8}>
         <Ionicons
@@ -28,21 +28,9 @@ export function Collapsible({ children, title,isBold=false }: PropsWithChildren 
         />
         <ThemedText type={isBold?'defaultSemiBold':'default'}>{title}</ThemedText>
       </TouchableOpacity>
-      {isOpen && <ThemedView style={styles.content} darkColor={Colors.dark.colorLevel2}
+      {isOpen && <ThemedView style={tw`mt-[6] ml-[12]`} darkColor={Colors.dark.colorLevel2}
         lightColor={Colors.light.colorLevel2}>{children}</ThemedView>}
     </ThemedView>
   );
 }
 
-const styles = StyleSheet.create({
-  heading: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    padding: 12
-  },
-  content: {
-    marginTop: 6,
-    marginLeft: 12,
-  },
-});

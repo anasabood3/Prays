@@ -2,14 +2,15 @@ import { Redirect, Tabs } from 'expo-router';
 import React from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useAppColorScheme } from 'twrnc';
+import tw from 'twrnc'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../contexts/store';
 import { i18n } from '@/core/translate';
 // import { useIsFirstTime } from '@/hooks/use-is-first-time';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const [colorScheme,_,__] = useAppColorScheme(tw);
   const language = useSelector((state: RootState) => state.settings.language);
   // const [isFirstTime] = useIsFirstTime();
   i18n.locale = language;

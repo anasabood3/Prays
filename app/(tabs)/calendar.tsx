@@ -8,13 +8,12 @@ import { ThemedView } from '@/components/ThemedView';
 import { RootState } from '@/contexts/store';
 import { useSelector } from 'react-redux';
 import { i18n } from '@/core/translate';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import CalendarDays, { CalendarItem } from '@/components/calendar/CalenderDays';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { NextPrayer, Prayer, getPrayerTimes, getPrayerTimes1, getPrayerTimes2, getRemainingTime, saveSettings } from '@/core/prayers-functions';
+import { Prayer, getPrayerTimes} from '@/core/prayers-functions';
 import { Colors } from '../theming';
 import { converToHijr, getTimeOfDate } from '@/core/time-functions';
-import PatternBackground from '@/components/PatternBackground';
 
 
 const months = ["January", "February", "March", "April",

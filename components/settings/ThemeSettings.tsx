@@ -12,7 +12,8 @@ import { SettingsItem } from './ThemeItem';
 import { i18n } from '@/core/translate';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { SectionContainer } from '../Containers';
-
+import { useAppColorScheme } from 'twrnc';
+import tw from 'twrnc'
 
 
 
@@ -21,7 +22,8 @@ export default function ThemeSettings() {
   const theme = useSelector((state: RootState) => state.settings.theme);
   const backgroundColor = useThemeColor({dark:Colors.dark.containerBackground,light:Colors.light.containerBackground},'background')
   const dispatch = useDispatch();
-
+  const [colorScheme, toggleColorScheme, setColorScheme] = useAppColorScheme(tw);
+ 
     return (
       <SectionContainer
         darkColor={Colors.dark.containerBackground}
@@ -32,7 +34,7 @@ export default function ThemeSettings() {
             <SelectMenu
               data={[{ label: "Light", value: 'light' }, { label: "Dark", value: 'dark' }]}
               value={theme}
-              updateSelected={(e) => { dispatch(updateTheme(e.value)); Appearance.setColorScheme(e.value); }}>
+              updateSelected={(e) => { dispatch(updateTheme(e.value)); setColorScheme(e.value); }}>
             </SelectMenu>
           </SettingsItem>
         </View>
