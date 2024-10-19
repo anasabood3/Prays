@@ -37,4 +37,4 @@ export const cities = [
 
 
 export const prayersNamesList:string[]=["Fajr","Sunrise","Dhuhr","Asr","Maghrib","Isha"];
-export type PrayerName = "fajr" | "sunrise" | "dhuhr" | "asr" | "maghrib" | "isha";
+export type PrayerName = "fajr" | "sunrise" | "dhuhr" | "asr" | "maghrib" | "isha"|"Fajr" | "Sunrise" | "Dhuhr" | "Asr" | "Maghrib" | "Isha";

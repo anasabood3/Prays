@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -17,7 +17,10 @@ import { SectionContainer } from '@/components/Containers';
 import useSkipFirstRender from '@/hooks/useSkipFirstRender';
 import { fetchLocation, reverseGeocode } from '@/core/location';
 import { loadItem, saveItem } from '@/core/storage';
-import tw  from '@/tw'
+import tw  from 'twrnc'
+import { PraysCard } from '@/components/main/praysCard';
+import { Ionicons } from '@expo/vector-icons';
+import { useThemeColor } from '@/hooks/useThemeColor';
 export default function HomeScreen() {
 
   const dispatch = useDispatch()
@@ -31,7 +34,9 @@ export default function HomeScreen() {
   const [date, setDate] = useState<Date>(new Date());
   const [times, setTimes] = useState<Prayer[]>([]);
   const [error, setError] = useState<string>('');
+  const [loading,setLoading] = useState<boolean>(false);
   const [isFirstTime,setIsFirstTime] = useState<boolean|null>(null);
+  const color = useThemeColor({ light: 'black', dark: 'white' }, 'text');
 
   // load app settings of local storage
   const loadAppData = async () => {
@@ -57,6 +62,7 @@ export default function HomeScreen() {
   }
 
   const getLocation = async () => {
+    setLoading(true);
     const loc = await fetchLocation();
     if (loc.lat && loc.long) {
       dispatch(updateLocation(loc))
@@ -66,16 +72,19 @@ export default function HomeScreen() {
       dispatch(updateAutoLocation(true));
       saveItem(appData, 'appData');
     }
+    console.log(appData)
     if(!isFirstTime){
       saveItem(true,'isFirstTime');
       setIsFirstTime(true);
     }
+    setLoading(false);
   }
 
   // on app run load settings
   useEffect(() => {    
     fetchSettings();
     loadAppData();
+    console.log(appData.city);
 
    ( async ()=>{
       const x  = await loadItem('isFirstTime');
@@ -95,29 +104,32 @@ export default function HomeScreen() {
   }, [settings]);
 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '', dark: '' }}
-      headerImage={
-        <Image
-          source={theme == 'light' ? require('@/assets/images/cover.jpg') : require('@/assets/images/coverDark.jpg')}
-          style={tw`bg-black`}
-        />
-      }>
-      <View>
-        <ThemedText style={{ paddingVertical: 7, fontSize: 28 }} type='title'>{converToHijr(date, settings.language)}</ThemedText>
+    
+    <ParallaxScrollView headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}>
+      <View style={tw`mt-14 flex-row justify-between items-center p-3`}>
+        <TouchableOpacity>
+        <Ionicons size={39} name={'refresh-circle'} style={{ color }} />
+        </TouchableOpacity>
+        <View style={tw`justify-center items-center`}>
+          <Text style={tw`text-xl dark:text-white font-medium`}>{converToHijr(date, settings.language)}</Text>
+          <Text style={tw`text-base dark:text-white`}>{date.toDateString()}</Text>
+        </View>
+        
+        <TouchableOpacity onPress={() => { getLocation(); }} disabled={loading}>
+          <Ionicons size={39} name={'compass-outline'} style={{ color }} />
+        </TouchableOpacity>
       </View>
+      <View style={tw`gap-9`}>
+      <PraysCard
+        nexPrayer={nextPrayer.name}
+        remainingTime={<CountDown nextPrayerTime={nextPrayer.nextPrayerTime} />}
+        location={appData.city}
+        loading={true}
+      />
+       {/* {!isFirstTime && <ThemedText style={tw`flex-row align:center `}>click to reload Location</ThemedText>} */}
 
-      <View style={{ flexDirection: "row" }}>
-        <ThemedText type='subtitle'>{(nextPrayer.name) && `${i18n.t(nextPrayer.name)} ${i18n.t("in")}: `}</ThemedText>
-        <CountDown nextPrayerTime={nextPrayer.nextPrayerTime} />
-      </View>
 
-      <View style={tw`flex justify-center items-center`}>
-        <Pressable onPress={() => { getLocation() }} style={tw`btn`}>
-          <ThemedText>{appData.city}</ThemedText>
-        </Pressable>
-        {!isFirstTime && <ThemedText style={tw`flex-row align:center`}>click to reload Location</ThemedText>}
-      </View>
+
 
       <SectionContainer darkColor={Colors.dark.containerBackground} lightColor={Colors.light.containerBackground}>
         <>
@@ -127,7 +139,7 @@ export default function HomeScreen() {
           </ThemedView>)}
         </>
       </SectionContainer >
-      
+      </View>
     </ParallaxScrollView>
   );
 }

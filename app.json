@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Prays",
-    "slug": "Prays",
+    "slug": "prays",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -49,8 +49,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "1e2c4b7f-d81d-4278-bbf2-4e368ebdc71f"
+        "projectId": "d5771243-f9f6-4861-9e19-4b682a2463b7"
       }
-    }
+    },
+    "owner": "anas1024"
   }
 }
