@@ -1,32 +1,38 @@
 /** @type {import('tailwindcss').Config} */
 const plugin = require('tailwindcss/plugin');
-const { Colors } = require('./constants/Colors');
+
+
 
 
 module.exports = {
   content: [],
   theme: {
-
-    extend: {
-      fontFamily: {
-        sans: ['Graphik', 'sans-serif'],
-        serif: ['Merriweather', 'serif'],
+    colors: {
+      primary: {
+        DEFAULT: '#5c6ac4',
+        dark:"#f233"
       },
-      borderRadius: {
-        '4xl': '2rem',
+      card:{
+        default:"#34ff",
+        dark:"#6644"
       },
-
+      secondary:"#fdfd",
+      white:"#ffff",
+      dark:"#000000"
     },
+    fontFamily: {
+      regular: ["Roboto-Regular", "sans-serif"],
+      bold: ["Roboto-Black", "sans-serif"],
+    },
+    fill: theme => theme('colors')
   },
+  
   plugins: [
     plugin(({ addUtilities }) => {
       addUtilities({
-        '.btn': `px-4 py-1 rounded-full bg-red-800 text-white`,
-        '.custom-view':`bg-black dark:bg-[#d34]`,
-        '.default': {
-          fontSize: 16,
-          lineHeight: 24,
-        },
+        '.btn': `px-4 py-1 rounded-full text-white`,
+        '.custom-view':`bg-white dark:bg-black`,
+        '.default':`text-[16] text-white dark:text-primary`,
         '.defaultSemiBold': {
           fontSize: 16,
           lineHeight: 24,

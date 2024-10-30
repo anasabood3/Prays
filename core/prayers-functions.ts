@@ -3,17 +3,17 @@ import { FormatTime, msToHoursMinutes } from "./time-functions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SettingsState } from "@/contexts/settingsSlice";
 import { sun_rise_set, fajr_calculation, isha_calculation, CalculateAsrTime } from './sunrise.mjs';
-import { PrayerName } from "@/constants/GeneralConstans";
+import { CapitalPrayerName } from "@/constants/GeneralConstans";
 
 
 export interface Prayer {
-  name: PrayerName,
+  name: CapitalPrayerName,
   time: Date,
   notifcationType: number   // change into special type <notType>
 }
 
 export interface NextPrayer {
-  name: PrayerName | null;
+  name: CapitalPrayerName | null;
   nextPrayerTime: number | null; // change into number represnts milliseconds
 }
 

@@ -1,11 +1,11 @@
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Colors } from '@/constants/Colors';
+import { Colors } from '@/core/theming';
 import { loadSettings, updateAutoLocation } from '@/contexts/settingsSlice';
 import { RootState } from '@/contexts/store';
-import { useColorScheme } from '@/hooks/useColorScheme';
+// import { useColorScheme } from '@/hooks/useColorScheme';
 import { converToHijr, getTimeOfDate } from '@/core/time-functions';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,11 +21,10 @@ import tw  from 'twrnc'
 import { PraysCard } from '@/components/main/praysCard';
 import { Ionicons } from '@expo/vector-icons';
 import { useThemeColor } from '@/hooks/useThemeColor';
+
 export default function HomeScreen() {
 
   const dispatch = useDispatch()
-  const theme = useColorScheme();
-  
   const appData = useSelector((state: RootState) => state.data);
   const settings = useSelector((state: RootState) => state.settings);
 
@@ -37,6 +36,7 @@ export default function HomeScreen() {
   const [loading,setLoading] = useState<boolean>(false);
   const [isFirstTime,setIsFirstTime] = useState<boolean|null>(null);
   const color = useThemeColor({ light: 'black', dark: 'white' }, 'text');
+  const colorScheme =useColorScheme();
 
   // load app settings of local storage
   const loadAppData = async () => {
@@ -45,6 +45,9 @@ export default function HomeScreen() {
       dispatch(loadData(JSON.parse(data)));
     }
   }
+  
+
+
 
   // load app settings of local storage
   const fetchSettings = async () => {
@@ -70,9 +73,9 @@ export default function HomeScreen() {
       if (city)
         dispatch(updateCity(city));
       dispatch(updateAutoLocation(true));
-      saveItem(appData, 'appData');
+      saveItem({location:{lat:loc.lat,long:loc.long},city:city}, 'appData');
     }
-    console.log(appData)
+
     if(!isFirstTime){
       saveItem(true,'isFirstTime');
       setIsFirstTime(true);
@@ -84,8 +87,6 @@ export default function HomeScreen() {
   useEffect(() => {    
     fetchSettings();
     loadAppData();
-    console.log(appData.city);
-
    ( async ()=>{
       const x  = await loadItem('isFirstTime');
       if(x) {
@@ -106,16 +107,17 @@ export default function HomeScreen() {
   return (
     
     <ParallaxScrollView headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}>
-      <View style={tw`mt-14 flex-row justify-between items-center p-3`}>
-        <TouchableOpacity>
-        <Ionicons size={39} name={'refresh-circle'} style={{ color }} />
+      <View style={tw`mt-5 flex-row justify-between items-center p-3`}>
+        <TouchableOpacity onPress={()=>updateContent()} style={{backgroundColor:colorScheme=='dark'?Colors.dark.containerBackground:Colors.light.containerBackground,borderRadius:5,padding:3}}>
+        <Ionicons size={39} name={'refresh-outline'} style={{ color }} />
         </TouchableOpacity>
+
         <View style={tw`justify-center items-center`}>
-          <Text style={tw`text-xl dark:text-white font-medium`}>{converToHijr(date, settings.language)}</Text>
-          <Text style={tw`text-base dark:text-white`}>{date.toDateString()}</Text>
+          <ThemedText style={tw`text-lg font-bold  font-medium`}>{converToHijr(date, settings.language)}</ThemedText>
+          <ThemedText style={tw`text-sm  `}>{date.toDateString()}</ThemedText>
         </View>
         
-        <TouchableOpacity onPress={() => { getLocation(); }} disabled={loading}>
+        <TouchableOpacity onPress={() => { getLocation(); }} disabled={loading} style={{backgroundColor:colorScheme=='dark'?Colors.dark.containerBackground:Colors.light.containerBackground,borderRadius:5,padding:3}}>
           <Ionicons size={39} name={'compass-outline'} style={{ color }} />
         </TouchableOpacity>
       </View>
@@ -128,13 +130,10 @@ export default function HomeScreen() {
       />
        {/* {!isFirstTime && <ThemedText style={tw`flex-row align:center `}>click to reload Location</ThemedText>} */}
 
-
-
-
       <SectionContainer darkColor={Colors.dark.containerBackground} lightColor={Colors.light.containerBackground}>
         <>
-          {times.map((t) => <ThemedView style={tw`rounded-2 p-3 flex-row justify-between m-1.5`} key={t.name} lightColor={Colors.light.colorLevel2} darkColor={Colors.dark.colorLevel2}>
-            <ThemedText type='subtitle' >{i18n.t(t.name)}</ThemedText>
+          {times.map((t) => <ThemedView style={tw`rounded-2 p-3 flex-row justify-between m-1.5`} key={t.name} darkColor={Colors.dark.colorLevel2} lightColor={Colors.light.colorLevel2} >
+            <ThemedText type='subtitle'>{i18n.t(t.name)}</ThemedText>
             <ThemedText type='subtitle'>{t.time && getTimeOfDate(t.time, settings.twentyFourSystem)}</ThemedText>
           </ThemedView>)}
         </>

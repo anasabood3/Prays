@@ -1,7 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { ImageBackground, Pressable, StyleSheet, TouchableOpacity, View, } from 'react-native';
-
-
+import { Pressable, StyleSheet, TouchableOpacity, View, } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -12,7 +10,7 @@ import { useState } from 'react';
 import CalendarDays, { CalendarItem } from '@/components/calendar/CalenderDays';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { Prayer, getPrayerTimes} from '@/core/prayers-functions';
-import { Colors } from '../theming';
+import { Colors } from '../../core/theming';
 import { converToHijr, getTimeOfDate } from '@/core/time-functions';
 
 
@@ -21,6 +19,7 @@ const months = ["January", "February", "March", "April",
   "November", "December"];
 
 const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 
 
 export default function CalendarTab() {
@@ -39,7 +38,7 @@ export default function CalendarTab() {
   if (location.lat && location.long) {
     times = getPrayerTimes(location.lat, location.long, settings.clacMethod, currentDay, settings.fajrAngle, settings.ishaaAngle, settings.asrCalcMehtod, Object.values(settings.adjustments), settings.autoSettings);
   }
-  
+
   
   return (
     <ParallaxScrollView headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}>
@@ -62,7 +61,7 @@ export default function CalendarTab() {
             {times.map((prayer) => { return (<ThemedText type='defaultSemiBold' style={{ margin: 7 }} key={prayer.name}>{i18n.t(prayer.name)}</ThemedText>) })}
           </View>
           <View style={styles.prayerCardRow}>
-            {times.map((prayer) => { return (<ThemedText type="defaultSemiBold" style={{ margin: 7 }} key={prayer.name}>{prayer.time && getTimeOfDate(prayer.time, settings.twentyFourSystem)}</ThemedText>) })}
+            {times.map((prayer) => { return (<ThemedText type="defaultSemiBold" style={{ margin: 7 }} key={prayer.name}>{prayer.time && getTimeOfDate(prayer.time, true)}</ThemedText>) })}
           </View>
          
         </ThemedView>

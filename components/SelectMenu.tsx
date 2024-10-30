@@ -1,35 +1,37 @@
 import { Dropdown } from 'react-native-element-dropdown';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { Colors } from '@/constants/Colors';
+import { StyleSheet } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 import { i18n } from '@/core/translate';
-import tw from 'twrnc';
-import { Text, View } from 'react-native';
+import { Colors } from '@/core/theming';
 
 interface SelecData {
     data: { label: string, value: number | string }[];
     placeHolder?: string;
     value: string;
+    withTranslate?:boolean;
     updateSelected: (e: any) => void
 }
 
-export function SelectMenu({ data, placeHolder, value, updateSelected }: SelecData) {
+export function SelectMenu({ data, placeHolder, value,withTranslate, updateSelected }: SelecData) {
 
+    const color = useThemeColor({ light: Colors.light.text, dark: Colors.dark.text }, 'text');
     const backgroundColor = useThemeColor({ light: Colors.light.colorLevel2, dark: Colors.dark.colorLevel2 }, 'background');
-
     const renderItem = (item: { label: string, value: number | string }) => {
         return (
-            <View style={[tw`p-1.5 m-1`, { backgroundColor }]}>
-                <Text style={tw`p-1.5 text-base dark:text-white`}>{i18n.t(item.label)}</Text>
-            </View>
+            <ThemedView style={[styles.selectMenu, { backgroundColor }]}>
+                <ThemedText style={styles.selectItem}>{withTranslate?item.label:i18n.t(item.label)}</ThemedText>
+            </ThemedView>
         )
     }
     return (
         <Dropdown
-            style={[{ backgroundColor }, tw`px-1 m-1 rounded-md h-10`]}
-            placeholderStyle={tw`text-base dark:text-white`}
+            style={[{ backgroundColor }, styles.settingsItem, styles.dropdown]}
+            placeholderStyle={[styles.placeholderStyle, { color }]}
             placeholder={placeHolder?i18n.t(placeHolder):""}
-            selectedTextStyle={tw`dark:text-white`}
-            inputSearchStyle={tw`h-10 text-base`}
+            selectedTextStyle={{ color }}
+            inputSearchStyle={styles.inputSearchStyle}
             value={value.toString()}
             data={data}
             onChange={updateSelected}
@@ -42,3 +44,33 @@ export function SelectMenu({ data, placeHolder, value, updateSelected }: SelecDa
     );
 }
 
+const styles = StyleSheet.create({
+    settingsItem: {
+        paddingVertical: 1,
+        paddingHorizontal: 6,
+        margin: 4,
+        borderRadius: 6,
+    },
+    dropdown: {
+        height: 40,
+    },
+    placeholderStyle: {
+        fontSize: 16,
+    },
+    selectedTextStyle: {
+        fontSize: 16,
+    },
+    inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
+    },
+
+    selectMenu: {
+        padding: 6,
+        margin: 3,
+    },
+    selectItem: {
+        padding: 4,
+    }
+
+});

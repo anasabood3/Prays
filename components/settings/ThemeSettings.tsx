@@ -1,29 +1,21 @@
 import { Appearance, StyleSheet, useColorScheme } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import React from 'react';
-import { RootState } from '@/contexts/store';
-import { useSelector, useDispatch } from 'react-redux'
-import { updateTheme } from '@/contexts/settingsSlice';
 import { SelectMenu } from '../SelectMenu';
-import { Colors } from '@/constants/Colors';
+import { Colors } from '@/core/theming';
 import { View } from 'react-native';
 import { SettingsItem } from './ThemeItem';
 import { i18n } from '@/core/translate';
-import { useThemeColor } from '@/hooks/useThemeColor';
 import { SectionContainer } from '../Containers';
-import { useAppColorScheme } from 'twrnc';
-import tw from 'twrnc'
+import { saveItem } from '@/core/storage';
 
 
 
 
 export default function ThemeSettings() {
-  const theme = useSelector((state: RootState) => state.settings.theme);
-  const backgroundColor = useThemeColor({dark:Colors.dark.containerBackground,light:Colors.light.containerBackground},'background')
-  const dispatch = useDispatch();
-  const [colorScheme, toggleColorScheme, setColorScheme] = useAppColorScheme(tw);
- 
+  // const [colorScheme, toggleColorScheme, setColorScheme] = useAppColorScheme(tw);
+  const colorScheme = useColorScheme();
+
     return (
       <SectionContainer
         darkColor={Colors.dark.containerBackground}
@@ -33,8 +25,9 @@ export default function ThemeSettings() {
           <SettingsItem >
             <SelectMenu
               data={[{ label: "Light", value: 'light' }, { label: "Dark", value: 'dark' }]}
-              value={theme}
-              updateSelected={(e) => { dispatch(updateTheme(e.value)); setColorScheme(e.value); }}>
+              value={colorScheme=='dark'?'dark':'light'}
+              updateSelected={(e) => {  Appearance.setColorScheme(e.value); saveItem(e.value,'SELECTED_THEME');}}
+              >
             </SelectMenu>
           </SettingsItem>
         </View>

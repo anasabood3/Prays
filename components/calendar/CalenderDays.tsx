@@ -1,11 +1,6 @@
-import { Colors } from "@/constants/Colors";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import { Pressable, StyleSheet, TouchableOpacity, } from 'react-native';
-import { View } from "react-native";
-import { current } from "@reduxjs/toolkit";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { useEffect, useState } from "react";
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface CalendarDaysInterface {
   day: Date;

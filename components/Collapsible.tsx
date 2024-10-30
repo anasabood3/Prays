@@ -4,7 +4,7 @@ import {  TouchableOpacity, useColorScheme } from 'react-native';
 import tw from 'twrnc'
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Colors } from '@/constants/Colors';
+import { Colors } from '@/core/theming';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
 

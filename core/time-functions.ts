@@ -7,16 +7,19 @@ export const formatDate = (date: Date) => {
 }
 
 // convert Christian date into hijri date
-export const converToHijr = (date: Date,lang:string) => {
-    let local = 'en-US';
-    if(lang==='ar')
-        local='ar-TN'
-    else if (lang==='de')
-        local='en-TN'
-    let result = new Intl.DateTimeFormat(`${local}-u-ca-islamic`,{day: 'numeric', month: 'long',weekday: 'long',year : 'numeric'}).format(date)
+export const converToHijr = (date: Date, lang: string) => {
+
+    let local = 'en';
+    if (lang === 'ar')
+        local = 'ar'
+    else if (lang === 'de')
+        local = 'en'
+    let result = new Intl.DateTimeFormat(`${local}-u-ca-islamic-umalqura`, { day: 'numeric', month: 'long', weekday: 'long', year: 'numeric' }).format(date)
     return `${result}`
 }
 
+
+// !!!!!!!!!!!!!!!!!! this function needs to be recreated !!!!!!!!!!!!!!!!!!
 // get time of full-date supporting 12-hour system
 export const getTimeOfDate = (date: Date, twentyFour: boolean = true) => {
     const dateString = date.toTimeString();
@@ -32,7 +35,7 @@ export const getTimeOfDate = (date: Date, twentyFour: boolean = true) => {
         return `${hours}:${minutes}`;
 }
 
-
+//!!!!!!!!!!!!!!!!!! this function needs to be recreated !!!!!!!!!!!!!!!!!!
 // convert milliseconds into HH:MM
 export const msToHoursMinutes = (ms: number) => {
     let minutes = Math.abs(ms / 60000);
@@ -48,6 +51,7 @@ export const msToHoursMinutes = (ms: number) => {
     else
         return "Now"
 }
+
 
 export const FormatTime = function (time: number, date: Date): Date {
     var h = Math.trunc(time);

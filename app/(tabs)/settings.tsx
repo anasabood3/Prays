@@ -9,11 +9,11 @@ import { i18n } from '@/core/translate';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/contexts/store';
 import { ThemedView } from '@/components/ThemedView';
-import { Colors } from '../theming';
+import { Colors } from '../../core/theming';
 import { HeaderSection, SectionContainer } from '@/components/Containers';
 import { Collapsible } from '@/components/Collapsible';
 import { SettingsItem } from '@/components/settings/ThemeItem';
-
+import tw from 'twrnc';
 const data = require('../../core/info.json');
 
 export default function SettingsTab() {
@@ -41,13 +41,13 @@ export default function SettingsTab() {
               <SettingsItem>
                 <Collapsible
                   title={i18n.t('about_us')}>
-                  <ThemedText> {data.ourMission[settings.language]}</ThemedText>
+                  <ThemedText numberOfLines={15} > {data.ourMission[settings.language]}</ThemedText>
                 </Collapsible>
               </SettingsItem>
               <SettingsItem>
                 <Collapsible
                   title={i18n.t('privacy_policy')}>
-                  <ThemedText>{data.privacy[settings.language]}</ThemedText>
+                  <ThemedText >{data.privacy[settings.language]}</ThemedText>
                 </Collapsible>
               </SettingsItem>
             </>

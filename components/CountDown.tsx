@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
-import { ThemedText } from "./ThemedText";
+import { Text } from "react-native";
 import { i18n } from '@/core/translate';
+import tw from 'twrnc';
 
 export default function CountDown({nextPrayerTime=0}:{nextPrayerTime:number|null}){
     const [hours,setHours]=useState(-1);
@@ -33,15 +33,13 @@ export default function CountDown({nextPrayerTime=0}:{nextPrayerTime:number|null
         return () => clearInterval(interval);
     }, [nextPrayerTime]);
     return (
-        <View>
-            {/* temporarly iqamaa time is 30 minutes (1800000)  */}
-            <ThemedText type='subtitle' > 
+            <Text style={tw`text-white text-xl font-bold `} > 
+                {/* temporarly iqamaa time is 30 minutes (1800000)  */}
                 {(hours>0)&& `${i18n.t("hour",{count:hours})}, `}
                 {(minutes>0)&&` ${i18n.t("minute",{count:minutes})}`}
                 {(hours==0&&minutes==0&&seconds>0)&&` ${i18n.t("second",{count:seconds})}`}
                 {(passed<0&&passed>-1800000)&&`${i18n.t("now")}`}
-            </ThemedText>
-        </View>
+            </Text>
     )
 }
 

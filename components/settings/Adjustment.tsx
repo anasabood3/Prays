@@ -16,7 +16,7 @@ export default function Adjustment(props: AdjustProps) {
     const adjustments = useSelector((state: RootState) => state.settings.adjustments);
     return (
         <View style={tw`rounded-[6]`}>
-            <View style={tw`flex-row content-between items-center mx-[4]`}>
+            <View style={{flexDirection:'row',justifyContent:"space-between",alignItems:"center",marginHorizontal:12}}>
                 <ThemedText>{i18n.t(props.label.slice(0, 1).toUpperCase() + props.label.slice(1))}</ThemedText>
                 <ThemedText>{i18n.t('minute', { count: adjustments[props.label] })}</ThemedText>
             </View>

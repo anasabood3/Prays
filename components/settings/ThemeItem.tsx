@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { Colors } from '@/core/theming';
 import { ThemedView } from "../ThemedView";
 import tw from 'twrnc';
 interface SettingsItemProps{

@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, useColorScheme } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import React, { useState } from 'react';
@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { updateFajrAngle, updateIshaaAngle, updateAsrCalMehtod, updateCityLocation, updateCalcMethod, updateTimingSystem, updateAdjustments, updateAutoSettings, resetAdjustments, updateAutoLocation } from '@/contexts/settingsSlice';
 import { clacMethods, asrCalcMethods, cities } from '@/constants/GeneralConstans';
 import { SelectMenu } from '../SelectMenu';
-import { Colors } from '@/constants/Colors';
+import { Colors } from '@/core/theming';
 import { View } from 'react-native';
 import Adjustment from './Adjustment';
 import { Collapsible } from '../Collapsible';
@@ -32,6 +32,7 @@ export default function TimingSettings() {
   const city_location = useSelector((state: RootState) => state.settings.cityLocation);
   const auto_location = useSelector((state: RootState) => state.settings.autoLocation);
   const auto_settings = useSelector((state: RootState) => state.settings.autoSettings);
+  // const scheme = useColorScheme()=='dark'?'dark':;
   const dispatch = useDispatch();
 
   const updateSelectedCity = async (city:string)=>{
@@ -50,8 +51,9 @@ export default function TimingSettings() {
         const city = await reverseGeocode(loc.lat, loc.long)
         if (city)
           dispatch(updateCity(city))
+        saveItem({location:{lat:loc.lat,long:loc.long},city:city},'appData');
       }
-
+      
     }
     else {
       updateSelectedCity(city_location)
@@ -89,6 +91,7 @@ export default function TimingSettings() {
             <SettingsItem>
               <SelectMenu
                 data={cities}
+                withTranslate={true}
                 value={city_location}
                 updateSelected={(e) => { updateSelectedCity(e.value) }}
                 placeHolder='select city...'
@@ -137,7 +140,7 @@ export default function TimingSettings() {
                 <Adjustment label='asr' action={(e) => dispatch(updateAdjustments({ label: "asr", value: e }))} />
                 <Adjustment label='maghrib' action={(e) => dispatch(updateAdjustments({ label: "maghrib", value: e }))} />
                 <Adjustment label='isha' action={(e) => dispatch(updateAdjustments({ label: "isha", value: e }))} />
-                <TouchableOpacity style={{ flexGrow: 1, alignItems: 'center',padding:5,backgroundColor:'grey',margin:12, }} onPress={()=>dispatch(resetAdjustments(0))}  >
+                <TouchableOpacity style={[{ flexGrow: 1, alignItems: 'center',padding:5,backgroundColor:Colors.dark.containerBackground,margin:12 }]} onPress={()=>dispatch(resetAdjustments(0))}  >
                   <ThemedText >Reset</ThemedText>
                 </TouchableOpacity>
               </Collapsible>
@@ -166,7 +169,7 @@ export default function TimingSettings() {
                 step={.5}
                 value={ishaa_angle}
                 behviour={(e) => dispatch(updateIshaaAngle(e))} />
-              <TouchableOpacity style={{ flexGrow: 1, alignItems: 'center', padding: 5, backgroundColor: 'grey', margin: 12, }} onPress={()=>{dispatch(updateIshaaAngle(12));dispatch(updateFajrAngle(12))}} >
+              <TouchableOpacity style={{ flexGrow: 1, alignItems: 'center', padding: 5, backgroundColor: Colors.dark.containerBackground, margin: 12, }} onPress={()=>{dispatch(updateIshaaAngle(12));dispatch(updateFajrAngle(12))}} >
                 <ThemedText >Reset</ThemedText>
               </TouchableOpacity>
             </Collapsible>

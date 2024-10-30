@@ -6,7 +6,7 @@ import { RootState } from '@/contexts/store';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateLanguage } from '@/contexts/settingsSlice';
 import { SelectMenu } from '../SelectMenu';
-import { Colors } from '@/constants/Colors';
+import { Colors } from '@/core/theming';
 import { View } from 'react-native';
 import { SettingsItem } from './ThemeItem';
 import { i18n } from '@/core/translate';
@@ -25,6 +25,7 @@ export default function LangSettings() {
           <ThemedText type='defaultSemiBold' style={{ paddingLeft: 12 }}>{i18n.t("Language")}</ThemedText>
               <SettingsItem >
                   <SelectMenu
+                    withTranslate
                       data={languages}
                       value={language}
                       updateSelected={(e) => { dispatch(updateLanguage(e.value));}}>

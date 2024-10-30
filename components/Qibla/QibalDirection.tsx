@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { forwardRef, useImperativeHandle } from 'react';
 
-import { Image, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { Image, View, Text, StyleSheet, ActivityIndicator, useColorScheme } from 'react-native';
 
 import { moderateScale } from 'react-native-size-matters';
 import { ThemedText } from '@/components/ThemedText';
 import { useQiblaCompass } from '@/core/Qibla';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/contexts/store';
 import { i18n } from '@/core/translate';
-
+import { useAppColorScheme } from 'twrnc';
+import tw from 'twrnc'
 
 interface QilaDirectionAttributes {
     backgroundColor?: string,
@@ -33,8 +32,7 @@ const QiblaDirection = forwardRef(
             isLoading,
             reinitCompass,
         } = useQiblaCompass();
-        const theme = useSelector((state: RootState) => state.settings.theme);
-
+        const colorScheme = useColorScheme();
         useImperativeHandle(
             ref,
             () => {
@@ -78,7 +76,7 @@ const QiblaDirection = forwardRef(
                     }}
                 >
                     <Image
-                        source={theme=='dark'?require('../../assets/images/compassDark.png'):require('../../assets/images/compass.png')}
+                        source={colorScheme=='dark'?require('../../assets/images/compassDark.png'):require('../../assets/images/compass.png')}
                         style={[
                             styles.image,
                             {
@@ -109,7 +107,7 @@ const QiblaDirection = forwardRef(
                         }}
                     >
                         <Image
-                            source={theme=='dark'?require('../../assets/images/kaabaDark.png'):require('../../assets/images/kaaba.png')}
+                            source={colorScheme=='dark'?require('../../assets/images/kaabaDark.png'):require('../../assets/images/kaaba.png')}
                             style={{
                                 resizeMode: 'center',
                                 height: 100,

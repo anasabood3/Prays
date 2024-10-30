@@ -23,7 +23,7 @@ export const asrCalcMethods = [
 
 export const languages = [
   {label:"English",value:"en"},
-  {label:"Arabic",value:"ar"},
+  {label:"العربية",value:"ar"},
 ]
 
 export const cities = [
@@ -37,4 +37,5 @@ export const cities = [
 
 
 export const prayersNamesList:string[]=["Fajr","Sunrise","Dhuhr","Asr","Maghrib","Isha"];
-export type PrayerName = "fajr" | "sunrise" | "dhuhr" | "asr" | "maghrib" | "isha"|"Fajr" | "Sunrise" | "Dhuhr" | "Asr" | "Maghrib" | "Isha";
+export type PrayerName = "fajr" | "sunrise" | "dhuhr" | "asr" | "maghrib" | "isha";
+export type CapitalPrayerName = "Fajr" | "Sunrise" | "Dhuhr" | "Asr" | "Maghrib" | "Isha";
